@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007 The Android Open Source Project
+ * Copyright (C) 2017 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,25 +16,25 @@
 
 package com.android.dx.dex.code.form;
 
-import com.android.dx.dex.code.CstInsn;
 import com.android.dx.dex.code.DalvInsn;
 import com.android.dx.dex.code.InsnFormat;
+import com.android.dx.dex.code.MultiCstInsn;
 import com.android.dx.rop.code.RegisterSpec;
 import com.android.dx.rop.code.RegisterSpecList;
 import com.android.dx.rop.cst.Constant;
 import com.android.dx.rop.cst.CstMethodRef;
-import com.android.dx.rop.cst.CstType;
+import com.android.dx.rop.cst.CstProtoRef;
 import com.android.dx.rop.type.Type;
 import com.android.dx.util.AnnotatedOutput;
 import java.util.BitSet;
 
 /**
- * Instruction format {@code 35c}. See the instruction format spec
+ * Instruction format {@code 45cc}. See the instruction format spec
  * for details.
  */
-public final class Form35c extends InsnFormat {
+public final class Form45cc extends InsnFormat {
     /** {@code non-null;} unique instance of this class */
-    public static final InsnFormat THE_ONE = new Form35c();
+    public static final InsnFormat THE_ONE = new Form45cc();
 
     /** Maximal number of operands */
     private static final int MAX_NUM_OPS = 5;
@@ -43,7 +43,7 @@ public final class Form35c extends InsnFormat {
      * Constructs an instance. This class is not publicly
      * instantiable. Use {@link #THE_ONE}.
      */
-    private Form35c() {
+    private Form45cc() {
         // This space intentionally left blank.
     }
 
@@ -67,30 +67,38 @@ public final class Form35c extends InsnFormat {
     /** {@inheritDoc} */
     @Override
     public int codeSize() {
-        return 3;
+        return 4;
     }
 
     /** {@inheritDoc} */
     @Override
     public boolean isCompatible(DalvInsn insn) {
-        if (!(insn instanceof CstInsn)) {
+        if (!(insn instanceof MultiCstInsn)) {
             return false;
         }
 
-        CstInsn ci = (CstInsn) insn;
-        int cpi = ci.getIndex();
-
-        if (! unsignedFitsInShort(cpi)) {
+        MultiCstInsn mci = (MultiCstInsn) insn;
+        if (mci.getNumberOfConstants() != 2) {
             return false;
         }
 
-        Constant cst = ci.getConstant();
-        if (!((cst instanceof CstMethodRef) ||
-              (cst instanceof CstType))) {
+        int methodIdx = mci.getIndex(0);
+        int protoIdx = mci.getIndex(1);
+        if (!unsignedFitsInShort(methodIdx) || !unsignedFitsInShort(protoIdx)) {
             return false;
         }
 
-        RegisterSpecList regs = ci.getRegisters();
+        Constant methodRef = mci.getConstant(0);
+        if (!(methodRef instanceof CstMethodRef)) {
+            return false;
+        }
+
+        Constant protoRef = mci.getConstant(1);
+        if (!(protoRef instanceof CstProtoRef)) {
+            return false;
+        }
+
+        RegisterSpecList regs = mci.getRegisters();
         return (wordCount(regs) >= 0);
     }
 
@@ -119,20 +127,24 @@ public final class Form35c extends InsnFormat {
     /** {@inheritDoc} */
     @Override
     public void writeTo(AnnotatedOutput out, DalvInsn insn) {
-        int cpi = ((CstInsn) insn).getIndex();
-        RegisterSpecList regs = explicitize(insn.getRegisters());
-        int sz = regs.size();
-        int r0 = (sz > 0) ? regs.get(0).getReg() : 0;
-        int r1 = (sz > 1) ? regs.get(1).getReg() : 0;
-        int r2 = (sz > 2) ? regs.get(2).getReg() : 0;
-        int r3 = (sz > 3) ? regs.get(3).getReg() : 0;
-        int r4 = (sz > 4) ? regs.get(4).getReg() : 0;
+        MultiCstInsn mci = (MultiCstInsn) insn;
+        short regB = (short) mci.getIndex(0);  // B is the method index
+        short regH = (short) mci.getIndex(1);  // H is the call site proto index
 
+        RegisterSpecList regs = explicitize(insn.getRegisters());
+        int regA = regs.size();
+        int regC = (regA > 0) ? regs.get(0).getReg() : 0;
+        int regD = (regA > 1) ? regs.get(1).getReg() : 0;
+        int regE = (regA > 2) ? regs.get(2).getReg() : 0;
+        int regF = (regA > 3) ? regs.get(3).getReg() : 0;
+        int regG = (regA > 4) ? regs.get(4).getReg() : 0;
+
+        // The output format is: A|G|op BBBB F|E|D|C HHHHH
         write(out,
-              opcodeUnit(insn,
-                         makeByte(r4, sz)), // encode the fifth operand here
-              (short) cpi,
-              codeUnit(r0, r1, r2, r3));
+              opcodeUnit(insn, makeByte(regG, regA)),
+              regB,
+              codeUnit(regC, regD, regE, regF),
+              regH);
     }
 
     /**

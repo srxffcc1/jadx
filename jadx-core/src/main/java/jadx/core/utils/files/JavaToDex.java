@@ -7,7 +7,7 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 
-import com.android.dx.command.DxConsole;
+//import com.android.dx.command.DxConsole;
 import com.android.dx.command.dexer.Main;
 import com.android.dx.command.dexer.Main.Arguments;
 
@@ -37,11 +37,11 @@ public class JavaToDex {
 
 	public byte[] convert(String javaFile) throws JadxException {
 		ByteArrayOutputStream errOut = new ByteArrayOutputStream();
-		try {
-			DxConsole.err = new PrintStream(errOut, true, CHARSET_NAME);
-		} catch (UnsupportedEncodingException e) {
-			throw new JadxException(e.getMessage(), e);
-		}
+//		try {
+//			DxConsole.err = new PrintStream(errOut, true, CHARSET_NAME);
+//		} catch (UnsupportedEncodingException e) {
+//			throw new JadxException(e.getMessage(), e);
+//		}
 		PrintStream oldOut = System.out;
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {

@@ -93,7 +93,11 @@ public final class Dex {
      * Creates a new dex buffer of the dex in {@code in}, and closes {@code in}.
      */
     public Dex(InputStream in) throws IOException {
-        loadFrom(in);
+        try {
+            loadFrom(in);
+        } finally {
+            in.close();
+        }
     }
 
     /**
@@ -104,43 +108,25 @@ public final class Dex {
             ZipFile zipFile = new ZipFile(file);
             ZipEntry entry = zipFile.getEntry(DexFormat.DEX_IN_JAR_NAME);
             if (entry != null) {
-                loadFrom(zipFile.getInputStream(entry));
+                try (InputStream inputStream = zipFile.getInputStream(entry)) {
+                    loadFrom(inputStream);
+                }
                 zipFile.close();
             } else {
                 throw new DexException("Expected " + DexFormat.DEX_IN_JAR_NAME + " in " + file);
             }
         } else if (file.getName().endsWith(".dex")) {
-            loadFrom(new FileInputStream(file));
+            try (InputStream inputStream = new FileInputStream(file)) {
+                loadFrom(inputStream);
+            }
         } else {
             throw new DexException("unknown output extension: " + file);
         }
     }
 
     /**
-     * Creates a new dex from the contents of {@code bytes}. This API supports
-     * both {@code .dex} and {@code .odex} input. Calling this constructor
-     * transfers ownership of {@code bytes} to the returned Dex: it is an error
-     * to access the buffer after calling this method.
+     * It is the caller's responsibility to close {@code in}.
      */
-    public static Dex create(ByteBuffer data) throws IOException {
-        data.order(ByteOrder.LITTLE_ENDIAN);
-
-        // if it's an .odex file, set position and limit to the .dex section
-        if (data.get(0) == 'd'
-                && data.get(1) == 'e'
-                && data.get(2) == 'y'
-                && data.get(3) == '\n') {
-            data.position(8);
-            int offset = data.getInt();
-            int length = data.getInt();
-            data.position(offset);
-            data.limit(offset + length);
-            data = data.slice();
-        }
-
-        return new Dex(data);
-    }
-
     private void loadFrom(InputStream in) throws IOException {
         ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
         byte[] buffer = new byte[8192];
@@ -149,7 +135,6 @@ public final class Dex {
         while ((count = in.read(buffer)) != -1) {
             bytesOut.write(buffer, 0, count);
         }
-        in.close();
 
         this.data = ByteBuffer.wrap(bytesOut.toByteArray());
         this.data.order(ByteOrder.LITTLE_ENDIAN);
@@ -174,9 +159,9 @@ public final class Dex {
     }
 
     public void writeTo(File dexOut) throws IOException {
-        OutputStream out = new FileOutputStream(dexOut);
-        writeTo(out);
-        out.close();
+        try (OutputStream out = new FileOutputStream(dexOut)) {
+            writeTo(out);
+        }
     }
 
     public TableOfContents getTableOfContents() {
@@ -330,126 +315,6 @@ public final class Dex {
     }
 
     /**
-     * Look up a field id name index from a field index. Cheaper than:
-     * {@code fieldIds().get(fieldDexIndex).getNameIndex();}
-     */
-    public int nameIndexFromFieldIndex(int fieldIndex) {
-        checkBounds(fieldIndex, tableOfContents.fieldIds.size);
-        int position = tableOfContents.fieldIds.off + (SizeOf.MEMBER_ID_ITEM * fieldIndex);
-        position += SizeOf.USHORT;  // declaringClassIndex
-        position += SizeOf.USHORT;  // typeIndex
-        return data.getInt(position);  // nameIndex
-    }
-
-    public int findStringIndex(String s) {
-        return Collections.binarySearch(strings, s);
-    }
-
-    public int findTypeIndex(String descriptor) {
-        return Collections.binarySearch(typeNames, descriptor);
-    }
-
-    public int findFieldIndex(FieldId fieldId) {
-        return Collections.binarySearch(fieldIds, fieldId);
-    }
-
-    public int findMethodIndex(MethodId methodId) {
-        return Collections.binarySearch(methodIds, methodId);
-    }
-
-    public int findClassDefIndexFromTypeIndex(int typeIndex) {
-        checkBounds(typeIndex, tableOfContents.typeIds.size);
-        if (!tableOfContents.classDefs.exists()) {
-            return -1;
-        }
-        for (int i = 0; i < tableOfContents.classDefs.size; i++) {
-            if (typeIndexFromClassDefIndex(i) == typeIndex) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    /**
-     * Look up a field id type index from a field index. Cheaper than:
-     * {@code fieldIds().get(fieldDexIndex).getTypeIndex();}
-     */
-    public int typeIndexFromFieldIndex(int fieldIndex) {
-        checkBounds(fieldIndex, tableOfContents.fieldIds.size);
-        int position = tableOfContents.fieldIds.off + (SizeOf.MEMBER_ID_ITEM * fieldIndex);
-        position += SizeOf.USHORT;  // declaringClassIndex
-        return data.getShort(position) & 0xFFFF;  // typeIndex
-    }
-
-    /**
-     * Look up a method id declaring class index from a method index. Cheaper than:
-     * {@code methodIds().get(methodIndex).getDeclaringClassIndex();}
-     */
-    public int declaringClassIndexFromMethodIndex(int methodIndex) {
-        checkBounds(methodIndex, tableOfContents.methodIds.size);
-        int position = tableOfContents.methodIds.off + (SizeOf.MEMBER_ID_ITEM * methodIndex);
-        return data.getShort(position) & 0xFFFF;  // declaringClassIndex
-    }
-
-    /**
-     * Look up a method id name index from a method index. Cheaper than:
-     * {@code methodIds().get(methodIndex).getNameIndex();}
-     */
-    public int nameIndexFromMethodIndex(int methodIndex) {
-        checkBounds(methodIndex, tableOfContents.methodIds.size);
-        int position = tableOfContents.methodIds.off + (SizeOf.MEMBER_ID_ITEM * methodIndex);
-        position += SizeOf.USHORT;  // declaringClassIndex
-        position += SizeOf.USHORT;  // protoIndex
-        return data.getInt(position);  // nameIndex
-    }
-
-    /**
-     * Look up a parameter type ids from a method index. Cheaper than:
-     * {@code readTypeList(protoIds.get(methodIds().get(methodDexIndex).getProtoIndex()).getParametersOffset()).getTypes();}
-     */
-    public short[] parameterTypeIndicesFromMethodIndex(int methodIndex) {
-        checkBounds(methodIndex, tableOfContents.methodIds.size);
-        int position = tableOfContents.methodIds.off + (SizeOf.MEMBER_ID_ITEM * methodIndex);
-        position += SizeOf.USHORT;  // declaringClassIndex
-        int protoIndex = data.getShort(position) & 0xFFFF;
-        checkBounds(protoIndex, tableOfContents.protoIds.size);
-        position = tableOfContents.protoIds.off + (SizeOf.PROTO_ID_ITEM * protoIndex);
-        position += SizeOf.UINT;  // shortyIndex
-        position += SizeOf.UINT;  // returnTypeIndex
-        int parametersOffset = data.getInt(position);
-        if (parametersOffset == 0) {
-            return EMPTY_SHORT_ARRAY;
-        }
-        position = parametersOffset;
-        int size = data.getInt(position);
-        if (size <= 0) {
-            throw new AssertionError("Unexpected parameter type list size: " + size);
-        }
-        position += SizeOf.UINT;
-        short[] types = new short[size];
-        for (int i = 0; i < size; i++) {
-            types[i] = data.getShort(position);
-            position += SizeOf.USHORT;
-        }
-        return types;
-    }
-
-    /**
-     * Look up a method id return type index from a method index. Cheaper than:
-     * {@code protoIds().get(methodIds().get(methodDexIndex).getProtoIndex()).getReturnTypeIndex();}
-     */
-    public int returnTypeIndexFromMethodIndex(int methodIndex) {
-        checkBounds(methodIndex, tableOfContents.methodIds.size);
-        int position = tableOfContents.methodIds.off + (SizeOf.MEMBER_ID_ITEM * methodIndex);
-        position += SizeOf.USHORT;  // declaringClassIndex
-        int protoIndex = data.getShort(position) & 0xFFFF;
-        checkBounds(protoIndex, tableOfContents.protoIds.size);
-        position = tableOfContents.protoIds.off + (SizeOf.PROTO_ID_ITEM * protoIndex);
-        position += SizeOf.UINT;  // shortyIndex
-        return data.getInt(position);  // returnTypeIndex
-    }
-
-    /**
      * Look up a descriptor index from a type index. Cheaper than:
      * {@code open(tableOfContents.typeIds.off + (index * SizeOf.TYPE_ID_ITEM)).readInt();}
      */
@@ -459,56 +324,6 @@ public final class Dex {
        return data.getInt(position);
     }
 
-    /**
-     * Look up a type index index from a class def index.
-     */
-    public int typeIndexFromClassDefIndex(int classDefIndex) {
-        checkBounds(classDefIndex, tableOfContents.classDefs.size);
-        int position = tableOfContents.classDefs.off + (SizeOf.CLASS_DEF_ITEM * classDefIndex);
-        return data.getInt(position);
-    }
-
-    /**
-     * Look up an annotation directory offset from a class def index.
-     */
-    public int annotationDirectoryOffsetFromClassDefIndex(int classDefIndex) {
-        checkBounds(classDefIndex, tableOfContents.classDefs.size);
-        int position = tableOfContents.classDefs.off + (SizeOf.CLASS_DEF_ITEM * classDefIndex);
-        position += SizeOf.UINT;  // type
-        position += SizeOf.UINT;  // accessFlags
-        position += SizeOf.UINT;  // superType
-        position += SizeOf.UINT;  // interfacesOffset
-        position += SizeOf.UINT;  // sourceFileIndex
-        return data.getInt(position);
-    }
-
-    /**
-     * Look up interface types indices from a  return type index from a method index. Cheaper than:
-     * {@code ...getClassDef(classDefIndex).getInterfaces();}
-     */
-    public short[] interfaceTypeIndicesFromClassDefIndex(int classDefIndex) {
-        checkBounds(classDefIndex, tableOfContents.classDefs.size);
-        int position = tableOfContents.classDefs.off + (SizeOf.CLASS_DEF_ITEM * classDefIndex);
-        position += SizeOf.UINT;  // type
-        position += SizeOf.UINT;  // accessFlags
-        position += SizeOf.UINT;  // superType
-        int interfacesOffset = data.getInt(position);
-        if (interfacesOffset == 0) {
-            return EMPTY_SHORT_ARRAY;
-        }
-        position = interfacesOffset;
-        int size = data.getInt(position);
-        if (size <= 0) {
-            throw new AssertionError("Unexpected interfaces list size: " + size);
-        }
-        position += SizeOf.UINT;
-        short[] types = new short[size];
-        for (int i = 0; i < size; i++) {
-            types[i] = data.getShort(position);
-            position += SizeOf.USHORT;
-        }
-        return types;
-    }
 
     public final class Section implements ByteInput, ByteOutput {
         private final String name;
@@ -870,13 +685,6 @@ public final class Dex {
                 writeShort(type);
             }
             alignToFourBytesWithZeroFill();
-        }
-
-        /**
-         * Returns the number of bytes remaining in this section.
-         */
-        public int remaining() {
-            return data.remaining();
         }
 
         /**
