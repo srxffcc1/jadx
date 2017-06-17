@@ -35,6 +35,8 @@ and also packed to `build/jadx-<version>.zip`
 
 3.部分构造函数的反编译
 
+4.增加注释
+
 ### Run
 Run **jadx** on itself:
 
