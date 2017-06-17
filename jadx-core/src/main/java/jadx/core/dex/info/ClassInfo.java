@@ -6,6 +6,9 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import java.io.File;
 
+/**
+ * 类的信息 包名等等
+ */
 public final class ClassInfo {
 
 	private final ArgType type;
@@ -37,10 +40,13 @@ public final class ClassInfo {
 		}
 		ClassInfo cls = dex.getInfoStorage().getCls(type);
 		if (cls != null) {
+//			System.out.println("ClassInfo!=null:"+cls.getFullName());
 			return cls;
 		}
 		cls = new ClassInfo(dex, type);
-		return dex.getInfoStorage().putCls(cls);
+		cls=dex.getInfoStorage().putCls(cls);
+//		System.out.println("ClassInfo=null:"+cls.getFullName());
+		return cls;
 	}
 
 	public static ClassInfo fromDex(DexNode dex, int clsIndex) {
@@ -85,17 +91,29 @@ public final class ClassInfo {
 			pkg = fullObjectName.substring(0, dot);
 			clsName = fullObjectName.substring(dot + 1);
 		}
+		String oldname=clsName;
 
 		int sep = clsName.lastIndexOf('$');
 		if (canBeInner && sep > 0 && sep != clsName.length() - 1) {
 			String parClsName = pkg + "." + clsName.substring(0, sep);
 			parentClass = fromName(dex, parClsName);
-			clsName = clsName.substring(sep + 1);
+			String tmp=clsName.substring(sep + 1);
+			char firstChar = tmp.charAt(0);
+			if(Character.isDigit(firstChar)||(tmp.length()==1&&Character.isLetter(firstChar))){//可能是一个字母或者数字 为了增加混淆反编译的正确性 不进行替换
+				//匿名类按照内部类方式 修改代码逻辑但是不存在问题了
+			}else{
+				clsName = clsName.substring(sep + 1);
+			}
+
 		} else {
 			parentClass = null;
 		}
 		this.name = clsName;
 		this.fullName = makeFullClsName(clsName, false);
+		if(!oldname.equals(clsName)){
+//			System.out.println("前:"+oldname+",后:"+clsName);
+		}
+
 	}
 
 	public String makeFullClsName(String shortName, boolean raw) {

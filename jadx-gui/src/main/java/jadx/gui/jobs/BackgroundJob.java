@@ -13,6 +13,9 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 线程池操作
+ */
 public abstract class BackgroundJob {
 	private static final Logger LOG = LoggerFactory.getLogger(DecompileJob.class);
 

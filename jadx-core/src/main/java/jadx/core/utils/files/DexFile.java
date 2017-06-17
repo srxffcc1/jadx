@@ -2,6 +2,9 @@ package jadx.core.utils.files;
 
 import com.android.dex.Dex;
 
+/**
+ * Dex文件的包装类
+ */
 public class DexFile {
 	private final InputFile inputFile;
 	private final String name;

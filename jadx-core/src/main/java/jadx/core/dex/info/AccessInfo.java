@@ -115,10 +115,10 @@ public class AccessInfo {
 			code.append("public ");
 		}
 		if (isPrivate()) {
-			code.append("private ");
+			code.append("public ");//临时修改为private->public 保证访问
 		}
 		if (isProtected()) {
-			code.append("protected ");
+			code.append("public ");//临时修改为protected->public 保证访问
 		}
 		if (isStatic()) {
 			code.append("static ");

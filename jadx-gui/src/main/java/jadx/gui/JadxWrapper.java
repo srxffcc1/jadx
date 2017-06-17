@@ -16,16 +16,25 @@ import java.util.concurrent.ThreadPoolExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * jadx包装类 帮gui进行具体的操作
+ */
 public class JadxWrapper {
 	private static final Logger LOG = LoggerFactory.getLogger(JadxWrapper.class);
 
 	private final JadxDecompiler decompiler;
 	private File openFile;
-
+	/**
+	 * jadx包装类 帮gui进行具体的操作
+	 */
 	public JadxWrapper(IJadxArgs jadxArgs) {
 		this.decompiler = new JadxDecompiler(jadxArgs);
 	}
 
+	/**
+	 * 总起简单解析文件
+	 * @param file
+	 */
 	public void openFile(File file) {
 		this.openFile = file;
 		try {

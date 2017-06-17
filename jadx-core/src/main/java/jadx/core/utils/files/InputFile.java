@@ -31,7 +31,7 @@ public class InputFile {
 
 	public static void addFilesFrom(File file, List<InputFile> list) throws IOException, DecodeException {
 		InputFile inputFile = new InputFile(file);
-		inputFile.searchDexFiles();
+		inputFile.searchDexFiles();//找出dex文件 有可能是classes.dex或者 classes_xx.dex 多个dex这种
 		list.add(inputFile);
 	}
 
@@ -42,6 +42,11 @@ public class InputFile {
 		this.file = file;
 	}
 
+	/**
+	 * 利用zip啊啥啥啥的几个方法 把dex文件找出来 添加到 dexFiles 对象里
+	 * @throws IOException
+	 * @throws DecodeException
+	 */
 	private void searchDexFiles() throws IOException, DecodeException {
 		String fileName = file.getName();
 		if (fileName.endsWith(".dex")) {
@@ -76,7 +81,7 @@ public class InputFile {
 	}
 
 	private void addDexFile(String fileName, Dex dexBuf) throws IOException {
-		dexFiles.add(new DexFile(this, fileName, dexBuf));
+		dexFiles.add(new DexFile(this, fileName, dexBuf));//没啥特殊操作 就是构造对象放入集合
 	}
 
 	private boolean loadFromZip(String ext) throws IOException, DecodeException {

@@ -11,6 +11,9 @@ import javax.swing.UIManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Jadx的Gui主页
+ */
 public class JadxGUI {
 	private static final Logger LOG = LoggerFactory.getLogger(JadxGUI.class);
 
@@ -22,6 +25,7 @@ public class JadxGUI {
 			if (!jadxArgs.processArgs(args)) {
 				return;
 			}
+
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {

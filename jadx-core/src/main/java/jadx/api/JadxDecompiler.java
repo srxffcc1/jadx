@@ -86,14 +86,20 @@ public final class JadxDecompiler {
 		init();
 	}
 
+	/**
+	 *
+	 */
 	void init() {
 		if (outDir == null) {
-			outDir = new JadxArgs().getOutDir();
+			outDir = new JadxArgs().getOutDir();//设置输出位置
 		}
-		this.passes = Jadx.getPassesList(args, outDir);
-		this.codeGen = new CodeGen(args);
+		this.passes = Jadx.getPassesList(args, outDir);//不懂
+		this.codeGen = new CodeGen(args);//不懂
 	}
 
+	/**
+	 * 置为null 没啥其他可怕的操作
+	 */
 	void reset() {
 		classes = null;
 		resources = null;
@@ -108,7 +114,7 @@ public final class JadxDecompiler {
 	}
 
 	public void loadFile(File file) throws JadxException {
-		loadFiles(Collections.singletonList(file));
+		loadFiles(Collections.singletonList(file));//就是返回一个泛型List<File>
 	}
 
 	public void loadFiles(List<File> files) throws JadxException {
@@ -116,14 +122,14 @@ public final class JadxDecompiler {
 			throw new JadxException("Empty file list");
 		}
 		inputFiles.clear();
-		for (File file : files) {
+		for (File file : files) {//看了下好像没有多选功能
 			try {
-				InputFile.addFilesFrom(file, inputFiles);
+				InputFile.addFilesFrom(file, inputFiles);//静态类遍历文件集合 并把dex文件找出来
 			} catch (IOException e) {
 				throw new JadxException("Error load file: " + file, e);
 			}
 		}
-		parse();
+		parse();//开始解析-不包括转码
 	}
 
 	public void save() {
@@ -277,25 +283,29 @@ public final class JadxDecompiler {
 		root.getErrorsCounter().printReport();
 	}
 
+	/**
+	 * 开始解析
+	 * @throws DecodeException
+	 */
 	void parse() throws DecodeException {
-		reset();
-		init();
+		reset();//重置null
+		init();//初始化
 
-		root = new RootNode(args);
+		root = new RootNode(args);//设置根节点
 		LOG.info("loading ...");
-		root.load(inputFiles);
+		root.load(inputFiles);//载入文件 获得了最开始的文件结构和内部类父类的集合结构
 
-		root.initClassPath();
-		root.loadResources(getResources());
-		root.initAppResClass();
+		root.initClassPath();//初始化了底层classpath
+		root.loadResources(getResources());//读取res文件
+		root.initAppResClass();//获得资源R
 
-		initVisitors();
+		initVisitors();//初始化访问
 	}
 
 	private void initVisitors() {
 		for (IDexTreeVisitor pass : passes) {
 			try {
-				pass.init(root);
+				pass.init(root);//迭代passes 对root进行访问
 			} catch (Exception e) {
 				LOG.error("Visitor init failed: {}", pass.getClass().getSimpleName(), e);
 			}

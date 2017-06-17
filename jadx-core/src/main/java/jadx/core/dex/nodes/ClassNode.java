@@ -67,18 +67,19 @@ public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 
 	public ClassNode(DexNode dex, ClassDef cls) throws DecodeException {
 		this.dex = dex;
-		this.clsInfo = ClassInfo.fromDex(dex, cls.getTypeIndex());
+		this.clsInfo = ClassInfo.fromDex(dex, cls.getTypeIndex());//获得类信息
+//		System.out.println("类全名"+clsInfo.getFullName());
 		try {
-			if (cls.getSupertypeIndex() == DexNode.NO_INDEX) {
+			if (cls.getSupertypeIndex() == DexNode.NO_INDEX) {//父类吧
 				this.superClass = null;
 			} else {
 				this.superClass = dex.getType(cls.getSupertypeIndex());
 			}
-			this.interfaces = new ArrayList<ArgType>(cls.getInterfaces().length);
+			this.interfaces = new ArrayList<ArgType>(cls.getInterfaces().length);//接口
 			for (short interfaceIdx : cls.getInterfaces()) {
 				this.interfaces.add(dex.getType(interfaceIdx));
 			}
-			if (cls.getClassDataOffset() != 0) {
+			if (cls.getClassDataOffset() != 0) {//方法和成员
 				ClassData clsData = dex.readClassData(cls);
 				int mthsCount = clsData.getDirectMethods().length + clsData.getVirtualMethods().length;
 				int fieldsCount = clsData.getStaticFields().length + clsData.getInstanceFields().length;
@@ -107,24 +108,24 @@ public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 
 			loadAnnotations(cls);
 
-			parseClassSignature();
-			setFieldsTypesFromSignature();
+			parseClassSignature();//类签名
+			setFieldsTypesFromSignature();//字段签名
 
 			int sfIdx = cls.getSourceFileIndex();
 			if (sfIdx != DexNode.NO_INDEX) {
 				String fileName = dex.getString(sfIdx);
-				addSourceFilenameAttr(fileName);
+				addSourceFilenameAttr(fileName);//设置类名
 			}
 
 			// restore original access flags from dalvik annotation if present
 			int accFlagsValue;
-			Annotation a = getAnnotation(Consts.DALVIK_INNER_CLASS);
+			Annotation a = getAnnotation(Consts.DALVIK_INNER_CLASS);//注解
 			if (a != null) {
 				accFlagsValue = (Integer) a.getValues().get("accessFlags");
 			} else {
 				accFlagsValue = cls.getAccessFlags();
 			}
-			this.accessFlags = new AccessInfo(accFlagsValue, AFType.CLASS);
+			this.accessFlags = new AccessInfo(accFlagsValue, AFType.CLASS);//标志
 
 			buildCache();
 		} catch (Exception e) {
@@ -172,6 +173,9 @@ public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 		root().getConstValues().processConstFields(this, staticFields);
 	}
 
+	/**
+	 *
+	 */
 	private void parseClassSignature() {
 		SignatureParser sp = SignatureParser.fromNode(this);
 		if (sp == null) {
@@ -270,7 +274,7 @@ public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 	private void buildCache() {
 		mthInfoMap = new HashMap<MethodInfo, MethodNode>(methods.size());
 		for (MethodNode mth : methods) {
-			mthInfoMap.put(mth.getMethodInfo(), mth);
+			mthInfoMap.put(mth.getMethodInfo(), mth);//产生一个方法的map集
 		}
 	}
 

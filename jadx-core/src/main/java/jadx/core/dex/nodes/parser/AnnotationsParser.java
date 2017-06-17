@@ -18,6 +18,9 @@ import java.util.Map;
 
 import com.android.dex.Dex.Section;
 
+/**
+ * 注释解析器
+ */
 public class AnnotationsParser {
 
 	private static final Visibility[] VISIBILITIES = {

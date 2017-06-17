@@ -125,6 +125,10 @@ public class MainWindow extends JFrame {
 
 	private DropTarget dropTarget;
 
+	/**
+	 * jadx主窗口
+	 * @param settings
+	 */
 	public MainWindow(JadxSettings settings) {
 		this.wrapper = new JadxWrapper(settings);
 		this.settings = settings;
@@ -137,6 +141,7 @@ public class MainWindow extends JFrame {
 	}
 
 	public void open() {
+		//打开选择窗口
 		pack();
 		setLocationAndPosition();
 		setVisible(true);
@@ -150,6 +155,9 @@ public class MainWindow extends JFrame {
 		}
 	}
 
+	/**
+	 * 检查更新
+	 */
 	private void checkForUpdate() {
 		if (!settings.isCheckForUpdates()) {
 			return;
@@ -168,8 +176,35 @@ public class MainWindow extends JFrame {
 		});
 	}
 
+	/**
+	 * 打开选择窗口
+	 */
+	public void openDir() {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fileChooser.setAcceptAllFileFilterUsed(true);
+		String[] exts = {"apk", "dex", "jar", "class", "zip", "aar"};
+		String description = "supported files: " + Arrays.toString(exts).replace('[', '(').replace(']', ')');
+		fileChooser.setFileFilter(new FileNameExtensionFilter(description, exts));
+		fileChooser.setToolTipText(NLS.str("file.open"));
+		String currentDirectory = settings.getLastOpenFilePath();
+		if (!currentDirectory.isEmpty()) {
+			fileChooser.setCurrentDirectory(new File(currentDirectory));
+		}
+		int ret = fileChooser.showDialog(mainPanel, NLS.str("file.open"));
+		if (ret == JFileChooser.APPROVE_OPTION) {
+			settings.setLastOpenFilePath(fileChooser.getCurrentDirectory().getPath());
+			System.out.println(fileChooser.getSelectedFile());
+//			openFile(fileChooser.getSelectedFile());
+		}
+	}
+
+	/**
+	 * 打开选择窗口
+	 */
 	public void openFile() {
 		JFileChooser fileChooser = new JFileChooser();
+
 		fileChooser.setAcceptAllFileFilterUsed(true);
 		String[] exts = {"apk", "dex", "jar", "class", "zip", "aar"};
 		String description = "supported files: " + Arrays.toString(exts).replace('[', '(').replace(']', ')');
@@ -186,17 +221,24 @@ public class MainWindow extends JFrame {
 		}
 	}
 
+	/**
+	 * 正式打开文件 apk,dex,...
+	 * @param file
+	 */
 	public void openFile(File file) {
 		tabbedPane.closeAllTabs();
 		resetCache();
-		wrapper.openFile(file);
+		wrapper.openFile(file);//使用分装类对文件处理解析
 		deobfToggleBtn.setSelected(settings.isDeobfuscationOn());
 		settings.addRecentFile(file.getAbsolutePath());
-		initTree();
+		initTree();//展示文件树
 		setTitle(DEFAULT_TITLE + " - " + file.getName());
-		runBackgroundJobs();
+		runBackgroundJobs();//后台进行类解析
 	}
 
+	/**
+	 * 重置缓存
+	 */
 	protected void resetCache() {
 		cacheObject.reset();
 		// TODO: decompilation freezes sometime with several threads
@@ -345,11 +387,20 @@ public class MainWindow extends JFrame {
 		tree.requestFocus();
 	}
 
+	/**
+	 * 界面设置
+	 */
 	private void initMenuAndToolbar() {
 		Action openAction = new AbstractAction(NLS.str("file.open"), ICON_OPEN) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				openFile();
+			}
+		};
+		Action openDirAction = new AbstractAction(NLS.str("dir.open"), ICON_OPEN) {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openDir();
 			}
 		};
 		openAction.putValue(Action.SHORT_DESCRIPTION, NLS.str("file.open"));
@@ -481,6 +532,7 @@ public class MainWindow extends JFrame {
 
 		JMenu file = new JMenu(NLS.str("menu.file"));
 		file.setMnemonic(KeyEvent.VK_F);
+		file.add(openDirAction);
 		file.add(openAction);
 		file.add(saveAllAction);
 		file.add(exportAction);
@@ -563,6 +615,9 @@ public class MainWindow extends JFrame {
 		mainPanel.add(toolbar, BorderLayout.NORTH);
 	}
 
+	/**
+	 * 界面设置
+	 */
 	private void initUI() {
 		mainPanel = new JPanel(new BorderLayout());
 		JSplitPane splitPane = new JSplitPane();

@@ -1,7 +1,6 @@
 package jadx.cli;
 
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.Appender;
+
 import jadx.api.IJadxArgs;
 import jadx.api.JadxDecompiler;
 import jadx.core.utils.exceptions.JadxException;
@@ -14,8 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 import com.beust.jcommander.IStringConverter;
 import com.beust.jcommander.JCommander;
@@ -86,6 +84,11 @@ public class JadxCLIArgs implements IJadxArgs {
 	private final List<File> input = new ArrayList<File>(1);
 	private File outputDir;
 
+	/**
+	 * 解析命令行参数
+	 * @param args
+	 * @return
+	 */
 	public boolean processArgs(String[] args) {
 		return parse(args) && process();
 	}
@@ -126,15 +129,15 @@ public class JadxCLIArgs implements IJadxArgs {
 			if (outDirName != null) {
 				outputDir = new File(outDirName);
 			}
-			if (isVerbose()) {
-				ch.qos.logback.classic.Logger rootLogger =
-						(ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-				// remove INFO ThresholdFilter
-				Appender<ILoggingEvent> appender = rootLogger.getAppender("STDOUT");
-				if (appender != null) {
-					appender.clearAllFilters();
-				}
-			}
+//			if (isVerbose()) {
+//				ch.qos.logback.classic.Logger rootLogger =
+//						(ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+//				// remove INFO ThresholdFilter
+//				Appender<ILoggingEvent> appender = rootLogger.getAppender("STDOUT");
+//				if (appender != null) {
+//					appender.clearAllFilters();
+//				}
+//			}
 		} catch (JadxException e) {
 			System.err.println("ERROR: " + e.getMessage());
 			printUsage();

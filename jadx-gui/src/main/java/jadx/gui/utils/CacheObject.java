@@ -6,6 +6,9 @@ import jadx.gui.utils.search.TextSearchIndex;
 
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * 缓存类
+ */
 public class CacheObject {
 
 	private DecompileJob decompileJob;

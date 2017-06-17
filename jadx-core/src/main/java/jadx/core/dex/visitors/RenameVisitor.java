@@ -23,6 +23,9 @@ import java.util.Set;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOCase;
 
+/**
+ * 重命名访问者 作用
+ */
 public class RenameVisitor extends AbstractVisitor {
 
 	private static final boolean CASE_SENSITIVE_FS = IOCase.SYSTEM.isCaseSensitive();
@@ -57,9 +60,13 @@ public class RenameVisitor extends AbstractVisitor {
 		return false;
 	}
 
+	/**
+	 * 检查class
+	 * @param root
+	 */
 	private void checkClasses(RootNode root) {
 		Set<String> clsNames = new HashSet<String>();
-		for (ClassNode cls : root.getClasses(true)) {
+		for (ClassNode cls : root.getClasses(true)) {//迭代class
 			checkClassName(cls);
 			if (!CASE_SENSITIVE_FS) {
 				ClassInfo classInfo = cls.getClassInfo();
@@ -74,14 +81,21 @@ public class RenameVisitor extends AbstractVisitor {
 		}
 	}
 
+	/**
+	 * 检查class名字
+	 * @param cls
+	 */
 	private void checkClassName(ClassNode cls) {
 		ClassInfo classInfo = cls.getClassInfo();
 		String clsName = classInfo.getAlias().getShortName();
 		String newShortName = null;
 		char firstChar = clsName.charAt(0);
+
 		if (Character.isDigit(firstChar)) {
+		//用来判断匿名类
 			newShortName = Consts.ANONYMOUS_CLASS_PREFIX + clsName;
 		} else if (firstChar == '$') {
+			System.out.println(clsName);
 			newShortName = "C" + clsName;
 		}
 		if (newShortName != null) {

@@ -43,27 +43,27 @@ public class RootNode {
 
 	public RootNode(IJadxArgs args) {
 		this.args = args;
-		this.stringUtils = new StringUtils(args);
-		this.constValues = new ConstStorage(args);
+		this.stringUtils = new StringUtils(args);//不懂
+		this.constValues = new ConstStorage(args);//不懂
 	}
 
 	public void load(List<InputFile> inputFiles) throws DecodeException {
 		dexNodes = new ArrayList<DexNode>();
-		for (InputFile input : inputFiles) {
-			for (DexFile dexFile : input.getDexFiles()) {
+		for (InputFile input : inputFiles) {//其实只有一个apk文件啊
+			for (DexFile dexFile : input.getDexFiles()) {//有几个dex就遍历几次
 				try {
 					LOG.debug("Load: {}", dexFile);
 					DexNode dexNode = new DexNode(this, dexFile);
-					dexNodes.add(dexNode);
+					dexNodes.add(dexNode);//加入所有dex节点 还是有几个dex就加多少
 				} catch (Exception e) {
 					throw new DecodeException("Error decode file: " + dexFile, e);
 				}
 			}
 		}
-		for (DexNode dexNode : dexNodes) {
+		for (DexNode dexNode : dexNodes) {//遍历每个dex 载入dex含有的class文件
 			dexNode.loadClasses();
 		}
-		initInnerClasses();
+		initInnerClasses();//初始化内部类相关
 	}
 
 	public void loadResources(List<ResourceFile> resources) {

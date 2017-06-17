@@ -48,10 +48,10 @@ public class DexNode implements IDexNode {
 	}
 
 	public void loadClasses() throws DecodeException {
-		for (ClassDef cls : dexBuf.classDefs()) {
-			ClassNode clsNode = new ClassNode(this, cls);
+		for (ClassDef cls : dexBuf.classDefs()) {//获得一个class的迭代 具体方法是android类提供的以后再说明
+			ClassNode clsNode = new ClassNode(this, cls);//此处进行了一些解析操作
 			classes.add(clsNode);
-			clsMap.put(clsNode.getClassInfo(), clsNode);
+			clsMap.put(clsNode.getClassInfo(), clsNode);//生成类集
 		}
 	}
 
@@ -60,18 +60,18 @@ public class DexNode implements IDexNode {
 		List<ClassNode> inner = new ArrayList<ClassNode>();
 		for (ClassNode cls : classes) {
 			if (cls.getClassInfo().isInner()) {
-				inner.add(cls);
+				inner.add(cls);//构造内部类集合
 			}
 		}
-		for (ClassNode cls : inner) {
+		for (ClassNode cls : inner) {//遍历内部类集合
 			ClassInfo clsInfo = cls.getClassInfo();
-			ClassNode parent = resolveClass(clsInfo.getParentClass());
+			ClassNode parent = resolveClass(clsInfo.getParentClass());//从集合中取出查找到的父类
 			if (parent == null) {
-				clsMap.remove(clsInfo);
-				clsInfo.notInner(cls.dex());
-				clsMap.put(clsInfo, cls);
+				clsMap.remove(clsInfo);//父类不存在就删除
+				clsInfo.notInner(cls.dex());//设置无父类
+				clsMap.put(clsInfo, cls);//重新put回去
 			} else {
-				parent.addInnerClass(cls);
+				parent.addInnerClass(cls);//给父类加内部类
 			}
 		}
 	}

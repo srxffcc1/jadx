@@ -42,6 +42,10 @@ public class JadxSettingsAdapter {
 	private JadxSettingsAdapter() {
 	}
 
+	/**
+	 * 载入设置
+	 * @return
+	 */
 	public static JadxSettings load() {
 		try {
 			String jsonSettings = PREFS.get(JADX_GUI_KEY, "");

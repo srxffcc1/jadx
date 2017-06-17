@@ -286,6 +286,9 @@ public class CodeWriter {
 			finish();
 		}
 		File outFile = FileUtils.prepareFile(file);
+		if(!outFile.getParentFile().exists()){
+			outFile.mkdirs();
+		}
 		PrintWriter out = null;
 		try {
 			out = new PrintWriter(outFile, "UTF-8");
