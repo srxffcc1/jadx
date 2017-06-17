@@ -28,7 +28,11 @@ Command line and GUI tools for produce Java source code from Android Dex and Apk
 Scripts for run jadx will be placed in `build/jadx/bin`
 and also packed to `build/jadx-<version>.zip`
 
-
+###Plan
+1.优化内存占用
+2.枚举类的反编译
+3.部分构造函数的反编译
+4.
 ### Run
 Run **jadx** on itself:
 
