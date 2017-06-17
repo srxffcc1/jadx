@@ -1,0 +1,18 @@
+apply plugin: 'application'
+
+mainClassName = 'jadx.cli.JadxCLI'
+applicationName = 'jadx'
+
+dependencies {
+
+}
+
+applicationDistribution.with {
+    into('') {
+        from '../.'
+        include 'README.md'
+        include 'NOTICE'
+        include 'LICENSE'
+    }
+}
+
