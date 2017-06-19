@@ -11,6 +11,6 @@ dependencies {
     compile 'com.intellij:annotations:+'
     compile 'uk.com.robust-it:cloning:+'
 
-//    testCompile 'org.smali:smali:2.0.3'
+    testCompile 'org.smali:smali:+'
 }
 
