@@ -1,20 +1,15 @@
 package jadx.gui;
 
-import jadx.api.IJadxArgs;
-import jadx.api.JadxDecompiler;
-import jadx.api.JavaClass;
-import jadx.api.JavaPackage;
-import jadx.api.ResourceFile;
+import jadx.api.*;
 import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.swing.ProgressMonitor;
+import javax.swing.*;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * jadx包装类 帮gui进行具体的操作
@@ -46,18 +41,23 @@ public class JadxWrapper {
 		}
 	}
 
+	/**
+	 * 保存
+	 * @param dir
+	 * @param progressMonitor 进度条
+	 */
 	public void saveAll(final File dir, final ProgressMonitor progressMonitor) {
 		Runnable save = new Runnable() {
 			@Override
 			public void run() {
 				try {
 					decompiler.setOutputDir(dir);
-					ThreadPoolExecutor ex = (ThreadPoolExecutor) decompiler.getSaveExecutor();
-					ex.shutdown();
-					while (ex.isTerminating()) {
-						long total = ex.getTaskCount();
-						long done = ex.getCompletedTaskCount();
-						progressMonitor.setProgress((int) (done * 100.0 / (double) total));
+					ThreadPoolExecutor ex = (ThreadPoolExecutor) decompiler.getSaveExecutor();//获得保存的执行线程
+					ex.shutdown();//关闭线程池 为导出做准备
+					while (ex.isTerminating()) {//意思是线程池准备完毕
+						long total = ex.getTaskCount();//获得线程任务数
+						long done = ex.getCompletedTaskCount();//返回已经完成的任务数
+						progressMonitor.setProgress((int) (done * 100.0 / (double) total));//初始化进度条
 						Thread.sleep(500);
 					}
 					progressMonitor.close();

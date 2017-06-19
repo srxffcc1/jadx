@@ -17,21 +17,15 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.utils.files.InputFile;
 import jadx.core.xmlgen.BinaryXMLParser;
 import jadx.core.xmlgen.ResourcesSaver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Jadx API usage example:
@@ -87,7 +81,7 @@ public final class JadxDecompiler {
 	}
 
 	/**
-	 *
+	 *初始化
 	 */
 	void init() {
 		if (outDir == null) {
@@ -109,14 +103,28 @@ public final class JadxDecompiler {
 		codeGen = null;
 	}
 
+	/**
+	 * jadx版本号
+	 * @return
+	 */
 	public static String getVersion() {
 		return Jadx.getVersion();
 	}
 
+	/**
+	 * 就是返回一个泛型List<File>
+	 * @param file apk地址
+	 * @throws JadxException
+	 */
 	public void loadFile(File file) throws JadxException {
 		loadFiles(Collections.singletonList(file));//就是返回一个泛型List<File>
 	}
 
+	/**
+	 *
+	 * @param files apk地址
+	 * @throws JadxException
+	 */
 	public void loadFiles(List<File> files) throws JadxException {
 		if (files.isEmpty()) {
 			throw new JadxException("Empty file list");
@@ -129,21 +137,35 @@ public final class JadxDecompiler {
 				throw new JadxException("Error load file: " + file, e);
 			}
 		}
-		parse();//开始解析-不包括转码
+		parse();//开始解析-不包括反编译
 	}
 
+	/**
+	 * 保存
+	 */
 	public void save() {
 		save(!args.isSkipSources(), !args.isSkipResources());
 	}
 
+	/**
+	 * 保存代码
+	 */
 	public void saveSources() {
 		save(true, false);
 	}
 
+	/**
+	 * 保存资源
+	 */
 	public void saveResources() {
 		save(false, true);
 	}
 
+	/**
+	 * 保存
+	 * @param saveSources 是否保存代码
+	 * @param saveResources 是否保存资源
+	 */
 	private void save(boolean saveSources, boolean saveResources) {
 		try {
 			ExecutorService ex = getSaveExecutor(saveSources, saveResources);
@@ -154,10 +176,20 @@ public final class JadxDecompiler {
 		}
 	}
 
+	/**
+	 * 返回保存线程池 并把保存任务for循环加到线程池 进度条每隔500毫秒检测一次
+	 * @return
+	 */
 	public ExecutorService getSaveExecutor() {
 		return getSaveExecutor(!args.isSkipSources(), !args.isSkipResources());
 	}
 
+	/**
+	 *
+	 * @param saveSources 保存代码
+	 * @param saveResources 保存资源
+	 * @return
+	 */
 	private ExecutorService getSaveExecutor(boolean saveSources, boolean saveResources) {
 		if (root == null) {
 			throw new JadxRuntimeException("No loaded files");
@@ -167,6 +199,7 @@ public final class JadxDecompiler {
 
 		LOG.info("processing ...");
 		ExecutorService executor = Executors.newFixedThreadPool(threadsCount);
+		//开始进行线程任务了 下面
 
 		File sourcesOutDir;
 		File resOutDir;
@@ -188,12 +221,22 @@ public final class JadxDecompiler {
 		return executor;
 	}
 
+	/**
+	 * 附加导出源码任务
+	 * @param executor
+	 * @param outDir
+	 */
 	private void appendResourcesSave(ExecutorService executor, File outDir) {
 		for (ResourceFile resourceFile : getResources()) {
 			executor.execute(new ResourcesSaver(outDir, resourceFile));
 		}
 	}
 
+	/**
+	 * 附加导出源码任务
+	 * @param executor
+	 * @param outDir
+	 */
 	private void appendSourcesSave(ExecutorService executor, final File outDir) {
 		for (final JavaClass cls : getClasses()) {
 			if (cls.getClassNode().contains(AFlag.DONT_GENERATE)) {
@@ -209,6 +252,10 @@ public final class JadxDecompiler {
 		}
 	}
 
+	/**
+	 * 迭代classnode 获得javaclass对象集合
+	 * @return
+	 */
 	public List<JavaClass> getClasses() {
 		if (root == null) {
 			return Collections.emptyList();
@@ -227,6 +274,10 @@ public final class JadxDecompiler {
 		return classes;
 	}
 
+	/**
+	 * 获得资源集合
+	 * @return
+	 */
 	public List<ResourceFile> getResources() {
 		if (resources == null) {
 			if (root == null) {
@@ -237,6 +288,10 @@ public final class JadxDecompiler {
 		return resources;
 	}
 
+	/**
+	 * 获得包集合
+	 * @return
+	 */
 	public List<JavaPackage> getPackages() {
 		List<JavaClass> classList = getClasses();
 		if (classList.isEmpty()) {
@@ -268,6 +323,10 @@ public final class JadxDecompiler {
 		return Collections.unmodifiableList(packages);
 	}
 
+	/**
+	 * 获得错误数
+	 * @return
+	 */
 	public int getErrorsCount() {
 		if (root == null) {
 			return 0;
@@ -275,6 +334,9 @@ public final class JadxDecompiler {
 		return root.getErrorsCounter().getErrorCount();
 	}
 
+	/**
+	 * 获得错误报告
+	 */
 	public void printErrorsReport() {
 		if (root == null) {
 			return;
@@ -302,6 +364,9 @@ public final class JadxDecompiler {
 		initVisitors();//初始化访问
 	}
 
+	/**
+	 * 初始化访问者
+	 */
 	private void initVisitors() {
 		for (IDexTreeVisitor pass : passes) {
 			try {

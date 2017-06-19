@@ -7,26 +7,25 @@ import jadx.core.dex.info.AccessInfo;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.FieldNode;
 import jadx.core.dex.nodes.MethodNode;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.jetbrains.annotations.Nullable;
+
+import java.util.*;
 
 public final class JavaClass implements JavaNode {
 
-	private final JadxDecompiler decompiler;
+	private final JadxDecompiler decompiler;//解析器
 	private final ClassNode cls;
-	private final JavaClass parent;
+	private final JavaClass parent;//父类
 
-	private List<JavaClass> innerClasses = Collections.emptyList();
-	private List<JavaField> fields = Collections.emptyList();
-	private List<JavaMethod> methods = Collections.emptyList();
+	private List<JavaClass> innerClasses = Collections.emptyList();//内部类集合
+	private List<JavaField> fields = Collections.emptyList();//字段集合
+	private List<JavaMethod> methods = Collections.emptyList();//方法集合
 
+	/**
+	 * 构造方法
+	 * @param classNode
+	 * @param decompiler
+	 */
 	JavaClass(ClassNode classNode, JadxDecompiler decompiler) {
 		this.decompiler = decompiler;
 		this.cls = classNode;
@@ -54,6 +53,9 @@ public final class JavaClass implements JavaNode {
 		return code.getCodeStr();
 	}
 
+	/**
+	 * 解析
+	 */
 	public synchronized void decompile() {
 		if (decompiler == null) {
 			return;
