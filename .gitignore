@@ -25,3 +25,4 @@ gradle.properties
 *.log
 *.cfg
 
+classes/
