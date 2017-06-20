@@ -194,7 +194,7 @@ public class MainWindow extends JFrame {
 		settings.addRecentFile(file.getAbsolutePath());
 		initTree();//展示文件树
 		setTitle(DEFAULT_TITLE + " - " + file.getName());
-		runBackgroundJobs();//后台进行类解析
+		runBackgroundJobs();//后台进行类解析 出现反编译
 	}
 
 	/**

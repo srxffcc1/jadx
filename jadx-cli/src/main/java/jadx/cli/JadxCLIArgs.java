@@ -1,6 +1,7 @@
 package jadx.cli;
 
 
+import com.beust.jcommander.*;
 import jadx.api.IJadxArgs;
 import jadx.api.JadxDecompiler;
 import jadx.core.utils.exceptions.JadxException;
@@ -12,14 +13,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-
-
-import com.beust.jcommander.IStringConverter;
-import com.beust.jcommander.JCommander;
-import com.beust.jcommander.Parameter;
-import com.beust.jcommander.ParameterDescription;
-import com.beust.jcommander.ParameterException;
 
 public class JadxCLIArgs implements IJadxArgs {
 
@@ -95,7 +88,7 @@ public class JadxCLIArgs implements IJadxArgs {
 
 	private boolean parse(String[] args) {
 		try {
-			JCommander.newBuilder().addCommand(this).build().parse(args);
+			JCommander.newBuilder().addObject(this).build().parse(args);
 //			new JCommander(this, args);
 			return true;
 		} catch (ParameterException e) {
