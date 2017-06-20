@@ -8,35 +8,23 @@ import jadx.gui.utils.JumpManager;
 import jadx.gui.utils.NLS;
 import jadx.gui.utils.Position;
 import jadx.gui.utils.Utils;
+import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JTabbedPane;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.text.BadLocationException;
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+/**
+ * 代码展示
+ */
 class TabbedPane extends JTabbedPane {
 
 	private static final Logger LOG = LoggerFactory.getLogger(TabbedPane.class);
@@ -74,6 +62,10 @@ class TabbedPane extends JTabbedPane {
 		return mainWindow;
 	}
 
+	/**
+	 * 展示代码
+	 * @param pos
+	 */
 	private void showCode(final Position pos) {
 		final CodePanel contentPanel = (CodePanel) getContentPanel(pos.getNode());
 		if (contentPanel == null) {
@@ -99,6 +91,10 @@ class TabbedPane extends JTabbedPane {
 		});
 	}
 
+	/**
+	 * 展示资源
+	 * @param res
+	 */
 	public void showResource(JResource res) {
 		final ContentPanel contentPanel = getContentPanel(res);
 		if (contentPanel == null) {
@@ -158,7 +154,7 @@ class TabbedPane extends JTabbedPane {
 	private ContentPanel getContentPanel(JNode node) {
 		ContentPanel panel = openTabs.get(node);
 		if (panel == null) {
-			panel = makeContentPanel(node);
+			panel = makeContentPanel(node);//设置内容
 			if (panel == null) {
 				return null;
 			}

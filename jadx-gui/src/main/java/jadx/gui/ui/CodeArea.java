@@ -6,12 +6,11 @@ import jadx.gui.settings.JadxSettings;
 import jadx.gui.treemodel.JClass;
 import jadx.gui.treemodel.JNode;
 import jadx.gui.utils.Position;
+import org.fife.ui.rsyntaxtextarea.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JPopupMenu;
-import javax.swing.JViewport;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.PopupMenuEvent;
@@ -19,20 +18,8 @@ import javax.swing.event.PopupMenuListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Caret;
 import javax.swing.text.DefaultCaret;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-
-import org.fife.ui.rsyntaxtextarea.LinkGenerator;
-import org.fife.ui.rsyntaxtextarea.LinkGeneratorResult;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
-import org.fife.ui.rsyntaxtextarea.Token;
-import org.fife.ui.rsyntaxtextarea.TokenTypes;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class CodeArea extends RSyntaxTextArea {
 	private static final Logger LOG = LoggerFactory.getLogger(CodeArea.class);
@@ -72,7 +59,7 @@ class CodeArea extends RSyntaxTextArea {
 			addHyperlinkListener(codeLinkProcessor);
 			addMenuItems(this, (JClass) node);
 		}
-
+//		System.out.println(node.getContent());
 		setText(node.getContent());
 	}
 

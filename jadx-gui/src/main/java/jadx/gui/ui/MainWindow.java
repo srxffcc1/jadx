@@ -306,18 +306,22 @@ public class MainWindow extends JFrame {
 	}
 
 	private void treeClickAction() {
+//		System.out.println("点击树");
 		try {
 			Object obj = tree.getLastSelectedPathComponent();
 			if (obj instanceof JResource) {
+//				System.out.println("资源节点");
 				JResource res = (JResource) obj;
 				ResourceFile resFile = res.getResFile();
 				if (resFile != null && JResource.isSupportedForView(resFile.getType())) {
 					tabbedPane.showResource(res);
 				}
 			} else if (obj instanceof JNode) {
+//				System.out.println("其他节点");
 				JNode node = (JNode) obj;
 				JClass cls = node.getRootClass();
 				if (cls != null) {
+//					System.out.println("类节点");
 					tabbedPane.codeJump(new Position(cls, node.getLine()));
 				}
 			}
