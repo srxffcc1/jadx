@@ -2,15 +2,13 @@ package jadx.gui.jobs;
 
 import jadx.gui.ui.ProgressPanel;
 import jadx.gui.utils.CacheObject;
-import jadx.gui.utils.search.TextSearchIndex;
 import jadx.gui.utils.Utils;
-
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
-import java.util.concurrent.Future;
-
+import jadx.gui.utils.search.TextSearchIndex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import java.util.concurrent.Future;
 
 public class BackgroundWorker extends SwingWorker<Void, Void> {
 	private static final Logger LOG = LoggerFactory.getLogger(BackgroundWorker.class);
@@ -34,7 +32,7 @@ public class BackgroundWorker extends SwingWorker<Void, Void> {
 			}
 		});
 		addPropertyChangeListener(progressPane);
-		execute();
+		execute();//doInBackground 的操作
 	}
 
 	public void stop() {
@@ -50,10 +48,10 @@ public class BackgroundWorker extends SwingWorker<Void, Void> {
 		try {
 			System.gc();
 			LOG.debug("Memory usage: Before decompile: {}", Utils.memoryInfo());
-			runJob(cache.getDecompileJob());
+			runJob(cache.getDecompileJob()); //进行反编译操作
 
 			LOG.debug("Memory usage: Before index: {}", Utils.memoryInfo());
-			runJob(cache.getIndexJob());
+			runJob(cache.getIndexJob()); //应该是进行载入操作吧
 			LOG.debug("Memory usage: After index: {}", Utils.memoryInfo());
 
 			System.gc();
@@ -75,6 +73,7 @@ public class BackgroundWorker extends SwingWorker<Void, Void> {
 			return;
 		}
 		progressPane.changeLabel(this, job.getInfoString());
+//		System.out.println("SRX:"+job.getClass().getName());
 		Future<Boolean> future = job.process();
 		while (!future.isDone()) {
 			try {

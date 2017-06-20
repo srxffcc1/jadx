@@ -52,7 +52,7 @@ public class JadxWrapper {
 			public void run() {
 				try {
 					decompiler.setOutputDir(dir);
-					ThreadPoolExecutor ex = (ThreadPoolExecutor) decompiler.getSaveExecutor();//获得保存的执行线程
+					ThreadPoolExecutor ex = (ThreadPoolExecutor) decompiler.getSaveExecutor();//获得保存的执行线程 其实这里已经开始执行了
 					ex.shutdown();//关闭线程池 为导出做准备
 					while (ex.isTerminating()) {//意思是线程池准备完毕
 						long total = ex.getTaskCount();//获得线程任务数

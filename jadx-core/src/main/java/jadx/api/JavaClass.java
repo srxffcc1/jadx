@@ -54,7 +54,7 @@ public final class JavaClass implements JavaNode {
 	}
 
 	/**
-	 * 解析
+	 * 反编译
 	 */
 	public synchronized void decompile() {
 		if (decompiler == null) {

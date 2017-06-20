@@ -122,6 +122,7 @@ public abstract class IntegrationTest extends TestUtils {
 		cls.load();
 		List<IDexTreeVisitor> passes = Jadx.getPassesList(d.getArgs(), new File(outDir));
 		for (IDexTreeVisitor visitor : passes) {
+//			System.out.println("SRX:"+visitor.getClass().getName());
 			DepthTraversal.visit(visitor, cls);
 		}
 		try {

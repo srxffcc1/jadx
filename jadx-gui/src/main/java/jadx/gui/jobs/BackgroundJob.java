@@ -1,21 +1,12 @@
 package jadx.gui.jobs;
 
 import jadx.gui.JadxWrapper;
-
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * 线程池操作
- */
+import java.util.concurrent.*;
+
+
 public abstract class BackgroundJob {
 	private static final Logger LOG = LoggerFactory.getLogger(DecompileJob.class);
 

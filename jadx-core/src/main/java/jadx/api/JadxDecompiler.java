@@ -87,7 +87,7 @@ public final class JadxDecompiler {
 		if (outDir == null) {
 			outDir = new JadxArgs().getOutDir();//设置输出位置
 		}
-		this.passes = Jadx.getPassesList(args, outDir);//不懂
+		this.passes = Jadx.getPassesList(args, outDir);//添加pass任务
 		this.codeGen = new CodeGen(args);//不懂
 	}
 
@@ -361,7 +361,7 @@ public final class JadxDecompiler {
 		root.loadResources(getResources());//读取res文件
 		root.initAppResClass();//获得资源R
 
-		initVisitors();//初始化访问
+		initVisitors();//初始化访问 仅仅是初始化
 	}
 
 	/**
@@ -370,14 +370,19 @@ public final class JadxDecompiler {
 	private void initVisitors() {
 		for (IDexTreeVisitor pass : passes) {
 			try {
-				pass.init(root);//迭代passes 对root进行访问
+				pass.init(root);//迭代passes 对root进行访问 此处应该是进行改名操作 RenameVisitor
 			} catch (Exception e) {
 				LOG.error("Visitor init failed: {}", pass.getClass().getSimpleName(), e);
 			}
 		}
 	}
 
+	/**
+	 * 进程反编译
+	 * @param cls
+	 */
 	void processClass(ClassNode cls) {
+//		System.out.println("SRX:"+cls.getFullName());
 		ProcessClass.process(cls, passes, codeGen);
 	}
 
