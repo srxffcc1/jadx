@@ -95,7 +95,6 @@ public class RenameVisitor extends AbstractVisitor {
 		//用来判断匿名类
 			newShortName = Consts.ANONYMOUS_CLASS_PREFIX + clsName;
 		} else if (firstChar == '$') {
-			System.out.println(clsName);
 			newShortName = "C" + clsName;
 		}
 		if (newShortName != null) {
