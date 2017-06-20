@@ -837,7 +837,7 @@ public class RegionMaker {
 					caseRegion.add(AFlag.FALL_THROUGH);
 				}
 				sw.addCase(entry.getValue(), caseRegion);
-				// 'break' instruction will be inserted in RegionMakerVisitor.PostRegionVisitor
+				// 'break' instruction will be inserted in VM_RegionMakerVisitor.PostRegionVisitor
 			}
 		}
 

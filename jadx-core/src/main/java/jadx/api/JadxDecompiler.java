@@ -2,14 +2,14 @@ package jadx.api;
 
 import jadx.core.Jadx;
 import jadx.core.ProcessClass;
-import jadx.core.codegen.CodeGen;
+import jadx.core.dex.visitors.VC_CodeGen;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.FieldNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.dex.visitors.IDexTreeVisitor;
-import jadx.core.dex.visitors.SaveCode;
+import jadx.core.dex.visitors.VC_SaveCode;
 import jadx.core.export.ExportGradleProject;
 import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxException;
@@ -53,7 +53,7 @@ public final class JadxDecompiler {
 
 	private RootNode root;
 	private List<IDexTreeVisitor> passes;
-	private CodeGen codeGen;
+	private VC_CodeGen VCCodeGen;
 
 	private List<JavaClass> classes;
 	private List<ResourceFile> resources;
@@ -88,7 +88,7 @@ public final class JadxDecompiler {
 			outDir = new JadxArgs().getOutDir();//设置输出位置
 		}
 		this.passes = Jadx.getPassesList(args, outDir);//添加pass任务
-		this.codeGen = new CodeGen(args);//不懂
+		this.VCCodeGen = new VC_CodeGen(args);//不懂
 	}
 
 	/**
@@ -100,7 +100,7 @@ public final class JadxDecompiler {
 		xmlParser = null;
 		root = null;
 		passes = null;
-		codeGen = null;
+		VCCodeGen = null;
 	}
 
 	/**
@@ -246,7 +246,7 @@ public final class JadxDecompiler {
 				@Override
 				public void run() {
 					cls.decompile();
-					SaveCode.save(outDir, args, cls.getClassNode());
+					VC_SaveCode.save(outDir, args, cls.getClassNode());
 				}
 			});
 		}
@@ -370,7 +370,7 @@ public final class JadxDecompiler {
 	private void initVisitors() {
 		for (IDexTreeVisitor pass : passes) {
 			try {
-				pass.init(root);//迭代passes 对root进行访问 此处应该是进行改名操作 RenameVisitor
+				pass.init(root);//迭代passes 对root进行访问 此处应该是进行改名操作 VC_RenameVisitor
 			} catch (Exception e) {
 				LOG.error("Visitor init failed: {}", pass.getClass().getSimpleName(), e);
 			}
@@ -383,7 +383,7 @@ public final class JadxDecompiler {
 	 */
 	void processClass(ClassNode cls) {
 //		System.out.println("SRX:"+cls.getFullName());
-		ProcessClass.process(cls, passes, codeGen);
+		ProcessClass.process(cls, passes, VCCodeGen);
 	}
 
 	RootNode getRoot() {

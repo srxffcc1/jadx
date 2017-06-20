@@ -5,7 +5,7 @@ import jadx.api.JadxDecompiler;
 import jadx.api.JadxInternalAccess;
 import jadx.core.Jadx;
 import jadx.core.ProcessClass;
-import jadx.core.codegen.CodeGen;
+import jadx.core.dex.visitors.VC_CodeGen;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.nodes.ClassNode;
@@ -115,7 +115,7 @@ public abstract class IntegrationTest extends TestUtils {
 
 	private void decompile(JadxDecompiler jadx, ClassNode cls) {
 		List<IDexTreeVisitor> passes = Jadx.getPassesList(jadx.getArgs(), new File(outDir));
-		ProcessClass.process(cls, passes, new CodeGen(jadx.getArgs()));
+		ProcessClass.process(cls, passes, new VC_CodeGen(jadx.getArgs()));
 	}
 
 	private void decompileWithoutUnload(JadxDecompiler d, ClassNode cls) {
@@ -126,7 +126,7 @@ public abstract class IntegrationTest extends TestUtils {
 			DepthTraversal.visit(visitor, cls);
 		}
 		try {
-			new CodeGen(d.getArgs()).visit(cls);
+			new VC_CodeGen(d.getArgs()).visit(cls);
 		} catch (CodegenException e) {
 			e.printStackTrace();
 			fail(e.getMessage());

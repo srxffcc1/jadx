@@ -14,7 +14,7 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.trycatch.CatchAttr;
 import jadx.core.dex.visitors.DepthTraversal;
-import jadx.core.dex.visitors.FallbackModeVisitor;
+import jadx.core.dex.visitors.VM_FallbackModeVisitor;
 import jadx.core.utils.ErrorsCounter;
 import jadx.core.utils.InsnUtils;
 import jadx.core.utils.Utils;
@@ -192,7 +192,7 @@ public class MethodGen {
 				try {
 					mth.load();
 //					System.out.println("SRX:"+);
-					DepthTraversal.visit(new FallbackModeVisitor(), mth);
+					DepthTraversal.visit(new VM_FallbackModeVisitor(), mth);
 				} catch (DecodeException e) {
 					LOG.error("Error reload instructions in fallback mode:", e);
 					code.startLine("// Can't load method instructions: " + e.getMessage());

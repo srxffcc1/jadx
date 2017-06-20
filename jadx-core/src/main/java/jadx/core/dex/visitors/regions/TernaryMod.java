@@ -14,7 +14,7 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.regions.Region;
 import jadx.core.dex.regions.conditions.IfRegion;
-import jadx.core.dex.visitors.CodeShrinker;
+import jadx.core.dex.visitors.VM_CodeShrinker;
 import jadx.core.utils.InsnList;
 
 import java.util.HashMap;
@@ -86,7 +86,7 @@ public class TernaryMod {
 			header.getInstructions().add(ternInsn);
 
 			// shrink method again
-			CodeShrinker.shrinkMethod(mth);
+			VM_CodeShrinker.shrinkMethod(mth);
 			return true;
 		}
 
@@ -110,7 +110,7 @@ public class TernaryMod {
 			header.getInstructions().add(retInsn);
 			header.add(AFlag.RETURN);
 
-			CodeShrinker.shrinkMethod(mth);
+			VM_CodeShrinker.shrinkMethod(mth);
 			return true;
 		}
 		return false;

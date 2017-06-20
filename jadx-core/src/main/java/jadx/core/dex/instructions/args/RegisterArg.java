@@ -14,7 +14,7 @@ public class RegisterArg extends InsnArg implements Named {
 	private static final Logger LOG = LoggerFactory.getLogger(RegisterArg.class);
 
 	protected final int regNum;
-	// not null after SSATransform pass
+	// not null after VM_SSATransform pass
 	private SSAVar sVar;
 
 	public RegisterArg(int rn) {

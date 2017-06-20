@@ -11,6 +11,38 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
+/**
+ *
+ SRX1:jadx.core.dex.visitors.blocksmaker.VM_BlockSplitter
+ SRX1:jadx.core.dex.visitors.blocksmaker.VM_BlockProcessor
+ SRX1:jadx.core.dex.visitors.blocksmaker.VM_BlockExceptionHandler
+ SRX1:jadx.core.dex.visitors.blocksmaker.VM_BlockFinallyExtract
+ SRX1:jadx.core.dex.visitors.blocksmaker.VM_BlockFinish
+ SRX1:jadx.core.dex.visitors.ssa.VM_SSATransform
+ SRX1:jadx.core.dex.visitors.VM_DebugInfoVisitor
+ SRX1:jadx.core.dex.visitors.typeinference.VM_TypeInference
+ SRX1:jadx.core.dex.visitors.VM_ConstInlineVisitor
+ SRX1:jadx.core.dex.visitors.typeinference.VM_FinishTypeInference
+ SRX1:jadx.core.dex.visitors.ssa.VM_EliminatePhiNodes
+ SRX1:jadx.core.dex.visitors.VM_ModVisitor
+ SRX1:jadx.core.dex.visitors.VM_CodeShrinker
+ SRX1:jadx.core.dex.visitors.VM_ReSugarCode
+ SRX1:jadx.core.dex.visitors.VM_RegionMakerVisitor
+ SRX1:jadx.core.dex.visitors.VM_IfRegionVisitor
+ SRX1:jadx.core.dex.visitors.VM_ReturnVisitor
+ SRX1:jadx.core.dex.visitors.VM_CodeShrinker
+ SRX1:jadx.core.dex.visitors.VM_SimplifyVisitor
+ SRX1:jadx.core.dex.visitors.VM_CheckRegions
+ SRX1:jadx.core.dex.visitors.VM_MethodInlineVisitor
+ SRX1:jadx.core.dex.visitors.VC_ExtractFieldInit
+ SRX1:jadx.core.dex.visitors.VC_ClassModifier
+ SRX1:jadx.core.dex.visitors.VC_EnumVisitor
+ SRX1:jadx.core.dex.visitors.VM_PrepareForCodeGen
+ SRX1:jadx.core.dex.visitors.VM_LoopRegionVisitor
+ SRX1:jadx.core.dex.visitors.VM_ProcessVariables
+ SRX1:jadx.core.dex.visitors.VC_DependencyCollector
+ SRX1:jadx.core.dex.visitors.VC_RenameVisitor
+ */
 public final class JavaClass implements JavaNode {
 
 	private final JadxDecompiler decompiler;//解析器
@@ -33,7 +65,9 @@ public final class JavaClass implements JavaNode {
 	}
 
 	/**
-	 * Inner classes constructor
+	 * 内部类构造方法
+	 * @param classNode
+	 * @param parent
 	 */
 	JavaClass(ClassNode classNode, JavaClass parent) {
 		this.decompiler = null;
@@ -41,6 +75,10 @@ public final class JavaClass implements JavaNode {
 		this.parent = parent;
 	}
 
+	/**
+	 * 获得代码
+	 * @return
+	 */
 	public String getCode() {
 		CodeWriter code = cls.getCode();
 		if (code == null) {
@@ -61,8 +99,8 @@ public final class JavaClass implements JavaNode {
 			return;
 		}
 		if (cls.getCode() == null) {
-			decompiler.processClass(cls);
-			load();
+			decompiler.processClass(cls);//进行作业
+			load();//载入
 		}
 	}
 

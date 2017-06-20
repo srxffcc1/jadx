@@ -36,7 +36,7 @@ public abstract class BackgroundJob {
 			super(new Callable<Boolean>() {
 				@Override
 				public Boolean call() throws Exception {
-					runJob();
+					runJob();//进行作业
 					executor.shutdown();
 					return executor.awaitTermination(5, TimeUnit.MINUTES);
 				}

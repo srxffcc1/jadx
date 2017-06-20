@@ -1,37 +1,15 @@
 package jadx.core;
 
 import jadx.api.IJadxArgs;
-import jadx.core.dex.visitors.ClassModifier;
-import jadx.core.dex.visitors.CodeShrinker;
-import jadx.core.dex.visitors.ConstInlineVisitor;
-import jadx.core.dex.visitors.DebugInfoVisitor;
-import jadx.core.dex.visitors.DependencyCollector;
-import jadx.core.dex.visitors.DotGraphVisitor;
-import jadx.core.dex.visitors.EnumVisitor;
-import jadx.core.dex.visitors.ExtractFieldInit;
-import jadx.core.dex.visitors.FallbackModeVisitor;
-import jadx.core.dex.visitors.IDexTreeVisitor;
-import jadx.core.dex.visitors.MethodInlineVisitor;
-import jadx.core.dex.visitors.ModVisitor;
-import jadx.core.dex.visitors.PrepareForCodeGen;
-import jadx.core.dex.visitors.ReSugarCode;
-import jadx.core.dex.visitors.RenameVisitor;
-import jadx.core.dex.visitors.SimplifyVisitor;
-import jadx.core.dex.visitors.blocksmaker.BlockExceptionHandler;
-import jadx.core.dex.visitors.blocksmaker.BlockFinallyExtract;
-import jadx.core.dex.visitors.blocksmaker.BlockFinish;
-import jadx.core.dex.visitors.blocksmaker.BlockProcessor;
-import jadx.core.dex.visitors.blocksmaker.BlockSplitter;
-import jadx.core.dex.visitors.regions.CheckRegions;
-import jadx.core.dex.visitors.regions.IfRegionVisitor;
-import jadx.core.dex.visitors.regions.LoopRegionVisitor;
-import jadx.core.dex.visitors.regions.ProcessVariables;
-import jadx.core.dex.visitors.regions.RegionMakerVisitor;
-import jadx.core.dex.visitors.regions.ReturnVisitor;
-import jadx.core.dex.visitors.ssa.EliminatePhiNodes;
-import jadx.core.dex.visitors.ssa.SSATransform;
-import jadx.core.dex.visitors.typeinference.FinishTypeInference;
-import jadx.core.dex.visitors.typeinference.TypeInference;
+import jadx.core.dex.visitors.*;
+import jadx.core.dex.visitors.VC_ExtractFieldInit;
+import jadx.core.dex.visitors.blocksmaker.*;
+import jadx.core.dex.visitors.blocksmaker.VM_BlockExceptionHandler;
+import jadx.core.dex.visitors.VM_CheckRegions;
+import jadx.core.dex.visitors.ssa.VM_EliminatePhiNodes;
+import jadx.core.dex.visitors.ssa.VM_SSATransform;
+import jadx.core.dex.visitors.typeinference.VM_FinishTypeInference;
+import jadx.core.dex.visitors.typeinference.VM_TypeInference;
 
 import java.io.File;
 import java.net.URL;
@@ -55,58 +33,58 @@ public class Jadx {
 	public static List<IDexTreeVisitor> getPassesList(IJadxArgs args, File outDir) {
 		List<IDexTreeVisitor> passes = new ArrayList<IDexTreeVisitor>();
 		if (args.isFallbackMode()) {
-			passes.add(new FallbackModeVisitor());
+			passes.add(new VM_FallbackModeVisitor());
 		} else {
-			passes.add(new BlockSplitter());
-			passes.add(new BlockProcessor());
-			passes.add(new BlockExceptionHandler());
-			passes.add(new BlockFinallyExtract());
-			passes.add(new BlockFinish());
+			passes.add(new VM_BlockSplitter());
+			passes.add(new VM_BlockProcessor());
+			passes.add(new VM_BlockExceptionHandler());
+			passes.add(new VM_BlockFinallyExtract());
+			passes.add(new VM_BlockFinish());
 
-			passes.add(new SSATransform());
-			passes.add(new DebugInfoVisitor());
-			passes.add(new TypeInference());
+			passes.add(new VM_SSATransform());
+			passes.add(new VM_DebugInfoVisitor());
+			passes.add(new VM_TypeInference());
 
 			if (args.isRawCFGOutput()) {
-				passes.add(DotGraphVisitor.dumpRaw(outDir));
+				passes.add(VM_DotGraphVisitor.dumpRaw(outDir));
 			}
 
-			passes.add(new ConstInlineVisitor());
-			passes.add(new FinishTypeInference());
-			passes.add(new EliminatePhiNodes());
+			passes.add(new VM_ConstInlineVisitor());
+			passes.add(new VM_FinishTypeInference());
+			passes.add(new VM_EliminatePhiNodes());
 
-			passes.add(new ModVisitor());
+			passes.add(new VM_ModVisitor());
 
-			passes.add(new CodeShrinker());
-			passes.add(new ReSugarCode());
+			passes.add(new VM_CodeShrinker());
+			passes.add(new VM_ReSugarCode());
 
 			if (args.isCFGOutput()) {
-				passes.add(DotGraphVisitor.dump(outDir));
+				passes.add(VM_DotGraphVisitor.dump(outDir));
 			}
 
-			passes.add(new RegionMakerVisitor());
-			passes.add(new IfRegionVisitor());
-			passes.add(new ReturnVisitor());
+			passes.add(new VM_RegionMakerVisitor());
+			passes.add(new VM_IfRegionVisitor());
+			passes.add(new VM_ReturnVisitor());
 
-			passes.add(new CodeShrinker());
-			passes.add(new SimplifyVisitor());
-			passes.add(new CheckRegions());
+			passes.add(new VM_CodeShrinker());
+			passes.add(new VM_SimplifyVisitor());
+			passes.add(new VM_CheckRegions());
 
 			if (args.isCFGOutput()) {
-				passes.add(DotGraphVisitor.dumpRegions(outDir));
+				passes.add(VM_DotGraphVisitor.dumpRegions(outDir));
 			}
 
-			passes.add(new MethodInlineVisitor());
-			passes.add(new ExtractFieldInit());
-			passes.add(new ClassModifier());
-			passes.add(new EnumVisitor());
-			passes.add(new PrepareForCodeGen());
-			passes.add(new LoopRegionVisitor());
-			passes.add(new ProcessVariables());
+			passes.add(new VM_MethodInlineVisitor());
+			passes.add(new VC_ExtractFieldInit());
+			passes.add(new VC_ClassModifier());
+			passes.add(new VC_EnumVisitor());
+			passes.add(new VM_PrepareForCodeGen());
+			passes.add(new VM_LoopRegionVisitor());
+			passes.add(new VM_ProcessVariables());
 
-			passes.add(new DependencyCollector());
+			passes.add(new VC_DependencyCollector());
 
-			passes.add(new RenameVisitor());
+			passes.add(new VC_RenameVisitor());
 		}
 		return passes;
 	}

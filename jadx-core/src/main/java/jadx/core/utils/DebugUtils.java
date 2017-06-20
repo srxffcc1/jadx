@@ -16,7 +16,7 @@ import jadx.core.dex.nodes.IContainer;
 import jadx.core.dex.nodes.IRegion;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
-import jadx.core.dex.visitors.DotGraphVisitor;
+import jadx.core.dex.visitors.VM_DotGraphVisitor;
 import jadx.core.dex.visitors.regions.DepthRegionTraversal;
 import jadx.core.dex.visitors.regions.TracedRegionVisitor;
 import jadx.core.utils.exceptions.CodegenException;
@@ -41,9 +41,9 @@ public class DebugUtils {
 
 	public static void dump(MethodNode mth, String desc) {
 		File out = new File("test-graph" + desc + "-tmp");
-		DotGraphVisitor.dump(out).visit(mth);
-		DotGraphVisitor.dumpRaw(out).visit(mth);
-		DotGraphVisitor.dumpRegions(out).visit(mth);
+		VM_DotGraphVisitor.dump(out).visit(mth);
+		VM_DotGraphVisitor.dumpRaw(out).visit(mth);
+		VM_DotGraphVisitor.dumpRegions(out).visit(mth);
 	}
 
 	public static void printRegionsWithBlock(MethodNode mth, final BlockNode block) {
