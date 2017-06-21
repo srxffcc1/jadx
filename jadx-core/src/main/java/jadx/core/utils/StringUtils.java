@@ -7,7 +7,7 @@ public class StringUtils {
 	private final boolean escapeUnicode;
 
 	public StringUtils(IJadxArgs args) {
-		this.escapeUnicode = args.escapeUnicode();
+		this.escapeUnicode = args.escapeUnicode();//参数
 	}
 
 	public String unescapeString(String str) {
