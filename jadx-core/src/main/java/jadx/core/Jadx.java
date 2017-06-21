@@ -6,10 +6,10 @@ import jadx.core.dex.visitors.VC_ExtractFieldInit;
 import jadx.core.dex.visitors.blocksmaker.*;
 import jadx.core.dex.visitors.blocksmaker.VM_BlockExceptionHandler;
 import jadx.core.dex.visitors.VM_CheckRegions;
-import jadx.core.dex.visitors.ssa.VM_EliminatePhiNodes;
-import jadx.core.dex.visitors.ssa.VM_SSATransform;
-import jadx.core.dex.visitors.typeinference.VM_FinishTypeInference;
-import jadx.core.dex.visitors.typeinference.VM_TypeInference;
+import jadx.core.dex.visitors.VM_EliminatePhiNodes;
+import jadx.core.dex.visitors.VM_SSATransform;
+import jadx.core.dex.visitors.VM_FinishTypeInference;
+import jadx.core.dex.visitors.VM_TypeInference;
 
 import java.io.File;
 import java.net.URL;

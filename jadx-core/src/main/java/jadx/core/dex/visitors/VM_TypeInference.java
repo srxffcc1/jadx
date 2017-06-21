@@ -1,4 +1,4 @@
-package jadx.core.dex.visitors.typeinference;
+package jadx.core.dex.visitors;
 
 import jadx.core.dex.instructions.PhiInsn;
 import jadx.core.dex.instructions.args.ArgType;
@@ -7,7 +7,6 @@ import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.instructions.args.SSAVar;
 import jadx.core.dex.nodes.DexNode;
 import jadx.core.dex.nodes.MethodNode;
-import jadx.core.dex.visitors.AbstractVisitor;
 import jadx.core.utils.exceptions.JadxException;
 
 import java.util.List;

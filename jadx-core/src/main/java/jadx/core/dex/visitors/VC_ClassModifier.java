@@ -34,12 +34,12 @@ public class VC_ClassModifier extends AbstractVisitor {
 	@Override
 	public boolean visit(ClassNode cls) throws JadxException {
 		for (ClassNode inner : cls.getInnerClasses()) {
-			visit(inner);
+			visit(inner);//迭代内部类
 		}
-		if (cls.getAccessFlags().isSynthetic()
-				&& cls.getFields().isEmpty()
-				&& cls.getMethods().isEmpty()) {
-			cls.add(AFlag.DONT_GENERATE);
+		if (cls.getAccessFlags().isSynthetic()//合成类型
+				&& cls.getFields().isEmpty()//字段
+				&& cls.getMethods().isEmpty()) {//方法
+			cls.add(AFlag.DONT_GENERATE);//未产生
 			return false;
 		}
 		removeSyntheticFields(cls);
@@ -57,11 +57,11 @@ public class VC_ClassModifier extends AbstractVisitor {
 	}
 
 	private static void removeSyntheticFields(ClassNode cls) {
-		if (!cls.getClassInfo().isInner() || cls.getAccessFlags().isStatic()) {
+		if (!cls.getClassInfo().isInner() || cls.getAccessFlags().isStatic()) {//非内部 或者 静态类
 			return;
 		}
 		// remove fields if it is synthetic and type is a outer class
-		for (FieldNode field : cls.getFields()) {
+		for (FieldNode field : cls.getFields()) {//迭代字段
 			if (field.getAccessFlags().isSynthetic() && field.getType().isObject()) {
 				ClassInfo clsInfo = ClassInfo.fromType(cls.dex(), field.getType());
 				ClassNode fieldsCls = cls.dex().resolveClass(clsInfo);

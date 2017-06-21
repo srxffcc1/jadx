@@ -99,20 +99,21 @@ public final class ClassInfo {
 			parentClass = fromName(dex, parClsName);
 			String tmp=clsName.substring(sep + 1);
 			char firstChar = tmp.charAt(0);
-			if(Character.isDigit(firstChar)||(tmp.length()==1&&Character.isLetter(firstChar))){//可能是一个字母或者数字 为了增加混淆反编译的正确性 不进行替换
-				//匿名类按照内部类方式 修改代码逻辑但是不存在问题了
-			}else{
-				clsName = clsName.substring(sep + 1);
-			}
+			clsName = clsName.substring(sep + 1);
+//			if(Character.isDigit(firstChar)||(tmp.length()==1&&Character.isLetter(firstChar))){//可能是一个字母或者数字 为了增加混淆反编译的正确性 不进行替换
+//				//匿名类按照内部类方式 修改代码逻辑但是不存在问题了
+//			}else{
+//				clsName = clsName.substring(sep + 1);
+//			}
 
 		} else {
 			parentClass = null;
 		}
 		this.name = clsName;
 		this.fullName = makeFullClsName(clsName, false);
-		if(!oldname.equals(clsName)){
-//			System.out.println("前:"+oldname+",后:"+clsName);
-		}
+//		if(!oldname.equals(clsName)){
+////			System.out.println("前:"+oldname+",后:"+clsName);
+//		}
 
 	}
 

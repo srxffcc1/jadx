@@ -39,7 +39,7 @@ public final class ProcessClass {
 					for (IDexTreeVisitor visitor : passes) {//迭代所有访问者
 						if(turn==0){
 							index++;
-							System.out.println(visitor.getClass().getName()+" visit"+index+"=new "+visitor.getClass().getName()+"();");
+//							System.out.println(visitor.getClass().getName()+" visit"+index+"=new "+visitor.getClass().getName()+"();");
 
 						}
 						DepthTraversal.visit(visitor, cls);

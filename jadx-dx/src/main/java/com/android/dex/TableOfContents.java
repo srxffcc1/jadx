@@ -21,7 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
 /**
- * The file header and map.
+ * The file header and map. dex文件的数据集
  */
 public final class TableOfContents {
 
@@ -65,13 +65,13 @@ public final class TableOfContents {
     public int dataOff;
 
     public TableOfContents() {
-        signature = new byte[20];
+        signature = new byte[20];//签名
     }
 
     public void readFrom(Dex dex) throws IOException {
-        readHeader(dex.open(0));
-        readMap(dex.open(mapList.off));
-        computeSizesFromOffsets();
+        readHeader(dex.open(0));//读取头
+        readMap(dex.open(mapList.off));//读取map
+        computeSizesFromOffsets();//计算偏移量
     }
 
     private void readHeader(Dex.Section headerIn) throws UnsupportedEncodingException {
@@ -86,7 +86,7 @@ public final class TableOfContents {
             throw new DexException(msg);
         }
 
-        apiLevel = DexFormat.magicToApi(magic);
+        apiLevel = DexFormat.magicToApi(magic);//api级别 26啊 23啊 这样的
         checksum = headerIn.readInt();
         signature = headerIn.readByteArray(20);
         fileSize = headerIn.readInt();

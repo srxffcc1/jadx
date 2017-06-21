@@ -25,7 +25,7 @@ public class TernaryMod {
 	private TernaryMod() {
 	}
 
-	static boolean makeTernaryInsn(MethodNode mth, IfRegion ifRegion) {
+	public static boolean makeTernaryInsn(MethodNode mth, IfRegion ifRegion) {
 		if (ifRegion.contains(AFlag.ELSE_IF_CHAIN)) {
 			return false;
 		}

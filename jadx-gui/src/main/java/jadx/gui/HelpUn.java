@@ -2,10 +2,6 @@ package jadx.gui;
 
 import jadx.core.dex.visitors.*;
 import jadx.core.dex.visitors.blocksmaker.*;
-import jadx.core.dex.visitors.ssa.VM_EliminatePhiNodes;
-import jadx.core.dex.visitors.ssa.VM_SSATransform;
-import jadx.core.dex.visitors.typeinference.VM_FinishTypeInference;
-import jadx.core.dex.visitors.typeinference.VM_TypeInference;
 
 /**
  * Created by Administrator on 2017/6/20.

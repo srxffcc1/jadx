@@ -18,12 +18,12 @@ import java.util.*;
  SRX1:jadx.core.dex.visitors.blocksmaker.VM_BlockExceptionHandler
  SRX1:jadx.core.dex.visitors.blocksmaker.VM_BlockFinallyExtract
  SRX1:jadx.core.dex.visitors.blocksmaker.VM_BlockFinish
- SRX1:jadx.core.dex.visitors.ssa.VM_SSATransform
+ SRX1:jadx.core.dex.visitors.VM_SSATransform
  SRX1:jadx.core.dex.visitors.VM_DebugInfoVisitor
- SRX1:jadx.core.dex.visitors.typeinference.VM_TypeInference
+ SRX1:jadx.core.dex.visitors.VM_TypeInference
  SRX1:jadx.core.dex.visitors.VM_ConstInlineVisitor
- SRX1:jadx.core.dex.visitors.typeinference.VM_FinishTypeInference
- SRX1:jadx.core.dex.visitors.ssa.VM_EliminatePhiNodes
+ SRX1:jadx.core.dex.visitors.VM_FinishTypeInference
+ SRX1:jadx.core.dex.visitors.VM_EliminatePhiNodes
  SRX1:jadx.core.dex.visitors.VM_ModVisitor
  SRX1:jadx.core.dex.visitors.VM_CodeShrinker
  SRX1:jadx.core.dex.visitors.VM_ReSugarCode

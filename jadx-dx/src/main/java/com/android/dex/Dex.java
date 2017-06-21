@@ -173,7 +173,7 @@ public final class Dex {
             throw new IllegalArgumentException("position=" + position
                     + " length=" + data.capacity());
         }
-        ByteBuffer sectionData = data.duplicate();
+        ByteBuffer sectionData = data.duplicate();//
         sectionData.order(ByteOrder.LITTLE_ENDIAN); // necessary?
         sectionData.position(position);
         sectionData.limit(data.capacity());
@@ -324,7 +324,9 @@ public final class Dex {
        return data.getInt(position);
     }
 
-
+    /**
+     * 切片
+     */
     public final class Section implements ByteInput, ByteOutput {
         private final String name;
         private final ByteBuffer data;
