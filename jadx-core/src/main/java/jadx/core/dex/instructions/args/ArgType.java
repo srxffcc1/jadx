@@ -4,13 +4,15 @@ import jadx.core.Consts;
 import jadx.core.dex.nodes.DexNode;
 import jadx.core.dex.nodes.parser.SignatureParser;
 import jadx.core.utils.Utils;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.jetbrains.annotations.Nullable;
-
+/**
+ * 挺乱的 好像是参数类型
+ */
 public abstract class ArgType {
 
 	public static final ArgType INT = primitive(PrimitiveType.INT);
@@ -176,6 +178,7 @@ public abstract class ArgType {
 	private static final class GenericType extends ObjectType {
 		public GenericType(String obj) {
 			super(obj);
+			System.out.println(obj);
 		}
 
 		@Override
@@ -592,13 +595,13 @@ public abstract class ArgType {
 		char f = type.charAt(0);
 		switch (f) {
 			case 'L':
-				return object(type);
+				return object(type);//对象
 			case 'T':
 				return genericType(type.substring(1, type.length() - 1));
 			case '[':
-				return array(parse(type.substring(1)));
+				return array(parse(type.substring(1)));//数组
 			default:
-				return parse(f);
+				return parse(f);//基本数据类型
 		}
 	}
 

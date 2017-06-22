@@ -1,5 +1,8 @@
 package jadx.core.dex.nodes;
 
+import com.android.dex.*;
+import com.android.dex.ClassData.Method;
+import com.android.dex.Dex.Section;
 import jadx.core.dex.info.ClassInfo;
 import jadx.core.dex.info.FieldInfo;
 import jadx.core.dex.info.InfoStorage;
@@ -7,26 +10,10 @@ import jadx.core.dex.info.MethodInfo;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.files.DexFile;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.android.dex.ClassData;
-import com.android.dex.ClassData.Method;
-import com.android.dex.ClassDef;
-import com.android.dex.Code;
-import com.android.dex.Dex;
-import com.android.dex.Dex.Section;
-import com.android.dex.FieldId;
-import com.android.dex.MethodId;
-import com.android.dex.ProtoId;
-import com.android.dex.TypeList;
+import java.util.*;
 
 public class DexNode implements IDexNode {
 
@@ -41,7 +28,7 @@ public class DexNode implements IDexNode {
 
 	private final InfoStorage infoStorage = new InfoStorage();
 
-	public DexNode(RootNode root, DexFile input) {
+	public DexNode(RootNode root, DexFile input) {//单纯的构造函数
 		this.root = root;
 		this.file = input;
 		this.dexBuf = input.getDexBuf();
@@ -163,11 +150,12 @@ public class DexNode implements IDexNode {
 
 	// DexBuffer wrappers
 
-	public String getString(int index) {
+	public String getString(int index) {//id
+//		System.out.println(dexBuf.strings().get(index));
 		return dexBuf.strings().get(index);
 	}
 
-	public ArgType getType(int index) {
+	public ArgType getType(int index) {//此处就是new了一个ArgType
 		return ArgType.parse(getString(dexBuf.typeIds().get(index)));
 	}
 

@@ -11,14 +11,14 @@ import java.io.File;
  */
 public final class ClassInfo {
 
-	private final ArgType type;
-	private String pkg;
-	private String name;
-	private String fullName;
+	private final ArgType type; //类参数
+	private String pkg;//包名
+	private String name;//类名
+	private String fullName;//完整类名
 	// for inner class not equals null
-	private ClassInfo parentClass;
+	private ClassInfo parentClass;//父类
 	// class info after rename (deobfuscation)
-	private ClassInfo alias;
+	private ClassInfo alias;//反混淆？
 
 	private ClassInfo(DexNode dex, ArgType type) {
 		this(dex, type, true);
