@@ -69,7 +69,7 @@ public class InterferenceGraph {
 
             sb.append("Reg " + i + ":" + interference.get(i).toString());
 
-            System.out.println(sb.toString());
+//            System.out.println(sb.toString());
         }
     }
 

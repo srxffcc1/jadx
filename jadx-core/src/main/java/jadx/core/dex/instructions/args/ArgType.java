@@ -178,7 +178,7 @@ public abstract class ArgType {
 	private static final class GenericType extends ObjectType {
 		public GenericType(String obj) {
 			super(obj);
-			System.out.println(obj);
+//			System.out.println(obj);
 		}
 
 		@Override
