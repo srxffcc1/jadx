@@ -344,7 +344,7 @@ public class VM_ProcessVariables extends AbstractVisitor {
 	private static boolean canDeclareInRegion(Usage u, IRegion region, Map<IContainer, Integer> regionsOrder) {
 		Integer pos = regionsOrder.get(region);
 		if (pos == null) {
-			LOG.debug("TODO: Not found order for region {} for {}", region, u);
+			//LOG.debug("TODO: Not found order for region {} for {}", region, u);
 			return false;
 		}
 		// workaround for declare variables used in several loops
@@ -367,7 +367,7 @@ public class VM_ProcessVariables extends AbstractVisitor {
 			}
 			Integer rPos = regionsOrder.get(r);
 			if (rPos == null) {
-				LOG.debug("TODO: Not found order for region {} in {}", r, regionsOrder);
+				//LOG.debug("TODO: Not found order for region {} in {}", r, regionsOrder);
 				return false;
 			}
 			if (pos > rPos) {

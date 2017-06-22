@@ -124,7 +124,7 @@ class CodeArea extends RSyntaxTextArea {
 			int lineOffset = offset - textArea.getLineStartOffset(line);
 			return jCls.getCls().getJavaNodeAtPosition(line + 1, lineOffset + 1);
 		} catch (BadLocationException e) {
-			LOG.error("Can't get java node by offset", e);
+			//LOG.error("Can't get java node by offset", e);
 		}
 		return null;
 	}
@@ -169,7 +169,7 @@ class CodeArea extends RSyntaxTextArea {
 
 			viewport.setViewPosition(new Point(0, y));
 		} catch (BadLocationException e) {
-			LOG.debug("Can't center current line", e);
+			//LOG.debug("Can't center current line", e);
 		}
 	}
 
@@ -177,7 +177,7 @@ class CodeArea extends RSyntaxTextArea {
 		try {
 			setCaretPosition(getLineStartOffset(line));
 		} catch (BadLocationException e) {
-			LOG.debug("Can't scroll to {}", line, e);
+			//LOG.debug("Can't scroll to {}", line, e);
 		}
 	}
 
@@ -260,7 +260,7 @@ class CodeArea extends RSyntaxTextArea {
 					}
 				};
 			} catch (Exception e) {
-				LOG.error("isLinkAtOffset error", e);
+				//LOG.error("isLinkAtOffset error", e);
 				return null;
 			}
 		}

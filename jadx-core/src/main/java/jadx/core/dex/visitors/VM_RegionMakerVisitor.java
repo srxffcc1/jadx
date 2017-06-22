@@ -143,7 +143,7 @@ public class VM_RegionMakerVisitor extends AbstractVisitor {
 		} else if (c instanceof Region) {
 			addBreakToContainer((Region) c);
 		} else {
-			LOG.warn("Can't insert break, container: {}, block: {}, mth: {}", blockContainer, bn, mth);
+			//LOG.warn("Can't insert break, container: {}, block: {}, mth: {}", blockContainer, bn, mth);
 		}
 	}
 
@@ -163,7 +163,7 @@ public class VM_RegionMakerVisitor extends AbstractVisitor {
 			SynchronizedRegion synchRegion = (SynchronizedRegion) subBlocks.get(0);
 			InsnNode synchInsn = synchRegion.getEnterInsn();
 			if (!synchInsn.getArg(0).isThis()) {
-				LOG.warn("In synchronized method {}, top region not synchronized by 'this' {}", mth, synchInsn);
+				//LOG.warn("In synchronized method {}, top region not synchronized by 'this' {}", mth, synchInsn);
 				return;
 			}
 			// replace synchronized block with inner region

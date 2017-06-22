@@ -52,7 +52,7 @@ public class RootNode {
 		for (InputFile input : inputFiles) {//其实只有一个apk文件啊
 			for (DexFile dexFile : input.getDexFiles()) {//有几个dex就遍历几次
 				try {
-					LOG.debug("Load: {}", dexFile);
+					//LOG.debug("Load: {}", dexFile);
 					DexNode dexNode = new DexNode(this, dexFile);
 					dexNodes.add(dexNode);//加入所有dex节点 还是有几个dex就加多少
 				} catch (Exception e) {
@@ -75,7 +75,7 @@ public class RootNode {
 			}
 		}
 		if (arsc == null) {
-			LOG.debug("'.arsc' file not found");
+			//LOG.debug("'.arsc' file not found");
 			return;
 		}
 		final ResTableParser parser = new ResTableParser();
@@ -88,7 +88,7 @@ public class RootNode {
 				}
 			});
 		} catch (JadxException e) {
-			LOG.error("Failed to parse '.arsc' file", e);
+			//LOG.error("Failed to parse '.arsc' file", e);
 			return;
 		}
 

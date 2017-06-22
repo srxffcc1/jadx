@@ -1,4 +1,4 @@
-package jadx.core.dex.visitors.blocksmaker;
+package jadx.core.dex.visitors;
 
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;

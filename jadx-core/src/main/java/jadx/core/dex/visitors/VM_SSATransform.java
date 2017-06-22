@@ -11,7 +11,6 @@ import jadx.core.dex.instructions.args.SSAVar;
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
-import jadx.core.dex.visitors.blocksmaker.VM_BlockFinish;
 import jadx.core.dex.visitors.ssa.LiveVarAnalysis;
 import jadx.core.utils.InsnList;
 import jadx.core.utils.InstructionRemover;

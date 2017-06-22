@@ -50,7 +50,7 @@ public class IndexJob extends BackgroundJob {
 							index.classCodeIndexSkipped(cls);
 						}
 					} catch (Exception e) {
-						LOG.error("Index error in class: {}", cls.getFullName(), e);
+						//LOG.error("Index error in class: {}", cls.getFullName(), e);
 					}
 				}
 			});

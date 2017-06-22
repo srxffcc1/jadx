@@ -60,7 +60,7 @@ public class IfMakerHelper {
 		boolean badThen = isBadBranchBlock(info, thenBlock);
 		boolean badElse = isBadBranchBlock(info, elseBlock);
 		if (badThen && badElse) {
-			LOG.debug("Stop processing blocks after 'if': {}, method: {}", info.getIfBlock(), mth);
+			//LOG.debug("Stop processing blocks after 'if': {}, method: {}", info.getIfBlock(), mth);
 			return null;
 		}
 		if (badElse) {

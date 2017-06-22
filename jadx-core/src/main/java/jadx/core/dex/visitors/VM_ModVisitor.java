@@ -372,7 +372,7 @@ public class VM_ModVisitor extends AbstractVisitor {
 			);
 		}
 		if (!elType.isTypeKnown()) {
-			LOG.warn("Unknown array element type: {} in mth: {}", elType, mth);
+			//LOG.warn("Unknown array element type: {} in mth: {}", elType, mth);
 			elType = insnElementType.isTypeKnown() ? insnElementType : elType.selectFirst();
 			if (elType == null) {
 				throw new JadxRuntimeException("Null array element type");

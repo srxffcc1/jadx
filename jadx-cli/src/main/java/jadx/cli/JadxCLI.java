@@ -18,7 +18,7 @@ public class JadxCLI {
 				processAndSave(jadxArgs);
 			}
 		} catch (Throwable e) {
-			LOG.error("jadx error: {}", e.getMessage(), e);
+			//LOG.error("jadx error: {}", e.getMessage(), e);
 			System.exit(1);
 		}
 	}
@@ -30,9 +30,9 @@ public class JadxCLI {
 		jadx.save();
 		if (jadx.getErrorsCount() != 0) {
 			jadx.printErrorsReport();
-			LOG.error("finished with errors");
+			//LOG.error("finished with errors");
 		} else {
-			LOG.info("done");
+			//LOG.info("done");
 		}
 	}
 
@@ -41,7 +41,7 @@ public class JadxCLI {
 			return false;
 		}
 		if (jadxArgs.getInput().isEmpty()) {
-			LOG.error("Please specify input file");
+			//LOG.error("Please specify input file");
 			jadxArgs.printUsage();
 			return false;
 		}
@@ -56,7 +56,7 @@ public class JadxCLI {
 			} else {
 				outDirName = name + "-jadx-out";
 			}
-			LOG.info("output directory: {}", outDirName);
+			//LOG.info("output directory: {}", outDirName);
 			outputDir = new File(outDirName);
 			jadxArgs.setOutputDir(outputDir);
 		}

@@ -1,10 +1,12 @@
 package jadx.core.dex.info;
 
+import jadx.core.Consts;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.DexNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import java.io.File;
+import java.net.URL;
 
 /**
  * 类的信息 包名等等
@@ -91,29 +93,28 @@ public final class ClassInfo {
 			pkg = fullObjectName.substring(0, dot);
 			clsName = fullObjectName.substring(dot + 1);
 		}
-		String oldname=clsName;
-
 		int sep = clsName.lastIndexOf('$');
 		if (canBeInner && sep > 0 && sep != clsName.length() - 1) {
 			String parClsName = pkg + "." + clsName.substring(0, sep);
 			parentClass = fromName(dex, parClsName);
-			String tmp=clsName.substring(sep + 1);
-			char firstChar = tmp.charAt(0);
 			clsName = clsName.substring(sep + 1);
-//			if(Character.isDigit(firstChar)||(tmp.length()==1&&Character.isLetter(firstChar))){//可能是一个字母或者数字 为了增加混淆反编译的正确性 不进行替换
-//				//匿名类按照内部类方式 修改代码逻辑但是不存在问题了
-//			}else{
-//				clsName = clsName.substring(sep + 1);
-//			}
 
 		} else {
 			parentClass = null;
 		}
+		//以下处理为了使得类名不重复
+		char firstChar = clsName.charAt(0);
+		if (Character.isDigit(firstChar)) {
+			clsName = pkg.replace(".","_") + "_"+clsName;
+		} else{
+			if(clsName.length()>2){
+
+			}else{
+				clsName=pkg.replace(".","_")+ "_"+clsName;
+			}
+		}
 		this.name = clsName;
 		this.fullName = makeFullClsName(clsName, false);
-//		if(!oldname.equals(clsName)){
-////			System.out.println("前:"+oldname+",后:"+clsName);
-//		}
 
 	}
 

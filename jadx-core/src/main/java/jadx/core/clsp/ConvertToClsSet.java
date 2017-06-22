@@ -20,7 +20,7 @@ public class ConvertToClsSet {
 	private static final Logger LOG = LoggerFactory.getLogger(ConvertToClsSet.class);
 
 	public static void usage() {
-		LOG.info("<output .jcst or .jar file> <several input dex or jar files> ");
+		//LOG.info("<output .jcst or .jar file> <several input dex or jar files> ");
 	}
 
 	public static void main(String[] args) throws IOException, DecodeException {
@@ -40,7 +40,7 @@ public class ConvertToClsSet {
 			}
 		}
 		for (InputFile inputFile : inputFiles) {
-			LOG.info("Loaded: {}", inputFile.getFile());
+			//LOG.info("Loaded: {}", inputFile.getFile());
 		}
 
 		RootNode root = new RootNode(new JadxArgs());
@@ -49,8 +49,8 @@ public class ConvertToClsSet {
 		ClsSet set = new ClsSet();
 		set.load(root);
 		set.save(output);
-		LOG.info("Output: {}", output);
-		LOG.info("done");
+		//LOG.info("Output: {}", output);
+		//LOG.info("done");
 	}
 
 	private static void addFilesFromDirectory(File dir, List<InputFile> inputFiles) {
@@ -65,7 +65,7 @@ public class ConvertToClsSet {
 				try {
 					InputFile.addFilesFrom(file, inputFiles);
 				} catch (Exception e) {
-					LOG.warn("Skip file: {}, load error: {}", file, e.getMessage());
+					//LOG.warn("Skip file: {}, load error: {}", file, e.getMessage());
 				}
 			}
 		}

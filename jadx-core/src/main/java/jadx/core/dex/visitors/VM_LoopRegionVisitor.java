@@ -199,7 +199,7 @@ public class VM_LoopRegionVisitor extends AbstractVisitor implements IRegionVisi
 			if (wrapArg != null && wrapArg.getParentInsn() != null) {
 				wrapArg.getParentInsn().replaceArg(wrapArg, iterVar);
 			} else {
-				LOG.debug(" checkArrayForEach: Wrapped insn not found: {}, mth: {}", arrGetInsn, mth);
+				//LOG.debug(" checkArrayForEach: Wrapped insn not found: {}, mth: {}", arrGetInsn, mth);
 			}
 		}
 		return new ForEachLoop(iterVar, len.getArg(0));
@@ -258,7 +258,7 @@ public class VM_LoopRegionVisitor extends AbstractVisitor implements IRegionVisi
 					}
 				}
 			} else {
-				LOG.warn(" checkIterableForEach: Wrapped insn not found: {}, mth: {}", nextCall, mth);
+				//LOG.warn(" checkIterableForEach: Wrapped insn not found: {}, mth: {}", nextCall, mth);
 				return false;
 			}
 		} else {
@@ -298,7 +298,7 @@ public class VM_LoopRegionVisitor extends AbstractVisitor implements IRegionVisi
 					&& ArgType.isInstanceOf(mth.dex(), wildcardType, varType)) {
 				return true;
 			}
-			LOG.warn("Generic type differs: '{}' and '{}' in {}", gType, varType, mth);
+			//LOG.warn("Generic type differs: '{}' and '{}' in {}", gType, varType, mth);
 			return false;
 		}
 		if (!iterableArg.isRegister()) {
@@ -362,7 +362,7 @@ public class VM_LoopRegionVisitor extends AbstractVisitor implements IRegionVisi
 		}
 		BlockNode block = BlockUtils.getBlockByInsn(mth, parentInsn);
 		if (block == null) {
-			LOG.debug(" VM_LoopRegionVisitor: instruction not found: {}, mth: {}", parentInsn, mth);
+			//LOG.debug(" VM_LoopRegionVisitor: instruction not found: {}, mth: {}", parentInsn, mth);
 			return false;
 		}
 		return RegionUtils.isRegionContainsBlock(loopRegion, block);

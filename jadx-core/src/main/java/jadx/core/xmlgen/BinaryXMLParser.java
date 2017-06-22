@@ -61,7 +61,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 					styleMap.put(f.getInt(f.getType()), f.getName());
 				}
 			} catch (Throwable th) {
-				LOG.error("R class loading failed", th);
+				//LOG.error("R class loading failed", th);
 			}
 			// add application constants
 			ConstStorage constStorage = root.getConstValues();

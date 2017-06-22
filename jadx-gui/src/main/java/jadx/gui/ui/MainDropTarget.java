@@ -65,7 +65,7 @@ public class MainDropTarget implements DropTargetListener {
 				mainWindow.openFile(transferData.get(0));
 			}
 		} catch (Exception e) {
-			LOG.error("File drop operation failed", e);
+			//LOG.error("File drop operation failed", e);
 		}
 	}
 

@@ -3,8 +3,7 @@ package jadx.core;
 import jadx.api.IJadxArgs;
 import jadx.core.dex.visitors.*;
 import jadx.core.dex.visitors.VC_ExtractFieldInit;
-import jadx.core.dex.visitors.blocksmaker.*;
-import jadx.core.dex.visitors.blocksmaker.VM_BlockExceptionHandler;
+import jadx.core.dex.visitors.VM_BlockExceptionHandler;
 import jadx.core.dex.visitors.VM_CheckRegions;
 import jadx.core.dex.visitors.VM_EliminatePhiNodes;
 import jadx.core.dex.visitors.VM_SSATransform;
@@ -26,7 +25,7 @@ public class Jadx {
 
 	static {
 		if (Consts.DEBUG) {
-			LOG.info("debug enabled");
+			//LOG.info("debug enabled");
 		}
 	}
 
@@ -103,7 +102,7 @@ public class Jadx {
 				}
 			}
 		} catch (Exception e) {
-			LOG.error("Can't get manifest file", e);
+			//LOG.error("Can't get manifest file", e);
 		}
 		return "dev";
 	}

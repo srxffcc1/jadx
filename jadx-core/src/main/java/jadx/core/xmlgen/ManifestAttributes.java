@@ -61,7 +61,7 @@ public class ManifestAttributes {
 	public void parseAll() throws Exception {
 		parse(loadXML(ATTR_XML));
 		parse(loadXML(MANIFEST_ATTR_XML));
-		LOG.debug("Loaded android attributes count: {}", attrMap.size());
+		//LOG.debug("Loaded android attributes count: {}", attrMap.size());
 	}
 
 	private Document loadXML(String xml) throws JadxException, ParserConfigurationException, SAXException, IOException {
@@ -151,7 +151,7 @@ public class ManifestAttributes {
 							}
 							attr.getValues().put(key, nameNode.getNodeValue());
 						} catch (NumberFormatException e) {
-							LOG.debug("Failed parse manifest number", e);
+							//LOG.debug("Failed parse manifest number", e);
 						}
 					}
 				}

@@ -13,11 +13,11 @@ import java.util.*;
 
 /**
  *
- SRX1:jadx.core.dex.visitors.blocksmaker.VM_BlockSplitter
- SRX1:jadx.core.dex.visitors.blocksmaker.VM_BlockProcessor
- SRX1:jadx.core.dex.visitors.blocksmaker.VM_BlockExceptionHandler
- SRX1:jadx.core.dex.visitors.blocksmaker.VM_BlockFinallyExtract
- SRX1:jadx.core.dex.visitors.blocksmaker.VM_BlockFinish
+ SRX1:jadx.core.dex.visitors.VM_BlockSplitter
+ SRX1:jadx.core.dex.visitors.VM_BlockProcessor
+ SRX1:jadx.core.dex.visitors.VM_BlockExceptionHandler
+ SRX1:jadx.core.dex.visitors.VM_BlockFinallyExtract
+ SRX1:jadx.core.dex.visitors.VM_BlockFinish
  SRX1:jadx.core.dex.visitors.VM_SSATransform
  SRX1:jadx.core.dex.visitors.VM_DebugInfoVisitor
  SRX1:jadx.core.dex.visitors.VM_TypeInference

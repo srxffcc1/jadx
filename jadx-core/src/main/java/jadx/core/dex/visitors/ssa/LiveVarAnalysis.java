@@ -43,7 +43,7 @@ public class LiveVarAnalysis {
 
 	public boolean isLive(int blockId, int regNum) {
 		if (blockId >= liveIn.length) {
-			LOG.warn("LiveVarAnalysis: out of bounds block: {}, max: {}", blockId, liveIn.length);
+			//LOG.warn("LiveVarAnalysis: out of bounds block: {}, max: {}", blockId, liveIn.length);
 			return false;
 		}
 		return liveIn[blockId].get(regNum);

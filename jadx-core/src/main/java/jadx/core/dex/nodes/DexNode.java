@@ -20,7 +20,7 @@ public class DexNode implements IDexNode {
 	public static final int NO_INDEX = -1;
 
 	private final RootNode root;
-	private final Dex dexBuf;
+	private final Dex dexBuf;//dex对象
 	private final DexFile file;
 
 	private final List<ClassNode> classes = new ArrayList<ClassNode>();

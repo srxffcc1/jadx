@@ -81,7 +81,7 @@ class TabbedPane extends JTabbedPane {
 					try {
 						line = 1 + codeArea.getLineOfOffset(-line);
 					} catch (BadLocationException e) {
-						LOG.error("Can't get line for: {}", pos, e);
+						//LOG.error("Can't get line for: {}", pos, e);
 						line = pos.getNode().getLine();
 					}
 				}

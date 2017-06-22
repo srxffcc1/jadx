@@ -172,7 +172,7 @@ public class CodeWriter {
 	public void decIndent(int c) {
 		this.indent -= c;
 		if (this.indent < 0) {
-			LOG.warn("Indent < 0");
+			//LOG.warn("Indent < 0");
 			this.indent = 0;
 		}
 		updateIndent();
@@ -294,7 +294,7 @@ public class CodeWriter {
 			out = new PrintWriter(outFile, "UTF-8");
 			out.println(code);
 		} catch (Exception e) {
-			LOG.error("Save file error", e);
+			//LOG.error("Save file error", e);
 		} finally {
 			close(out);
 		}

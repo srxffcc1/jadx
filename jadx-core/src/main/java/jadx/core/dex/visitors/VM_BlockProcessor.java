@@ -1,4 +1,4 @@
-package jadx.core.dex.visitors.blocksmaker;
+package jadx.core.dex.visitors;
 
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
@@ -11,7 +11,6 @@ import jadx.core.dex.nodes.Edge;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.trycatch.CatchAttr;
-import jadx.core.dex.visitors.AbstractVisitor;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
@@ -23,8 +22,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static jadx.core.dex.visitors.blocksmaker.VM_BlockSplitter.connect;
-import static jadx.core.dex.visitors.blocksmaker.VM_BlockSplitter.removeConnection;
 import static jadx.core.utils.EmptyBitSet.EMPTY;
 
 public class VM_BlockProcessor extends AbstractVisitor {
@@ -262,11 +259,11 @@ public class VM_BlockProcessor extends AbstractVisitor {
 					// several back edges connected to one loop header => make additional block
 					BlockNode newLoopHeader = VM_BlockSplitter.startNewBlock(mth, block.getStartOffset());
 					newLoopHeader.add(AFlag.SYNTHETIC);
-					connect(newLoopHeader, block);
+					VM_BlockSplitter.connect(newLoopHeader, block);
 					for (LoopInfo la : loops) {
 						BlockNode node = la.getEnd();
-						removeConnection(node, block);
-						connect(node, newLoopHeader);
+						VM_BlockSplitter.removeConnection(node, block);
+						VM_BlockSplitter.connect(node, newLoopHeader);
 					}
 					return true;
 				}
@@ -345,8 +342,8 @@ public class VM_BlockProcessor extends AbstractVisitor {
 				newRetInsn = duplicateReturnInsn(returnInsn);
 			}
 			newRetBlock.getInstructions().add(newRetInsn);
-			removeConnection(pred, exitBlock);
-			connect(pred, newRetBlock);
+			VM_BlockSplitter.removeConnection(pred, exitBlock);
+			VM_BlockSplitter.connect(pred, newRetBlock);
 		}
 		cleanExitNodes(mth);
 		return true;
@@ -396,7 +393,7 @@ public class VM_BlockProcessor extends AbstractVisitor {
 			if (block.contains(AFlag.REMOVE)) {
 				if (!block.getPredecessors().isEmpty()
 						|| !block.getSuccessors().isEmpty()) {
-					LOG.error("Block {} not deleted, method: {}", block, mth);
+					//LOG.error("Block {} not deleted, method: {}", block, mth);
 				} else {
 					CatchAttr catchAttr = block.get(AType.CATCH_BLOCK);
 					if (catchAttr != null) {

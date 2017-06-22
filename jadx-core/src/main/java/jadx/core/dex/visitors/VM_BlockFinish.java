@@ -1,4 +1,4 @@
-package jadx.core.dex.visitors.blocksmaker;
+package jadx.core.dex.visitors;
 
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.instructions.IfNode;
@@ -8,7 +8,6 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.trycatch.ExcHandlerAttr;
 import jadx.core.dex.trycatch.SplitterBlockAttr;
-import jadx.core.dex.visitors.AbstractVisitor;
 import jadx.core.utils.BlockUtils;
 
 import java.util.HashMap;
@@ -76,7 +75,7 @@ public class VM_BlockFinish extends AbstractVisitor {
 		}
 		BlockNode topSplitter = BlockUtils.getTopBlock(splitters.keySet());
 		if (topSplitter == null) {
-			LOG.warn("Unknown top splitter block from list: {}", splitters);
+			//LOG.warn("Unknown top splitter block from list: {}", splitters);
 			return;
 		}
 		for (Map.Entry<BlockNode, SplitterBlockAttr> entry : splitters.entrySet()) {

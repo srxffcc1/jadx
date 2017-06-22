@@ -1,4 +1,4 @@
-package jadx.core.dex.visitors.blocksmaker;
+package jadx.core.dex.visitors;
 
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
@@ -13,7 +13,6 @@ import jadx.core.dex.trycatch.CatchAttr;
 import jadx.core.dex.trycatch.ExceptionHandler;
 import jadx.core.dex.trycatch.SplitterBlockAttr;
 import jadx.core.dex.trycatch.TryCatchBlock;
-import jadx.core.dex.visitors.AbstractVisitor;
 import jadx.core.dex.visitors.blocksmaker.helpers.BlocksPair;
 import jadx.core.dex.visitors.blocksmaker.helpers.BlocksRemoveInfo;
 import jadx.core.dex.visitors.ssa.LiveVarAnalysis;
@@ -32,10 +31,6 @@ import java.util.Set;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static jadx.core.dex.visitors.blocksmaker.VM_BlockSplitter.connect;
-import static jadx.core.dex.visitors.blocksmaker.VM_BlockSplitter.insertBlockBetween;
-import static jadx.core.dex.visitors.blocksmaker.VM_BlockSplitter.removeConnection;
 
 public class VM_BlockFinallyExtract extends AbstractVisitor {
 	private static final Logger LOG = LoggerFactory.getLogger(VM_BlockFinallyExtract.class);
@@ -303,7 +298,7 @@ public class VM_BlockFinallyExtract extends AbstractVisitor {
 		if (mergeReturns(mth, outs)) {
 			return removeInfo;
 		}
-		LOG.debug("Unexpected finally block outs count: {}", outs);
+		//LOG.debug("Unexpected finally block outs count: {}", outs);
 		return null;
 	}
 
@@ -490,7 +485,7 @@ public class VM_BlockFinallyExtract extends AbstractVisitor {
 			return true;
 		}
 		if (remBlock.getPredecessors().size() != 1) {
-			LOG.warn("Finally extract failed: remBlock pred: {}, {}, method: {}", remBlock, remBlock.getPredecessors(), mth);
+			//LOG.warn("Finally extract failed: remBlock pred: {}, {}, method: {}", remBlock, remBlock.getPredecessors(), mth);
 			return false;
 		}
 
@@ -543,23 +538,23 @@ public class VM_BlockFinallyExtract extends AbstractVisitor {
 			BlockNode newPred = VM_BlockSplitter.insertBlockBetween(mth, pred, sOut);
 			for (BlockNode predBlock : new ArrayList<BlockNode>(sOut.getPredecessors())) {
 				if (predBlock != newPred) {
-					removeConnection(predBlock, sOut);
-					connect(predBlock, newPred);
+					VM_BlockSplitter.removeConnection(predBlock, sOut);
+					VM_BlockSplitter.connect(predBlock, newPred);
 				}
 			}
 			rOut.getPredecessors().clear();
 			addIgnoredEdge(newPred, rOut);
-			connect(newPred, rOut);
+			VM_BlockSplitter.connect(newPred, rOut);
 		} else if (filtPreds.size() == 1) {
 			BlockNode pred = filtPreds.get(0);
 			BlockNode repl = removeInfo.getBySecond(pred);
 			if (repl == null) {
-				LOG.error("Block not found by {}, in {}, method: {}", pred, removeInfo, mth);
+				//LOG.error("Block not found by {}, in {}, method: {}", pred, removeInfo, mth);
 				return false;
 			}
-			removeConnection(pred, rOut);
+			VM_BlockSplitter.removeConnection(pred, rOut);
 			addIgnoredEdge(repl, rOut);
-			connect(repl, rOut);
+			VM_BlockSplitter.connect(repl, rOut);
 		} else {
 			throw new JadxRuntimeException("Finally extract failed, unexpected preds: " + filtPreds
 					+ " for " + sOut + ", method: " + mth);
@@ -567,11 +562,11 @@ public class VM_BlockFinallyExtract extends AbstractVisitor {
 
 		// redirect input edges
 		for (BlockNode pred : new ArrayList<BlockNode>(remBlock.getPredecessors())) {
-			BlockNode middle = insertBlockBetween(mth, pred, remBlock);
-			removeConnection(middle, remBlock);
-			connect(middle, startBlock);
+			BlockNode middle = VM_BlockSplitter.insertBlockBetween(mth, pred, remBlock);
+			VM_BlockSplitter.removeConnection(middle, remBlock);
+			VM_BlockSplitter.connect(middle, startBlock);
 			addIgnoredEdge(middle, startBlock);
-			connect(middle, rOut);
+			VM_BlockSplitter.connect(middle, rOut);
 		}
 
 		// mark blocks for remove
@@ -594,11 +589,11 @@ public class VM_BlockFinallyExtract extends AbstractVisitor {
 
 		newBlock.getSuccessors().addAll(block.getSuccessors());
 		for (BlockNode s : new ArrayList<BlockNode>(block.getSuccessors())) {
-			removeConnection(block, s);
-			connect(newBlock, s);
+			VM_BlockSplitter.removeConnection(block, s);
+			VM_BlockSplitter.connect(newBlock, s);
 		}
 		block.getSuccessors().clear();
-		connect(block, newBlock);
+		VM_BlockSplitter.connect(block, newBlock);
 		block.updateCleanSuccessors();
 		newBlock.updateCleanSuccessors();
 
@@ -709,7 +704,7 @@ public class VM_BlockFinallyExtract extends AbstractVisitor {
 				continue;
 			}
 			for (BlockNode remPred : mb.getPredecessors()) {
-				connect(remPred, origReturnBlock);
+				VM_BlockSplitter.connect(remPred, origReturnBlock);
 			}
 			markForRemove(mth, mb);
 			edgeAttr.getBlocks().remove(mb);
@@ -757,7 +752,7 @@ public class VM_BlockFinallyExtract extends AbstractVisitor {
 				continue;
 			}
 			for (BlockNode remPred : predBlock.getPredecessors()) {
-				connect(remPred, mergeBlock);
+				VM_BlockSplitter.connect(remPred, mergeBlock);
 			}
 			markForRemove(mth, predBlock);
 		}

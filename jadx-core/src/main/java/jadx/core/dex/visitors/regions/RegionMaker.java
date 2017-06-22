@@ -78,7 +78,7 @@ public class RegionMaker {
 		if (Consts.DEBUG) {
 			int id = startBlock.getId();
 			if (processedBlocks.get(id)) {
-				LOG.debug(" Block already processed: {}, mth: {}", startBlock, mth);
+				//LOG.debug(" Block already processed: {}, mth: {}", startBlock, mth);
 			} else {
 				processedBlocks.set(id);
 			}
@@ -727,7 +727,7 @@ public class RegionMaker {
 			// fall through case block
 			if (df.cardinality() > 1) {
 				if (df.cardinality() > 2) {
-					LOG.debug("Unexpected case pattern, block: {}, mth: {}", s, mth);
+					//LOG.debug("Unexpected case pattern, block: {}, mth: {}", s, mth);
 				} else {
 					BlockNode first = basicBlocks.get(df.nextSetBit(0));
 					BlockNode second = basicBlocks.get(df.nextSetBit(first.getId() + 1));
@@ -755,10 +755,10 @@ public class RegionMaker {
 		// check cases order if fall through case exists
 		if (!fallThroughCases.isEmpty()) {
 			if (isBadCasesOrder(blocksMap, fallThroughCases)) {
-				LOG.debug("Fixing incorrect switch cases order, method: {}", mth);
+				//LOG.debug("Fixing incorrect switch cases order, method: {}", mth);
 				blocksMap = reOrderSwitchCases(blocksMap, fallThroughCases);
 				if (isBadCasesOrder(blocksMap, fallThroughCases)) {
-					LOG.error("Can't fix incorrect switch cases order, method: {}", mth);
+					//LOG.error("Can't fix incorrect switch cases order, method: {}", mth);
 					mth.add(AFlag.INCONSISTENT_CODE);
 				}
 			}
@@ -809,7 +809,7 @@ public class RegionMaker {
 			out = basicBlocks.get(outs.nextSetBit(0));
 			stack.addExit(out);
 		} else if (loop == null && outs.cardinality() > 1) {
-			LOG.warn("Can't detect out node for switch block: {} in {}", block, mth);
+			//LOG.warn("Can't detect out node for switch block: {} in {}", block, mth);
 		}
 		if (loop != null) {
 			// check if 'continue' must be inserted
@@ -915,7 +915,7 @@ public class RegionMaker {
 					blocks.add(handlerBlock);
 					splitters.addAll(handlerBlock.getPredecessors());
 				} else {
-					LOG.debug(ErrorsCounter.formatErrorMsg(mth, "No exception handler block: " + handler));
+					//LOG.debug(ErrorsCounter.formatErrorMsg(mth, "No exception handler block: " + handler));
 				}
 			}
 			Set<BlockNode> exits = new HashSet<BlockNode>();
@@ -923,7 +923,7 @@ public class RegionMaker {
 				for (BlockNode handler : blocks) {
 					List<BlockNode> s = splitter.getSuccessors();
 					if (s.isEmpty()) {
-						LOG.debug(ErrorsCounter.formatErrorMsg(mth, "No successors for splitter: " + splitter));
+						//LOG.debug(ErrorsCounter.formatErrorMsg(mth, "No successors for splitter: " + splitter));
 						continue;
 					}
 					BlockNode ss = s.get(0);
@@ -1003,7 +1003,7 @@ public class RegionMaker {
 
 		ExcHandlerAttr excHandlerAttr = start.get(AType.EXC_HANDLER);
 		if (excHandlerAttr == null) {
-			LOG.warn("Missing exception handler attribute for start block");
+			//LOG.warn("Missing exception handler attribute for start block");
 		} else {
 			handler.getHandlerRegion().addAttr(excHandlerAttr);
 		}

@@ -36,7 +36,7 @@ public class CleanRegions {
 							try {
 								it.remove();
 							} catch (UnsupportedOperationException e) {
-								LOG.warn("Can't remove block: {} from: {}, mth: {}", block, region, mth);
+								//LOG.warn("Can't remove block: {} from: {}, mth: {}", block, region, mth);
 							}
 						}
 					}

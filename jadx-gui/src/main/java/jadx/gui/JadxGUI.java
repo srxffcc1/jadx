@@ -34,7 +34,7 @@ public class JadxGUI {
 				}
 			});
 		} catch (Throwable e) {
-			LOG.error("Error: {}", e.getMessage(), e);
+			//LOG.error("Error: {}", e.getMessage(), e);
 			System.exit(1);
 		}
 	}

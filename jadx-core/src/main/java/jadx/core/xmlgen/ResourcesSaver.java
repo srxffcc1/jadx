@@ -61,7 +61,7 @@ public class ResourcesSaver implements Runnable {
 				outFile = prepareFile(outFile);
 				ImageIO.write(image, ext, outFile);
 			} catch (IOException e) {
-				LOG.error("Failed to save image: {}", rc.getName(), e);
+				//LOG.error("Failed to save image: {}", rc.getName(), e);
 			}
 			return;
 		}
@@ -70,6 +70,6 @@ public class ResourcesSaver implements Runnable {
 			cw.save(outFile);
 			return;
 		}
-		LOG.warn("Resource '{}' not saved, unknown type", rc.getName());
+		//LOG.warn("Resource '{}' not saved, unknown type", rc.getName());
 	}
 }

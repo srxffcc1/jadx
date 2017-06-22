@@ -87,7 +87,7 @@ public abstract class InsnArg extends Typed {
 			return null;
 		}
 		if (parent == insn) {
-			LOG.debug("Can't wrap instruction info itself: {}", insn);
+			//LOG.debug("Can't wrap instruction info itself: {}", insn);
 			return null;
 		}
 		int i = getArgIndex(parent, this);

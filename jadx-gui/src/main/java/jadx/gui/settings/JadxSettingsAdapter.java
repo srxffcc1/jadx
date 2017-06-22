@@ -53,10 +53,10 @@ public class JadxSettingsAdapter {
 			if (settings == null) {
 				return new JadxSettings();
 			}
-			LOG.debug("Loaded settings: {}", makeString(settings));
+			//LOG.debug("Loaded settings: {}", makeString(settings));
 			return settings;
 		} catch (Exception e) {
-			LOG.error("Error load settings", e);
+			//LOG.error("Error load settings", e);
 			return new JadxSettings();
 		}
 	}
@@ -64,11 +64,11 @@ public class JadxSettingsAdapter {
 	public static void store(JadxSettings settings) {
 		try {
 			String jsonSettings = makeString(settings);
-			LOG.debug("Saving settings: {}", jsonSettings);
+			//LOG.debug("Saving settings: {}", jsonSettings);
 			PREFS.put(JADX_GUI_KEY, jsonSettings);
 			PREFS.sync();
 		} catch (Exception e) {
-			LOG.error("Error store settings", e);
+			//LOG.error("Error store settings", e);
 		}
 	}
 

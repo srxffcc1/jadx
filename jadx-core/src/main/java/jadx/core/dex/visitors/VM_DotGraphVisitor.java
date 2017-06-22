@@ -57,8 +57,7 @@ public class VM_DotGraphVisitor extends AbstractVisitor {
 		this.dir = outDir;
 		this.useRegions = useRegions;
 		this.rawInsn = rawInsn;
-		LOG.debug("DOT {}{}graph dump dir: {}",
-				useRegions ? "regions " : "", rawInsn ? "raw " : "", outDir.getAbsolutePath());
+		//LOG.debug("DOT {}{}graph dump dir: {}",useRegions ? "regions " : "", rawInsn ? "raw " : "", outDir.getAbsolutePath());
 	}
 
 	@Override

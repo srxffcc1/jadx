@@ -39,7 +39,7 @@ public class BackgroundWorker extends SwingWorker<Void, Void> {
 		if (isDone()) {
 			return;
 		}
-		LOG.debug("Canceling background jobs ...");
+		//LOG.debug("Canceling background jobs ...");
 		cancel(false);
 	}
 
@@ -47,23 +47,22 @@ public class BackgroundWorker extends SwingWorker<Void, Void> {
 	protected Void doInBackground() throws Exception {
 		try {
 			System.gc();
-			LOG.debug("Memory usage: Before decompile: {}", Utils.memoryInfo());
+			//LOG.debug("Memory usage: Before decompile: {}", Utils.memoryInfo());
 			runJob(cache.getDecompileJob()); //进行反编译操作
 
-			LOG.debug("Memory usage: Before index: {}", Utils.memoryInfo());
+			//LOG.debug("Memory usage: Before index: {}", Utils.memoryInfo());
 			runJob(cache.getIndexJob()); //应该是进行载入操作吧
-			LOG.debug("Memory usage: After index: {}", Utils.memoryInfo());
+			//LOG.debug("Memory usage: After index: {}", Utils.memoryInfo());
 
 			System.gc();
-			LOG.debug("Memory usage: After gc: {}", Utils.memoryInfo());
+			//LOG.debug("Memory usage: After gc: {}", Utils.memoryInfo());
 
 			TextSearchIndex searchIndex = cache.getTextIndex();
 			if (searchIndex != null && searchIndex.getSkippedCount() > 0) {
-				LOG.warn("Indexing of some classes skipped, count: {}, low memory: {}",
-						searchIndex.getSkippedCount(), Utils.memoryInfo());
+				//LOG.warn("Indexing of some classes skipped, count: {}, low memory: {}",searchIndex.getSkippedCount(), Utils.memoryInfo());
 			}
 		} catch (Exception e) {
-			LOG.error("Exception in background worker", e);
+			//LOG.error("Exception in background worker", e);
 		}
 		return null;
 	}
@@ -83,7 +82,7 @@ public class BackgroundWorker extends SwingWorker<Void, Void> {
 				}
 				Thread.sleep(500);
 			} catch (Exception e) {
-				LOG.error("Background worker error", e);
+				//LOG.error("Background worker error", e);
 			}
 		}
 	}

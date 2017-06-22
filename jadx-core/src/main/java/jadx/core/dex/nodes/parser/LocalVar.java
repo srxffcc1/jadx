@@ -41,7 +41,7 @@ final class LocalVar {
 					type = gType;
 				}
 			} catch (Exception e) {
-				LOG.error("Can't parse signature for local variable: {}", sign, e);
+				//LOG.error("Can't parse signature for local variable: {}", sign, e);
 			}
 		}
 		this.name = name;
@@ -53,7 +53,7 @@ final class LocalVar {
 		ArgType el = gType.getArrayRootElement();
 		if (el.isGeneric()) {
 			if (!type.getArrayRootElement().getObject().equals(el.getObject())) {
-				LOG.warn("Generic type in debug info not equals: {} != {}", type, gType);
+				//LOG.warn("Generic type in debug info not equals: {} != {}", type, gType);
 			}
 			apply = true;
 		} else {

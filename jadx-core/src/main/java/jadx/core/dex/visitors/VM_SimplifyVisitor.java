@@ -130,7 +130,7 @@ public class VM_SimplifyVisitor extends AbstractVisitor {
 						&& ((LiteralArg) insn.getArg(1)).getLiteral() == 0) {
 					insn.changeCondition(insn.getOp(), wi.getArg(0), wi.getArg(1));
 				} else {
-					LOG.warn("TODO: cmp {}", insn);
+					//LOG.warn("TODO: cmp {}", insn);
 				}
 			}
 		}
@@ -209,7 +209,7 @@ public class VM_SimplifyVisitor extends AbstractVisitor {
 				} // end of if we found a constructor early in the chain
 
 			} catch (Throwable e) {
-				LOG.debug("Can't convert string concatenation: {} insn: {}", mth, insn, e);
+				//LOG.debug("Can't convert string concatenation: {} insn: {}", mth, insn, e);
 			}
 		}
 		return null;
@@ -292,7 +292,7 @@ public class VM_SimplifyVisitor extends AbstractVisitor {
 				return new ArithNode(ArithOp.ADD, fArg, InsnArg.wrapArg(concat));
 			}
 		} catch (Exception e) {
-			LOG.debug("Can't convert field arith insn: {}, mth: {}", insn, mth, e);
+			//LOG.debug("Can't convert field arith insn: {}, mth: {}", insn, mth, e);
 		}
 		return null;
 	}

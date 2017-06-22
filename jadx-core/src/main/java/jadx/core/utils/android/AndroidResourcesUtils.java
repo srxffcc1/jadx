@@ -30,9 +30,9 @@ public class AndroidResourcesUtils {
 			return candidates.get(0);
 		}
 		if (!candidates.isEmpty()) {
-			LOG.info("Found several 'R' class candidates: {}", candidates);
+			//LOG.info("Found several 'R' class candidates: {}", candidates);
 		}
-		LOG.warn("Unknown 'R' class, create references to '{}'", fullName);
+		//LOG.warn("Unknown 'R' class, create references to '{}'", fullName);
 		return makeClass(root, fullName);
 	}
 

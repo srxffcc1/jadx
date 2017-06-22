@@ -90,7 +90,6 @@ public class VC_RenameVisitor extends AbstractVisitor {
 		String clsName = classInfo.getAlias().getShortName();
 		String newShortName = null;
 		char firstChar = clsName.charAt(0);
-
 		if (Character.isDigit(firstChar)) {
 		//用来判断匿名类
 			newShortName = Consts.ANONYMOUS_CLASS_PREFIX + clsName;

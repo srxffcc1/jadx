@@ -52,7 +52,7 @@ public class VM_EliminatePhiNodes extends AbstractVisitor {
 				return;
 			}
 		}
-		LOG.warn("Phi node not removed: {}, mth: {}", phiInsn, mth);
+		//LOG.warn("Phi node not removed: {}, mth: {}", phiInsn, mth);
 	}
 
 	private void replaceMergeInstructions(MethodNode mth) {

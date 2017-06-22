@@ -69,7 +69,7 @@ public class TextSearchIndex {
 				}
 			}
 		} catch (Exception e) {
-			LOG.warn("Failed to index class: {}", cls, e);
+			//LOG.warn("Failed to index class: {}", cls, e);
 		}
 	}
 

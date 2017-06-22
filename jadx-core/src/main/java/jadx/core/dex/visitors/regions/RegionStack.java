@@ -17,7 +17,7 @@ public final class RegionStack {
 
 	static {
 		if (DEBUG) {
-			LOG.debug("Debug enabled for {}", RegionStack.class);
+			//LOG.debug("Debug enabled for {}", RegionStack.class);
 		}
 	}
 
@@ -48,7 +48,7 @@ public final class RegionStack {
 
 	public RegionStack(MethodNode mth) {
 		if (DEBUG) {
-			LOG.debug("New RegionStack: {}", mth);
+			//LOG.debug("New RegionStack: {}", mth);
 		}
 		this.stack = new ArrayDeque<State>();
 		this.curState = new State();
@@ -62,14 +62,14 @@ public final class RegionStack {
 		curState = curState.copy();
 		curState.region = region;
 		if (DEBUG) {
-			LOG.debug("Stack push: {}: {}", size(), curState);
+			//LOG.debug("Stack push: {}: {}", size(), curState);
 		}
 	}
 
 	public void pop() {
 		curState = stack.pop();
 		if (DEBUG) {
-			LOG.debug("Stack  pop: {}: {}", size(), curState);
+			//LOG.debug("Stack  pop: {}: {}", size(), curState);
 		}
 	}
 

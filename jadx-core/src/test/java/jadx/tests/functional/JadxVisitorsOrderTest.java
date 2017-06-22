@@ -28,7 +28,7 @@ public class JadxVisitorsOrderTest {
 
 		List<String> errors = check(passes);
 		for (String str : errors) {
-			LOG.error(str);
+			//LOG.error(str);
 		}
 		assertThat(errors, empty());
 	}
@@ -45,7 +45,7 @@ public class JadxVisitorsOrderTest {
 			IDexTreeVisitor pass = passes.get(i);
 			JadxVisitor info = pass.getClass().getAnnotation(JadxVisitor.class);
 			if (info == null) {
-				LOG.warn("No JadxVisitor annotation for visitor: {}", pass.getClass().getName());
+				//LOG.warn("No JadxVisitor annotation for visitor: {}", pass.getClass().getName());
 				continue;
 			}
 			String passName = pass.getClass().getSimpleName();
