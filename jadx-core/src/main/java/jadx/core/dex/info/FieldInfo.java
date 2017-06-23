@@ -26,7 +26,7 @@ public final class FieldInfo {
 	}
 
 	public static FieldInfo fromDex(DexNode dex, int index) {
-		FieldId field = dex.getFieldId(index);
+		FieldId field = dex.getFieldId(index);//获得字段id
 		return from(dex,
 				ClassInfo.fromDex(dex, field.getDeclaringClassIndex()),
 				dex.getString(field.getNameIndex()),

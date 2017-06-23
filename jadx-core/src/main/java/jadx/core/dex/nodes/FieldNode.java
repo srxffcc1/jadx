@@ -22,10 +22,10 @@ public class FieldNode extends LineAttrNode {
 	}
 
 	public FieldNode(ClassNode cls, FieldInfo fieldInfo, int accessFlags) {
-		this.parent = cls;
-		this.fieldInfo = fieldInfo;
-		this.type = fieldInfo.getType();
-		this.accFlags = new AccessInfo(accessFlags, AFType.FIELD);
+		this.parent = cls;//所属类
+		this.fieldInfo = fieldInfo;//
+		this.type = fieldInfo.getType();//
+		this.accFlags = new AccessInfo(accessFlags, AFType.FIELD);//public还是private
 	}
 
 	public FieldInfo getFieldInfo() {

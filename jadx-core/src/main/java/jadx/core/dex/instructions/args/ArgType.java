@@ -595,10 +595,13 @@ public abstract class ArgType {
 		char f = type.charAt(0);
 		switch (f) {
 			case 'L':
+//				System.out.println("L："+type);
 				return object(type);//对象
 			case 'T':
+//				System.out.println("T："+type);
 				return genericType(type.substring(1, type.length() - 1));
 			case '[':
+//				System.out.println("[："+type);
 				return array(parse(type.substring(1)));//数组
 			default:
 				return parse(f);//基本数据类型

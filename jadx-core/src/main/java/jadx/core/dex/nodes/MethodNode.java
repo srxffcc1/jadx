@@ -1,5 +1,9 @@
 package jadx.core.dex.nodes;
 
+import com.android.dex.ClassData.Method;
+import com.android.dex.Code;
+import com.android.dex.Code.CatchHandler;
+import com.android.dex.Code.Try;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.JumpInfo;
@@ -13,11 +17,7 @@ import jadx.core.dex.instructions.GotoNode;
 import jadx.core.dex.instructions.IfNode;
 import jadx.core.dex.instructions.InsnDecoder;
 import jadx.core.dex.instructions.SwitchNode;
-import jadx.core.dex.instructions.args.ArgType;
-import jadx.core.dex.instructions.args.InsnArg;
-import jadx.core.dex.instructions.args.RegisterArg;
-import jadx.core.dex.instructions.args.SSAVar;
-import jadx.core.dex.instructions.args.TypeImmutableArg;
+import jadx.core.dex.instructions.args.*;
 import jadx.core.dex.nodes.parser.SignatureParser;
 import jadx.core.dex.regions.Region;
 import jadx.core.dex.trycatch.ExcHandlerAttr;
@@ -26,23 +26,12 @@ import jadx.core.dex.trycatch.TryCatchBlock;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.android.dex.ClassData.Method;
-import com.android.dex.Code;
-import com.android.dex.Code.CatchHandler;
-import com.android.dex.Code.Try;
+import java.util.*;
 
 public class MethodNode extends LineAttrNode implements ILoadable, IDexNode {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodNode.class);
@@ -73,13 +62,14 @@ public class MethodNode extends LineAttrNode implements ILoadable, IDexNode {
 	private List<ExceptionHandler> exceptionHandlers = Collections.emptyList();
 	private List<LoopInfo> loops = Collections.emptyList();
 
+
 	public MethodNode(ClassNode classNode, Method mthData, boolean isVirtual) {
-		this.mthInfo = MethodInfo.fromDex(classNode.dex(), mthData.getMethodIndex());
-		this.parentClass = classNode;
-		this.accFlags = new AccessInfo(mthData.getAccessFlags(), AFType.METHOD);
-		this.noCode = mthData.getCodeOffset() == 0;
-		this.methodData = noCode ? null : mthData;
-		this.methodIsVirtual = isVirtual;
+		this.mthInfo = MethodInfo.fromDex(classNode.dex(), mthData.getMethodIndex());//方法信息
+		this.parentClass = classNode;//所属类
+		this.accFlags = new AccessInfo(mthData.getAccessFlags(), AFType.METHOD);// 属性 比如 public private
+		this.noCode = mthData.getCodeOffset() == 0;//是否为空
+		this.methodData = noCode ? null : mthData;//获得方法的代码
+		this.methodIsVirtual = isVirtual;//是不是为抽象方法
 	}
 
 	@Override

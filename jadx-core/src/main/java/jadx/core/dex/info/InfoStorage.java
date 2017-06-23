@@ -33,7 +33,7 @@ public class InfoStorage {
 		}
 	}
 
-	public FieldInfo getField(FieldInfo field) {
+	public FieldInfo getField(FieldInfo field) {//这个方法的原因大概是为了避免改名造成的key和value不一致的问题吧 不然总感觉有点傻
 		synchronized (fields) {
 			FieldInfo f = fields.get(field);
 			if (f != null) {

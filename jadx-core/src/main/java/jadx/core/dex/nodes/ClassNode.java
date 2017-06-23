@@ -101,7 +101,7 @@ public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 				fields = Collections.emptyList();
 			}
 
-			loadAnnotations(cls);
+			loadAnnotations(cls);//好像是注解 关键在方法里的parse
 
 			parseClassSignature();//类签名
 			setFieldsTypesFromSignature();//字段签名
@@ -140,7 +140,7 @@ public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 	}
 
 	private void loadAnnotations(ClassDef cls) {
-		int offset = cls.getAnnotationsOffset();
+		int offset = cls.getAnnotationsOffset();//获得注解的位置
 		if (offset != 0) {
 			try {
 				new AnnotationsParser(this).parse(offset);
