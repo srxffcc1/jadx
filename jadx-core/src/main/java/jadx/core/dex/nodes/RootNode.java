@@ -17,15 +17,14 @@ import jadx.core.utils.files.InputFile;
 import jadx.core.xmlgen.ResContainer;
 import jadx.core.xmlgen.ResTableParser;
 import jadx.core.xmlgen.ResourceStorage;
+import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RootNode {
 	private static final Logger LOG = LoggerFactory.getLogger(RootNode.class);
@@ -43,8 +42,8 @@ public class RootNode {
 
 	public RootNode(IJadxArgs args) {
 		this.args = args;
-		this.stringUtils = new StringUtils(args);//不懂
-		this.constValues = new ConstStorage(args);//不懂
+		this.stringUtils = new StringUtils(args);//不懂 不过看了下影响不大
+		this.constValues = new ConstStorage(args);//不懂 不过看了下影响不大
 	}
 
 	public void load(List<InputFile> inputFiles) throws DecodeException {

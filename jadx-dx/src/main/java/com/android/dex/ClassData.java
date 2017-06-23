@@ -46,14 +46,14 @@ public final class ClassData {
         return virtualMethods;
     }
 
-    public Field[] allFields() {
+    public Field[] allFields() {//所有字段
         Field[] result = new Field[staticFields.length + instanceFields.length];
         System.arraycopy(staticFields, 0, result, 0, staticFields.length);
         System.arraycopy(instanceFields, 0, result, staticFields.length, instanceFields.length);
         return result;
     }
 
-    public Method[] allMethods() {
+    public Method[] allMethods() {//所有方法
         Method[] result = new Method[directMethods.length + virtualMethods.length];
         System.arraycopy(directMethods, 0, result, 0, directMethods.length);
         System.arraycopy(virtualMethods, 0, result, directMethods.length, virtualMethods.length);

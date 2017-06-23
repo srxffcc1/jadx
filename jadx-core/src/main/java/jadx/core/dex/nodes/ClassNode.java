@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 /**
- * 很重要 重点注释
+ * 很重要 重点注释 此类为一个类
  */
 public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 	private static final Logger LOG = LoggerFactory.getLogger(ClassNode.class);
@@ -65,7 +65,7 @@ public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 		this.clsInfo = ClassInfo.fromDex(dex, cls.getTypeIndex());//获得类信息
 //		System.out.println("类全名"+clsInfo.getFullName());
 		try {
-			if (cls.getSupertypeIndex() == DexNode.NO_INDEX) {//父类吧
+			if (cls.getSupertypeIndex() == DexNode.NO_INDEX) {//父类
 				this.superClass = null;
 			} else {
 				this.superClass = dex.getType(cls.getSupertypeIndex());
