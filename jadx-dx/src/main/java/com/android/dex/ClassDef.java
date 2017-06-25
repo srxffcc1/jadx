@@ -18,7 +18,7 @@ package com.android.dex;
 
 /**
  *
- * A type definition.
+ * A type definition. 表示某个类的全部信息，包括类类型、访问权限、父类、接口、源文件名、注解和代码等信息。ClassDefs 的大小和文件偏移在 DexHeader 和 map_list 中都有指定。
  */
 public final class ClassDef {
     //  typeIndex;          指向 typeIds 的索引，表示类的类型

@@ -13,35 +13,6 @@ import java.util.*;
 
 /**
  *
- SRX1:jadx.core.dex.visitors.VM_BlockSplitter
- SRX1:jadx.core.dex.visitors.VM_BlockProcessor
- SRX1:jadx.core.dex.visitors.VM_BlockExceptionHandler
- SRX1:jadx.core.dex.visitors.VM_BlockFinallyExtract
- SRX1:jadx.core.dex.visitors.VM_BlockFinish
- SRX1:jadx.core.dex.visitors.VM_SSATransform
- SRX1:jadx.core.dex.visitors.VM_DebugInfoVisitor
- SRX1:jadx.core.dex.visitors.VM_TypeInference
- SRX1:jadx.core.dex.visitors.VM_ConstInlineVisitor
- SRX1:jadx.core.dex.visitors.VM_FinishTypeInference
- SRX1:jadx.core.dex.visitors.VM_EliminatePhiNodes
- SRX1:jadx.core.dex.visitors.VM_ModVisitor
- SRX1:jadx.core.dex.visitors.VM_CodeShrinker
- SRX1:jadx.core.dex.visitors.VM_ReSugarCode
- SRX1:jadx.core.dex.visitors.VM_RegionMakerVisitor
- SRX1:jadx.core.dex.visitors.VM_IfRegionVisitor
- SRX1:jadx.core.dex.visitors.VM_ReturnVisitor
- SRX1:jadx.core.dex.visitors.VM_CodeShrinker
- SRX1:jadx.core.dex.visitors.VM_SimplifyVisitor
- SRX1:jadx.core.dex.visitors.VM_CheckRegions
- SRX1:jadx.core.dex.visitors.VM_MethodInlineVisitor
- SRX1:jadx.core.dex.visitors.VC_ExtractFieldInit
- SRX1:jadx.core.dex.visitors.VC_ClassModifier
- SRX1:jadx.core.dex.visitors.VC_EnumVisitor
- SRX1:jadx.core.dex.visitors.VM_PrepareForCodeGen
- SRX1:jadx.core.dex.visitors.VM_LoopRegionVisitor
- SRX1:jadx.core.dex.visitors.VM_ProcessVariables
- SRX1:jadx.core.dex.visitors.VC_DependencyCollector
- SRX1:jadx.core.dex.visitors.VC_RenameVisitor
  */
 public final class JavaClass implements JavaNode {
 

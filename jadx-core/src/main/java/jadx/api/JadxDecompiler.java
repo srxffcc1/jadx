@@ -132,7 +132,7 @@ public final class JadxDecompiler {
 		inputFiles.clear();
 		for (File file : files) {//看了下好像没有多选功能
 			try {
-				InputFile.addFilesFrom(file, inputFiles);//静态类遍历文件集合 并把dex文件找出来
+				InputFile.addFilesFrom(file, inputFiles);//静态类遍历文件集合 并把dex文件找出来 //此处list<DexNode>已经解析出来了
 			} catch (IOException e) {
 				throw new JadxException("Error load file: " + file, e);
 			}
