@@ -51,7 +51,7 @@ public final class ResourcesLoader {
 		}
 		ZipFile zipFile = null;
 		InputStream inputStream = null;
-		ResContainer result = null;
+		ResContainer result = null;//容器
 		try {
 			zipFile = new ZipFile(zipRef.getZipFile());
 			ZipEntry entry = zipFile.getEntry(zipRef.getEntryName());

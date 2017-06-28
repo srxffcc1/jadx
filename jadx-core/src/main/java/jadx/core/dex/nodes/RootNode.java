@@ -65,6 +65,10 @@ public class RootNode {
 		initInnerClasses();//初始化内部类相关
 	}
 
+	/**
+	 * 载入资源
+	 * @param resources
+	 */
 	public void loadResources(List<ResourceFile> resources) {
 		ResourceFile arsc = null;
 		for (ResourceFile rf : resources) {
@@ -77,9 +81,9 @@ public class RootNode {
 			//LOG.debug("'.arsc' file not found");
 			return;
 		}
-		final ResTableParser parser = new ResTableParser();
+		final ResTableParser parser = new ResTableParser();//res解析器
 		try {
-			ResourcesLoader.decodeStream(arsc, new ResourcesLoader.ResourceDecoder() {
+			ResourcesLoader.decodeStream(arsc, new ResourcesLoader.ResourceDecoder() {//解析res
 				@Override
 				public ResContainer decode(long size, InputStream is) throws IOException {
 					parser.decode(is);
