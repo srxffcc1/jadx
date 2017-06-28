@@ -100,7 +100,7 @@ public class RootNode {
 		appResClass = AndroidResourcesUtils.searchAppResClass(this);
 	}
 
-	public void initClassPath() throws DecodeException {
+	public void initClassPath() throws DecodeException {//整合类树
 		try {
 			if (this.clsp == null) {
 				ClspGraph clsp = new ClspGraph();

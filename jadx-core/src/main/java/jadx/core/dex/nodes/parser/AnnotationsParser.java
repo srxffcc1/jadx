@@ -1,5 +1,6 @@
 package jadx.core.dex.nodes.parser;
 
+import com.android.dex.Dex.Section;
 import jadx.core.dex.attributes.annotations.Annotation;
 import jadx.core.dex.attributes.annotations.Annotation.Visibility;
 import jadx.core.dex.attributes.annotations.AnnotationsList;
@@ -15,8 +16,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.android.dex.Dex.Section;
 
 /**
  * 注释解析器
@@ -38,7 +37,7 @@ public class AnnotationsParser {
 	}
 
 	public void parse(int offset) throws DecodeException {
-		Section section = dex.openSection(offset);
+		Section section = dex.openSection(offset);//获得片区
 
 		// TODO read as unsigned int
 		int classAnnotationsOffset = section.readInt();

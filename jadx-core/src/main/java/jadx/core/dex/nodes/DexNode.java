@@ -42,7 +42,7 @@ public class DexNode implements IDexNode {
 		}
 	}
 
-	void initInnerClasses() {
+	void initInnerClasses() {//初始化内部类
 		// move inner classes
 		List<ClassNode> inner = new ArrayList<ClassNode>();
 		for (ClassNode cls : classes) {
@@ -58,7 +58,7 @@ public class DexNode implements IDexNode {
 				clsInfo.notInner(cls.dex());//设置无父类
 				clsMap.put(clsInfo, cls);//重新put回去
 			} else {
-				parent.addInnerClass(cls);//给父类加内部类
+				parent.addInnerClass(cls);//给父类加内部类节点
 			}
 		}
 	}

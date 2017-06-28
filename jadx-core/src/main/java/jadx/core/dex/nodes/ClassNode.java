@@ -101,10 +101,10 @@ public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 				fields = Collections.emptyList();
 			}
 
-			loadAnnotations(cls);//好像是注解 关键在方法里的parse
+			loadAnnotations(cls);//直接出注解
 
-			parseClassSignature();//类签名
-			setFieldsTypesFromSignature();//字段签名
+			parseClassSignature();//解析类签名 什么public 啊 那种
+			setFieldsTypesFromSignature();//字段签名 同上
 
 			int sfIdx = cls.getSourceFileIndex();
 			if (sfIdx != DexNode.NO_INDEX) {
@@ -114,7 +114,7 @@ public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 
 			// restore original access flags from dalvik annotation if present
 			int accFlagsValue;
-			Annotation a = getAnnotation(Consts.DALVIK_INNER_CLASS);//注解
+			Annotation a = getAnnotation(Consts.DALVIK_INNER_CLASS);
 			if (a != null) {
 				accFlagsValue = (Integer) a.getValues().get("accessFlags");
 			} else {

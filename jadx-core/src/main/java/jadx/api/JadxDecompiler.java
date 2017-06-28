@@ -284,6 +284,7 @@ public final class JadxDecompiler {
 				return Collections.emptyList();
 			}
 			resources = new ResourcesLoader(this).load(inputFiles);
+//			System.out.println("资源数量:"+resources.size());
 		}
 		return resources;
 	}

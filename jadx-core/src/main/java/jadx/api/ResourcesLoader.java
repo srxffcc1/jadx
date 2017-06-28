@@ -7,24 +7,17 @@ import jadx.core.utils.exceptions.JadxException;
 import jadx.core.utils.files.InputFile;
 import jadx.core.xmlgen.ResContainer;
 import jadx.core.xmlgen.ResTableParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import static jadx.core.utils.files.FileUtils.READ_BUFFER_SIZE;
-import static jadx.core.utils.files.FileUtils.close;
-import static jadx.core.utils.files.FileUtils.copyStream;
+import static jadx.core.utils.files.FileUtils.*;
 
 // TODO: move to core package
 public final class ResourcesLoader {
@@ -41,6 +34,7 @@ public final class ResourcesLoader {
 	List<ResourceFile> load(List<InputFile> inputFiles) {
 		List<ResourceFile> list = new ArrayList<ResourceFile>(inputFiles.size());
 		for (InputFile file : inputFiles) {
+//			System.out.println("资源载入:");
 			loadFile(list, file.getFile());
 		}
 		return list;
@@ -128,6 +122,7 @@ public final class ResourcesLoader {
 			zip = new ZipFile(file);
 			Enumeration<? extends ZipEntry> entries = zip.entries();
 			while (entries.hasMoreElements()) {
+//				System.out.println("加入");
 				ZipEntry entry = entries.nextElement();
 				addEntry(list, file, entry);
 			}
@@ -144,12 +139,21 @@ public final class ResourcesLoader {
 		}
 	}
 
+	/**
+	 *
+	 * @param list 用于进行add的对象
+	 * @param zipFile zip文件地址 应该是不变的
+	 * @param entry zip注册表
+	 */
 	private void addEntry(List<ResourceFile> list, File zipFile, ZipEntry entry) {
 		if (entry.isDirectory()) {
 			return;
 		}
+//		System.out.println("资源:"+list.size()+":"+zipFile.getName());
 		String name = entry.getName();
+//		System.out.println(name);
 		ResourceType type = ResourceType.getFileType(name);
+//		System.out.println(type.name());
 		ResourceFile rf = new ResourceFile(jadxRef, name, type);
 		rf.setZipRef(new ZipRef(zipFile, name));
 		list.add(rf);
