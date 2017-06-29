@@ -47,7 +47,7 @@ public class VM_CheckRegions extends AbstractVisitor {
 						&& !block.getInstructions().isEmpty()) {
 					// TODO
 					// mth.add(AFlag.INCONSISTENT_CODE);
-					//LOG.debug(" Duplicated block: {} in {}", block, mth);
+					LOG.debug(" Duplicated block: {} in {}", block, mth);
 				}
 			}
 		});
@@ -57,7 +57,7 @@ public class VM_CheckRegions extends AbstractVisitor {
 						&& !block.getInstructions().isEmpty()
 						&& !block.contains(AFlag.SKIP)) {
 					mth.add(AFlag.INCONSISTENT_CODE);
-					//LOG.debug(" Missing block: {} in {}", block, mth);
+					LOG.debug(" Missing block: {} in {}", block, mth);
 				}
 			}
 		}

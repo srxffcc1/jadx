@@ -4,12 +4,10 @@ import jadx.gui.settings.JadxSettings;
 import jadx.gui.settings.JadxSettingsAdapter;
 import jadx.gui.ui.MainWindow;
 import jadx.gui.utils.LogCollector;
-
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
 
 /**
  * Jadx的Gui主页
@@ -34,7 +32,7 @@ public class JadxGUI {
 				}
 			});
 		} catch (Throwable e) {
-			//LOG.error("Error: {}", e.getMessage(), e);
+			LOG.error("Error: {}", e.getMessage(), e);
 			System.exit(1);
 		}
 	}

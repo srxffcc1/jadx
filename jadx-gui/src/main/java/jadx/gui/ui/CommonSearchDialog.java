@@ -411,7 +411,7 @@ public abstract class CommonSearchDialog extends JDialog {
 				progressPane.changeLabel(this, indexJob.getInfoString());
 				indexJob.processAndWait();
 			} catch (Exception e) {
-				//LOG.error("Waiting background tasks failed", e);
+				LOG.error("Waiting background tasks failed", e);
 			}
 			return null;
 		}

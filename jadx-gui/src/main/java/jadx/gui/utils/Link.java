@@ -65,9 +65,9 @@ public class Link extends JLabel implements MouseListener {
 					desktop.browse(new java.net.URI(url));
 					return;
 				} catch (IOException e) {
-					//LOG.debug("Open url error", e);
+					LOG.debug("Open url error", e);
 				} catch (URISyntaxException e) {
-					//LOG.debug("Open url error", e);
+					LOG.debug("Open url error", e);
 				}
 			}
 		}
@@ -87,7 +87,7 @@ public class Link extends JLabel implements MouseListener {
 				return;
 			}
 		} catch (Exception e) {
-			//LOG.debug("Open url error", e);
+			LOG.debug("Open url error", e);
 		}
 		showUrlDialog();
 	}

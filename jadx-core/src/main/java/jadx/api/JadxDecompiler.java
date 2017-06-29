@@ -81,7 +81,7 @@ public final class JadxDecompiler {
 	}
 
 	/**
-	 *初始化
+	 *初始化 访问者了
 	 */
 	void init() {
 		if (outDir == null) {
@@ -195,9 +195,9 @@ public final class JadxDecompiler {
 			throw new JadxRuntimeException("No loaded files");
 		}
 		int threadsCount = args.getThreadsCount();
-		//LOG.debug("processing threads count: {}", threadsCount);
+		LOG.debug("processing threads count: {}", threadsCount);
 
-		//LOG.info("processing ...");
+		LOG.info("processing ...");
 		ExecutorService executor = Executors.newFixedThreadPool(threadsCount);
 		//开始进行线程任务了 下面
 
@@ -283,8 +283,11 @@ public final class JadxDecompiler {
 			if (root == null) {
 				return Collections.emptyList();
 			}
-			resources = new ResourcesLoader(this).load(inputFiles);
-//			System.out.println("资源数量:"+resources.size());
+			resources = new ResourcesLoader(this).load(inputFiles);//获得apk下的所有直系资源包括dex
+//			for (int i = 0; i < resources.size(); i++) {
+//				System.out.println("资源数量:"+resources.get(i).getName());
+//			}
+
 		}
 		return resources;
 	}
@@ -355,14 +358,14 @@ public final class JadxDecompiler {
 		init();//初始化
 
 		root = new RootNode(args);//设置根节点
-		//LOG.info("loading ...");
-		root.load(inputFiles);//载入文件 获得了最开始的文件结构和内部类父类的集合结构
+		LOG.info("loading ...");
+		root.load(inputFiles);//载入文件 获得了最开始的文件结构和内部类父类的集合结构 把类的内容也获得了
 
 		root.initClassPath();//初始化了底层classpath
-		root.loadResources(getResources());//读取res文件
-		root.initAppResClass();//获得资源R
+		root.loadResources(getResources());//读取res文件 getResources()返回所有的资源包括
+		root.initAppResClass();//找到R文件
 
-		initVisitors();//初始化访问 仅仅是初始化
+		initVisitors();//初始化访问 仅仅是初始化 访问者是很重要的
 	}
 
 	/**
@@ -373,7 +376,7 @@ public final class JadxDecompiler {
 			try {
 				pass.init(root);//迭代passes 对root进行访问 此处应该是进行改名操作 VC_RenameVisitor
 			} catch (Exception e) {
-				//LOG.error("Visitor init failed: {}", pass.getClass().getSimpleName(), e);
+				LOG.error("Visitor init failed: {}", pass.getClass().getSimpleName(), e);
 			}
 		}
 	}

@@ -1,19 +1,14 @@
 package jadx.core.xmlgen;
 
 import jadx.core.codegen.CodeWriter;
-import jadx.core.xmlgen.entry.EntryConfig;
-import jadx.core.xmlgen.entry.RawNamedValue;
-import jadx.core.xmlgen.entry.RawValue;
-import jadx.core.xmlgen.entry.ResourceEntry;
-import jadx.core.xmlgen.entry.ValuesParser;
+import jadx.core.xmlgen.entry.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ResTableParser extends CommonBinaryParser {
 
@@ -88,12 +83,12 @@ public class ResTableParser extends CommonBinaryParser {
 	}
 
 	void decodeTableChunk() throws IOException {
-		is.checkInt16(RES_TABLE_TYPE, "Not a table chunk");
-		is.checkInt16(0x000c, "Unexpected table header size");
+		is.checkInt16(RES_TABLE_TYPE, "Not a table chunk");//检查
+		is.checkInt16(0x000c, "Unexpected table header size");//检查
 		/*int size = */
 		is.readInt32();
 		int pkgCount = is.readInt32();
-
+//		System.out.println(pkgCount);
 		strings = parseStringPool();
 		for (int i = 0; i < pkgCount; i++) {
 			parsePackage();
@@ -279,7 +274,7 @@ public class ResTableParser extends CommonBinaryParser {
 			if ((b1 & 0x80) == 0) {
 				str = new String(new char[]{(char) b1, (char) b2});
 			} else {
-				//LOG.warn("TODO: parse locale: 0x{}{}", Integer.toHexString(b1), Integer.toHexString(b2));
+				LOG.warn("TODO: parse locale: 0x{}{}", Integer.toHexString(b1), Integer.toHexString(b2));
 			}
 		}
 		return str;

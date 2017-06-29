@@ -80,7 +80,7 @@ public class FileUtils {
 		try {
 			c.close();
 		} catch (IOException e) {
-			//LOG.error("Close exception for {}", c, e);
+			LOG.error("Close exception for {}", c, e);
 		}
 	}
 

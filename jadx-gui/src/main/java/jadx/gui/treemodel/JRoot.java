@@ -28,12 +28,13 @@ public class JRoot extends JNode {
 	}
 
 	public final void update() {
+//		System.out.println("开始更新资源");
 		removeAllChildren();
 		add(new JSources(this, wrapper));
 
 		List<JResource> resList = getHierarchyResources(wrapper.getResources());
 		for (JResource jRes : resList) {
-			jRes.update();
+			jRes.update();//解析res文件
 			add(jRes);
 		}
 	}

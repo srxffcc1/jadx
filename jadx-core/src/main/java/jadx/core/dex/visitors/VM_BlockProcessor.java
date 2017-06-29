@@ -393,7 +393,7 @@ public class VM_BlockProcessor extends AbstractVisitor {
 			if (block.contains(AFlag.REMOVE)) {
 				if (!block.getPredecessors().isEmpty()
 						|| !block.getSuccessors().isEmpty()) {
-					//LOG.error("Block {} not deleted, method: {}", block, mth);
+					LOG.error("Block {} not deleted, method: {}", block, mth);
 				} else {
 					CatchAttr catchAttr = block.get(AType.CATCH_BLOCK);
 					if (catchAttr != null) {

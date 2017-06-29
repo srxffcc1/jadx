@@ -1,4 +1,4 @@
-package jadx.dxapi;
+package jadx.utt;
 
 import com.android.dex.Dex;
 import com.android.dex.TableOfContents;
@@ -7,7 +7,6 @@ import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.utils.files.FileUtils;
-import jadx.core.utils.files.InputFile;
 import jadx.core.utils.files.JavaToDex;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -27,6 +26,7 @@ import static jadx.core.utils.files.FileUtils.close;
 
 
 public class DexUtil {
+	private static final Logger LOG = LoggerFactory.getLogger(DexUtil.class);
 	public static void main(String[] args) throws Exception {
 		List<Dex> result=DexUtil.path2dexlist("D:\\Apk_Need\\WPSOffice_197.apk");
 		for (int i = 0; i < result.size(); i++) {
@@ -103,14 +103,14 @@ public class DexUtil {
 	private static List<Dex> loadFromJar(File jarFile) throws DecodeException {
 		List<Dex> result=new ArrayList<>();
 		try {
-			//LOG.info("converting to dex: {} ...", jarFile.getName());
+			LOG.info("converting to dex: {} ...", jarFile.getName());
 			JavaToDex j2d = new JavaToDex();
 			byte[] ba = j2d.convert(jarFile.getAbsolutePath());
 			if (ba.length == 0) {
 				throw new JadxException(j2d.isError() ? j2d.getDxErrors() : "Empty dx output");
 			}
 			if (j2d.isError()) {
-				//LOG.warn("dx message: {}", j2d.getDxErrors());
+				LOG.warn("dx message: {}", j2d.getDxErrors());
 			}
 			result.add(new Dex(ba));
 		} catch (Throwable e) {

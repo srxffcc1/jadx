@@ -145,7 +145,7 @@ public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 			try {
 				new AnnotationsParser(this).parse(offset);
 			} catch (Exception e) {
-				//LOG.error("Error parsing annotations in {}", this, e);
+				LOG.error("Error parsing annotations in {}", this, e);
 			}
 		}
 	}
@@ -191,7 +191,7 @@ public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 				}
 			}
 		} catch (JadxRuntimeException e) {
-			//LOG.error("Class signature parse error: {}", this, e);
+			LOG.error("Class signature parse error: {}", this, e);
 		}
 	}
 
@@ -205,7 +205,7 @@ public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 						field.setType(gType);
 					}
 				} catch (JadxRuntimeException e) {
-					//LOG.error("Field signature parse error: {}", field, e);
+					LOG.error("Field signature parse error: {}", field, e);
 				}
 			}
 		}
@@ -238,7 +238,7 @@ public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 			}
 		}
 		this.addAttr(new SourceFileAttr(fileName));
-		//LOG.debug("Class '{}' compiled from '{}'", this, fileName);
+		LOG.debug("Class '{}' compiled from '{}'", this, fileName);
 	}
 
 	@Override
@@ -247,7 +247,7 @@ public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 			try {
 				mth.load();
 			} catch (Exception e) {
-				//LOG.error("Method load error: {}", mth, e);
+				LOG.error("Method load error: {}", mth, e);
 				mth.addAttr(new JadxErrorAttr(e));
 			}
 		}

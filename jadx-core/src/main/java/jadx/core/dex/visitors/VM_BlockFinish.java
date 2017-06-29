@@ -75,7 +75,7 @@ public class VM_BlockFinish extends AbstractVisitor {
 		}
 		BlockNode topSplitter = BlockUtils.getTopBlock(splitters.keySet());
 		if (topSplitter == null) {
-			//LOG.warn("Unknown top splitter block from list: {}", splitters);
+			LOG.warn("Unknown top splitter block from list: {}", splitters);
 			return;
 		}
 		for (Map.Entry<BlockNode, SplitterBlockAttr> entry : splitters.entrySet()) {

@@ -1,6 +1,13 @@
 package jadx.core.xmlgen;
 
 import jadx.core.utils.exceptions.JadxException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -10,14 +17,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import static jadx.core.utils.files.FileUtils.close;
 
@@ -61,7 +60,7 @@ public class ManifestAttributes {
 	public void parseAll() throws Exception {
 		parse(loadXML(ATTR_XML));
 		parse(loadXML(MANIFEST_ATTR_XML));
-		//LOG.debug("Loaded android attributes count: {}", attrMap.size());
+		LOG.debug("Loaded android attributes count: {}", attrMap.size());
 	}
 
 	private Document loadXML(String xml) throws JadxException, ParserConfigurationException, SAXException, IOException {
@@ -133,6 +132,7 @@ public class ManifestAttributes {
 						return;
 					}
 					attrMap.put(name, attr);
+//					System.out.println("name:"+name+",sttr:"+attr);
 				}
 
 				NamedNodeMap attributes = tempNode.getAttributes();
@@ -151,7 +151,7 @@ public class ManifestAttributes {
 							}
 							attr.getValues().put(key, nameNode.getNodeValue());
 						} catch (NumberFormatException e) {
-							//LOG.debug("Failed parse manifest number", e);
+							LOG.debug("Failed parse manifest number", e);
 						}
 					}
 				}
@@ -160,6 +160,7 @@ public class ManifestAttributes {
 	}
 
 	public String decode(String attrName, long value) {
+
 		MAttr attr = attrMap.get(attrName);
 		if (attr == null) {
 			return null;
@@ -168,6 +169,9 @@ public class ManifestAttributes {
 			String name = attr.getValues().get(value);
 			if (name != null) {
 				return name;
+			}else{
+//				System.out.println("attr:"+attrName+",value:"+value);
+//				System.out.println("ManifestAttrbutesNull");
 			}
 		} else if (attr.getType() == MAttrType.FLAG) {
 			StringBuilder sb = new StringBuilder();
@@ -180,6 +184,8 @@ public class ManifestAttributes {
 				return sb.deleteCharAt(sb.length() - 1).toString();
 			}
 		}
+//		System.out.println(attr.getType().name());
+
 		return "UNKNOWN_DATA_0x" + Long.toHexString(value);
 	}
 }

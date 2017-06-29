@@ -87,7 +87,7 @@ public class InsnUtils {
 						return attr.getValue();
 					}
 				} else {
-					//LOG.warn("Field {} not found in dex {}", f, dex);
+					LOG.warn("Field {} not found in dex {}", f, dex);
 				}
 				break;
 		}

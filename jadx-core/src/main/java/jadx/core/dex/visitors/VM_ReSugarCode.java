@@ -95,7 +95,7 @@ public class VM_ReSugarCode extends AbstractVisitor {
 		for (int j = 0; j < len; j++) {
 			InsnNode put = instructions.get(i + 1 + j);
 			if (put.getType() != InsnType.APUT) {
-				//LOG.debug("Not a APUT in expected new filled array: {}, method: {}", put, mth);
+				LOG.debug("Not a APUT in expected new filled array: {}, method: {}", put, mth);
 				return null;
 			}
 			filledArr.addArg(put.getArg(2));
@@ -160,7 +160,7 @@ public class VM_ReSugarCode extends AbstractVisitor {
 			try {
 				clsInitMth.load();
 			} catch (DecodeException e) {
-				//LOG.error("Load failed", e);
+				LOG.error("Load failed", e);
 				return null;
 			}
 			if (clsInitMth.getBasicBlocks() == null) {

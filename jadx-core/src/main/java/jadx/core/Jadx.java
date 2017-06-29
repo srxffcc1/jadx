@@ -2,13 +2,8 @@ package jadx.core;
 
 import jadx.api.IJadxArgs;
 import jadx.core.dex.visitors.*;
-import jadx.core.dex.visitors.VC_ExtractFieldInit;
-import jadx.core.dex.visitors.VM_BlockExceptionHandler;
-import jadx.core.dex.visitors.VM_CheckRegions;
-import jadx.core.dex.visitors.VM_EliminatePhiNodes;
-import jadx.core.dex.visitors.VM_SSATransform;
-import jadx.core.dex.visitors.VM_FinishTypeInference;
-import jadx.core.dex.visitors.VM_TypeInference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
@@ -17,15 +12,12 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.Manifest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class Jadx {
 	private static final Logger LOG = LoggerFactory.getLogger(Jadx.class);
 
 	static {
 		if (Consts.DEBUG) {
-			//LOG.info("debug enabled");
+			LOG.info("debug enabled");
 		}
 	}
 
@@ -102,7 +94,7 @@ public class Jadx {
 				}
 			}
 		} catch (Exception e) {
-			//LOG.error("Can't get manifest file", e);
+			LOG.error("Can't get manifest file", e);
 		}
 		return "dev";
 	}

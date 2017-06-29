@@ -55,6 +55,8 @@ public class ResourceStorage {
 	public Map<Integer, String> getResourcesNames() {
 		Map<Integer, String> map = new HashMap<Integer, String>();
 		for (ResourceEntry entry : list) {
+//			System.out.println(entry.getId()+":"+entry.getTypeName() + "/" + entry.getKeyName());
+
 			map.put(entry.getId(), entry.getTypeName() + "/" + entry.getKeyName());
 		}
 		return map;

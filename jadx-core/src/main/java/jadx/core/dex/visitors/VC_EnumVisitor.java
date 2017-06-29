@@ -144,7 +144,7 @@ public class VC_EnumVisitor extends AbstractVisitor {
 			if (name != null
 					&& !fieldInfo.getAlias().equals(name)
 					&& NameMapper.isValidIdentifier(name)) {
-				// //LOG.debug("Rename enum field: '{}' to '{}' in {}", fieldInfo.getName(), name, cls);
+				// LOG.debug("Rename enum field: '{}' to '{}' in {}", fieldInfo.getName(), name, cls);
 				fieldInfo.setAlias(name);
 			}
 

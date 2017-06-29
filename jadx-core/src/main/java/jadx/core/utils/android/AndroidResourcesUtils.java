@@ -6,11 +6,10 @@ import jadx.core.dex.info.ClassInfo;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.DexNode;
 import jadx.core.dex.nodes.RootNode;
-
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * Android resources specific handlers
@@ -19,8 +18,8 @@ public class AndroidResourcesUtils {
 	private static final Logger LOG = LoggerFactory.getLogger(AndroidResourcesUtils.class);
 
 	public static ClassNode searchAppResClass(RootNode root) {
-		String appPackage = root.getAppPackage();
-		String fullName = appPackage != null ? appPackage + ".R" : "R";
+		String appPackage = root.getAppPackage();//获得包名
+		String fullName = appPackage != null ? appPackage + ".R" : "R";//获得全量R路径
 		ClassNode resCls = root.searchClassByName(fullName);
 		if (resCls != null) {
 			return resCls;
@@ -30,9 +29,9 @@ public class AndroidResourcesUtils {
 			return candidates.get(0);
 		}
 		if (!candidates.isEmpty()) {
-			//LOG.info("Found several 'R' class candidates: {}", candidates);
+			LOG.info("Found several 'R' class candidates: {}", candidates);
 		}
-		//LOG.warn("Unknown 'R' class, create references to '{}'", fullName);
+		LOG.warn("Unknown 'R' class, create references to '{}'", fullName);
 		return makeClass(root, fullName);
 	}
 

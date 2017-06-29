@@ -228,7 +228,7 @@ public class SignatureParser {
 			}
 			String id = consumeUntil(':');
 			if (id == null) {
-				//LOG.error("Can't parse generic map: {}", sign);
+				LOG.error("Can't parse generic map: {}", sign);
 				return Collections.emptyMap();
 			}
 			tryConsume(':');

@@ -10,12 +10,11 @@ import jadx.gui.treemodel.JNode;
 import jadx.gui.ui.CommonSearchDialog;
 import jadx.gui.utils.CodeLinesInfo;
 import jadx.gui.utils.JNodeCache;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class TextSearchIndex {
 
@@ -69,7 +68,7 @@ public class TextSearchIndex {
 				}
 			}
 		} catch (Exception e) {
-			//LOG.warn("Failed to index class: {}", cls, e);
+			LOG.warn("Failed to index class: {}", cls, e);
 		}
 	}
 

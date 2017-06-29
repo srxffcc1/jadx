@@ -298,7 +298,7 @@ public class VM_BlockFinallyExtract extends AbstractVisitor {
 		if (mergeReturns(mth, outs)) {
 			return removeInfo;
 		}
-		//LOG.debug("Unexpected finally block outs count: {}", outs);
+		LOG.debug("Unexpected finally block outs count: {}", outs);
 		return null;
 	}
 
@@ -485,7 +485,7 @@ public class VM_BlockFinallyExtract extends AbstractVisitor {
 			return true;
 		}
 		if (remBlock.getPredecessors().size() != 1) {
-			//LOG.warn("Finally extract failed: remBlock pred: {}, {}, method: {}", remBlock, remBlock.getPredecessors(), mth);
+			LOG.warn("Finally extract failed: remBlock pred: {}, {}, method: {}", remBlock, remBlock.getPredecessors(), mth);
 			return false;
 		}
 
@@ -549,7 +549,7 @@ public class VM_BlockFinallyExtract extends AbstractVisitor {
 			BlockNode pred = filtPreds.get(0);
 			BlockNode repl = removeInfo.getBySecond(pred);
 			if (repl == null) {
-				//LOG.error("Block not found by {}, in {}, method: {}", pred, removeInfo, mth);
+				LOG.error("Block not found by {}, in {}, method: {}", pred, removeInfo, mth);
 				return false;
 			}
 			VM_BlockSplitter.removeConnection(pred, rOut);

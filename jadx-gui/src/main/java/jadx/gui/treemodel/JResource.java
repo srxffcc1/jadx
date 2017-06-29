@@ -7,14 +7,12 @@ import jadx.core.codegen.CodeWriter;
 import jadx.core.xmlgen.ResContainer;
 import jadx.gui.utils.OverlayIcon;
 import jadx.gui.utils.Utils;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
 public class JResource extends JNode implements Comparable<JResource> {
 	private static final long serialVersionUID = -201018424302612434L;

@@ -163,7 +163,7 @@ public class MethodNode extends LineAttrNode implements ILoadable, IDexNode {
 					return false;
 				}
 				if (!mthInfo.isConstructor()) {
-					//LOG.warn("Wrong signature parse result: {} -> {}, not generic version: {}", sp, argsTypes, mthArgs);
+					LOG.warn("Wrong signature parse result: {} -> {}, not generic version: {}", sp, argsTypes, mthArgs);
 					return false;
 				} else if (getParentClass().getAccessFlags().isEnum()) {
 					// TODO:
@@ -179,7 +179,7 @@ public class MethodNode extends LineAttrNode implements ILoadable, IDexNode {
 			}
 			initArguments(argsTypes);
 		} catch (JadxRuntimeException e) {
-			//LOG.error("Method signature parse error: {}", this, e);
+			LOG.error("Method signature parse error: {}", this, e);
 			return false;
 		}
 		return true;

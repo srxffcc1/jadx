@@ -69,7 +69,7 @@ public class ExportGradleProject {
 				String shortName = cls.getClassInfo().getShortName();
 				if (IGNORE_CLS_NAMES.contains(shortName)) {
 					cls.add(AFlag.DONT_GENERATE);
-					//LOG.debug("Skip class: {}", cls);
+					LOG.debug("Skip class: {}", cls);
 				}
 			}
 		}

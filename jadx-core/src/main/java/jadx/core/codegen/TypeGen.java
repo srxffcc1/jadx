@@ -74,7 +74,7 @@ public class TypeGen {
 			case OBJECT:
 			case ARRAY:
 				if (lit != 0) {
-					//LOG.warn("Wrong object literal: {} for type: {}", lit, type);
+					LOG.warn("Wrong object literal: {} for type: {}", lit, type);
 					return Long.toString(lit);
 				}
 				return "null";

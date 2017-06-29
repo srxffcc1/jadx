@@ -58,7 +58,8 @@ public final class ResourcesLoader {
 			if (entry == null) {
 				throw new IOException("Zip entry not found: " + zipRef);
 			}
-			inputStream = new BufferedInputStream(zipFile.getInputStream(entry));
+			inputStream = new BufferedInputStream(zipFile.getInputStream(entry));//通过zip获得读取流
+//			System.out.println(entry.getName());
 			result = decoder.decode(entry.getSize(), inputStream);
 		} catch (Exception e) {
 			throw new JadxException("Error decode: " + zipRef.getEntryName(), e);
@@ -68,7 +69,7 @@ public final class ResourcesLoader {
 					zipFile.close();
 				}
 			} catch (Exception e) {
-				//LOG.error("Error close zip file: {}", zipRef, e);
+				LOG.error("Error close zip file: {}", zipRef, e);
 			}
 			close(inputStream);
 		}
@@ -84,7 +85,7 @@ public final class ResourcesLoader {
 				}
 			});
 		} catch (JadxException e) {
-			//LOG.error("Decode error", e);
+			LOG.error("Decode error", e);
 			CodeWriter cw = new CodeWriter();
 			cw.add("Error decode ").add(rf.getType().toString().toLowerCase());
 			cw.startLine(Utils.getStackTrace(e.getCause()));
@@ -127,13 +128,13 @@ public final class ResourcesLoader {
 				addEntry(list, file, entry);
 			}
 		} catch (IOException e) {
-			//LOG.debug("Not a zip file: {}", file.getAbsolutePath());
+			LOG.debug("Not a zip file: {}", file.getAbsolutePath());
 		} finally {
 			if (zip != null) {
 				try {
 					zip.close();
 				} catch (Exception e) {
-					//LOG.error("Zip file close error: {}", file.getAbsolutePath(), e);
+					LOG.error("Zip file close error: {}", file.getAbsolutePath(), e);
 				}
 			}
 		}
@@ -157,6 +158,7 @@ public final class ResourcesLoader {
 		ResourceFile rf = new ResourceFile(jadxRef, name, type);
 		rf.setZipRef(new ZipRef(zipFile, name));
 		list.add(rf);
+//		System.out.println(list.size());
 	}
 
 	public static CodeWriter loadToCodeWriter(InputStream is) throws IOException {

@@ -35,9 +35,9 @@ public class JadxWrapper {
 		try {
 			this.decompiler.loadFile(file);
 		} catch (DecodeException e) {
-			//LOG.error("Error decode file: {}", file, e);
+			LOG.error("Error decode file: {}", file, e);
 		} catch (JadxException e) {
-			//LOG.error("Error open file: {}", file, e);
+			LOG.error("Error open file: {}", file, e);
 		}
 	}
 
@@ -61,9 +61,9 @@ public class JadxWrapper {
 						Thread.sleep(500);
 					}
 					progressMonitor.close();
-					//LOG.info("done");
+					LOG.info("done");
 				} catch (InterruptedException e) {
-					//LOG.error("Save interrupted", e);
+					LOG.error("Save interrupted", e);
 				}
 			}
 		};

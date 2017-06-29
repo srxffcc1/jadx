@@ -62,7 +62,7 @@ public abstract class BackgroundJob {
 		try {
 			process().get();
 		} catch (Exception e) {
-			//LOG.error("BackgroundJob.processAndWait failed", e);
+			LOG.error("BackgroundJob.processAndWait failed", e);
 		}
 	}
 
@@ -70,7 +70,7 @@ public abstract class BackgroundJob {
 		try {
 			return future != null && future.isDone();
 		} catch (Exception e) {
-			//LOG.error("BackgroundJob.isComplete failed", e);
+			LOG.error("BackgroundJob.isComplete failed", e);
 			return false;
 		}
 	}

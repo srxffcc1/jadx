@@ -757,11 +757,11 @@ public class InsnGen {
 			for (RegisterArg r : inlArgs) {
 				int regNum = r.getRegNum();
 				if (regNum >= regs.length) {
-					//LOG.warn("Unknown register number {} in method call: {} from {}", r, callMthNode, mth);
+					LOG.warn("Unknown register number {} in method call: {} from {}", r, callMthNode, mth);
 				} else {
 					InsnArg repl = regs[regNum];
 					if (repl == null) {
-						//LOG.warn("Not passed register {} in method call: {} from {}", r, callMthNode, mth);
+						LOG.warn("Not passed register {} in method call: {} from {}", r, callMthNode, mth);
 					} else {
 						inlCopy.replaceArg(r, repl);
 					}

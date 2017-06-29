@@ -264,6 +264,9 @@ public class MainWindow extends JFrame {
 		}
 	}
 
+	/**
+	 * 好像有资源解析
+	 */
 	private void initTree() {
 		treeRoot = new JRoot(wrapper);
 		treeRoot.setFlatPackages(isFlattenPackage);
@@ -326,7 +329,7 @@ public class MainWindow extends JFrame {
 				}
 			}
 		} catch (Exception e) {
-			//LOG.error("Content loading error", e);
+			LOG.error("Content loading error", e);
 		}
 	}
 
@@ -340,7 +343,7 @@ public class MainWindow extends JFrame {
 			// node not register in tree
 			node = treeRoot.searchClassInTree(node);
 			if (node == null) {
-				//LOG.error("Class not found in tree");
+				LOG.error("Class not found in tree");
 				return;
 			}
 		}

@@ -51,7 +51,7 @@ public class RootNode {
 		for (InputFile input : inputFiles) {//其实只有一个apk文件啊
 			for (DexFile dexFile : input.getDexFiles()) {//有几个dex就遍历几次
 				try {
-					//LOG.debug("Load: {}", dexFile);
+					LOG.debug("Load: {}", dexFile);
 					DexNode dexNode = new DexNode(this, dexFile);
 					dexNodes.add(dexNode);//加入所有dex节点 还是有几个dex就加多少
 				} catch (Exception e) {
@@ -66,7 +66,7 @@ public class RootNode {
 	}
 
 	/**
-	 * 载入资源
+	 * 载入资源 深层
 	 * @param resources
 	 */
 	public void loadResources(List<ResourceFile> resources) {
@@ -77,8 +77,9 @@ public class RootNode {
 				break;
 			}
 		}
-		if (arsc == null) {
-			//LOG.debug("'.arsc' file not found");
+
+		if (arsc == null) {//检验arsc文件是否存在 存在说明有res资源
+			LOG.debug("'.arsc' file not found");
 			return;
 		}
 		final ResTableParser parser = new ResTableParser();//res解析器
@@ -91,7 +92,7 @@ public class RootNode {
 				}
 			});
 		} catch (JadxException e) {
-			//LOG.error("Failed to parse '.arsc' file", e);
+			LOG.error("Failed to parse '.arsc' file", e);
 			return;
 		}
 

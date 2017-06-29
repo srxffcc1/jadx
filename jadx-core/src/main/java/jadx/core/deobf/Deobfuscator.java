@@ -166,7 +166,7 @@ public class Deobfuscator {
 				if (clsWithMth != null) {
 					if ((result != null) && (result != cls)) {
 						if (clsWithMth != result) {
-							//LOG.warn(String.format("Multiple overriding '%s' from '%s' and '%s' in '%s'",signature,result.getFullName(), clsWithMth.getFullName(),rootClass.getFullName()));
+							LOG.warn(String.format("Multiple overriding '%s' from '%s' and '%s' in '%s'",signature,result.getFullName(), clsWithMth.getFullName(),rootClass.getFullName()));
 						}
 					} else {
 						result = clsWithMth;
@@ -182,7 +182,7 @@ public class Deobfuscator {
 				if (clsWithMth != null) {
 					if ((result != null) && (result != cls)) {
 						if (clsWithMth != result) {
-							//LOG.warn(String.format("Multiple overriding '%s' from '%s' and '%s' in '%s'",signature,result.getFullName(), clsWithMth.getFullName(),rootClass.getFullName()));
+							LOG.warn(String.format("Multiple overriding '%s' from '%s' and '%s' in '%s'",signature,result.getFullName(), clsWithMth.getFullName(),rootClass.getFullName()));
 						}
 					} else {
 						result = clsWithMth;
@@ -479,10 +479,10 @@ public class Deobfuscator {
 
 		if (pkg != null) {
 			if (!cls.getFullName().equals(getClassFullName(cls))) {
-				//LOG.info("Alias name for class '{}' is '{}'", cls.getFullName(), getClassFullName(cls));
+				LOG.info("Alias name for class '{}' is '{}'", cls.getFullName(), getClassFullName(cls));
 			}
 		} else {
-			//LOG.error("Can't find package node for '{}'", cls.getPackage());
+			LOG.error("Can't find package node for '{}'", cls.getPackage());
 		}
 	}
 

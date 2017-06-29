@@ -57,7 +57,7 @@ public class JadxUpdate {
 						callback.onUpdate(release);
 					}
 				} catch (Exception e) {
-					//LOG.debug("Jadx update error", e);
+					LOG.debug("Jadx update error", e);
 				}
 			}
 		};
@@ -70,7 +70,7 @@ public class JadxUpdate {
 	private static Release checkForNewRelease() throws IOException {
 		String version = JadxDecompiler.getVersion();
 		if (version.contains("dev")) {
-			//LOG.debug("Ignore check for update: development version");
+			LOG.debug("Ignore check for update: development version");
 			return null;
 		}
 
@@ -93,7 +93,7 @@ public class JadxUpdate {
 		if (VersionComparator.checkAndCompare(version, latest.getName()) >= 0) {
 			return null;
 		}
-		//LOG.info("Found new jadx version: {}", latest);
+		LOG.info("Found new jadx version: {}", latest);
 		return latest;
 	}
 

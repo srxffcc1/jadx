@@ -56,7 +56,7 @@ public class DebugUtils {
 				}
 			}
 		});
-		//LOG.debug(" Found block: {} in regions: {}", block, regions);
+		LOG.debug(" Found block: {} in regions: {}", block, regions);
 	}
 
 	public static void printRegions(MethodNode mth) {
@@ -68,18 +68,18 @@ public class DebugUtils {
 	}
 
 	public static void printRegions(MethodNode mth, boolean printInsns) {
-		//LOG.debug("|{}", mth);
+		LOG.debug("|{}", mth);
 		printRegion(mth, mth.getRegion(), "|  ", printInsns);
 	}
 
 	private static void printRegion(MethodNode mth, IRegion region, String indent, boolean printInsns) {
-		//LOG.debug("{}{}", indent, region);
+		LOG.debug("{}{}", indent, region);
 		indent += "|  ";
 		for (IContainer container : region.getSubBlocks()) {
 			if (container instanceof IRegion) {
 				printRegion(mth, (IRegion) container, indent, printInsns);
 			} else {
-				//LOG.debug("{}{} {}", indent, container, container.getAttributesString());
+				LOG.debug("{}{} {}", indent, container, container.getAttributesString());
 				if (printInsns && container instanceof IBlock) {
 					IBlock block = (IBlock) container;
 					printInsns(mth, indent, block);
@@ -96,9 +96,9 @@ public class DebugUtils {
 				CodeWriter code = new CodeWriter();
 				ig.makeInsn(insn, code);
 				String insnStr = code.toString().substring(CodeWriter.NL.length());
-				//LOG.debug("{} - {}", indent, insnStr);
+				LOG.debug("{} - {}", indent, insnStr);
 			} catch (CodegenException e) {
-				//LOG.debug("{} - {}", indent, insn);
+				LOG.debug("{} - {}", indent, insn);
 			}
 		}
 	}

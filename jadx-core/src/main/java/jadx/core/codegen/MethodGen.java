@@ -103,7 +103,7 @@ public class MethodGen {
 			} else if (args.size() > 2) {
 				args = args.subList(2, args.size());
 			} else {
-				//LOG.warn(ErrorsCounter.formatErrorMsg(mth,"Incorrect number of args for enum constructor: " + args.size()+ " (expected >= 2)"));
+				LOG.warn(ErrorsCounter.formatErrorMsg(mth,"Incorrect number of args for enum constructor: " + args.size()+ " (expected >= 2)"));
 			}
 		}
 		addMethodArguments(code, args);
@@ -135,7 +135,7 @@ public class MethodGen {
 					classGen.useType(argsCode, elType);
 					argsCode.add("...");
 				} else {
-					//LOG.warn(ErrorsCounter.formatErrorMsg(mth, "Last argument in varargs method not array"));
+					LOG.warn(ErrorsCounter.formatErrorMsg(mth, "Last argument in varargs method not array"));
 					classGen.useType(argsCode, arg.getType());
 				}
 			} else {
@@ -191,7 +191,7 @@ public class MethodGen {
 //					System.out.println("SRX:"+);
 					DepthTraversal.visit(new VM_FallbackModeVisitor(), mth);
 				} catch (DecodeException e) {
-					//LOG.error("Error reload instructions in fallback mode:", e);
+					LOG.error("Error reload instructions in fallback mode:", e);
 					code.startLine("// Can't load method instructions: " + e.getMessage());
 					return;
 				}
@@ -227,7 +227,7 @@ public class MethodGen {
 					}
 				}
 			} catch (CodegenException e) {
-				//LOG.debug("Error generate fallback instruction: ", e.getCause());
+				LOG.debug("Error generate fallback instruction: ", e.getCause());
 				code.startLine("// error: " + insn);
 			}
 		}

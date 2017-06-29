@@ -173,7 +173,7 @@ class SearchBar extends JToolBar {
 					rTextArea.setCaretPosition(rTextArea.getLineStartOffset(lineNum));
 				}
 			} catch (BadLocationException e) {
-				//LOG.error("Caret move error", e);
+				LOG.error("Caret move error", e);
 			}
 		}
 

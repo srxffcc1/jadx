@@ -124,14 +124,14 @@ public class InputFile {
 
 	private static Dex loadFromJar(File jarFile) throws DecodeException {
 		try {
-			//LOG.info("converting to dex: {} ...", jarFile.getName());
+			LOG.info("converting to dex: {} ...", jarFile.getName());
 			JavaToDex j2d = new JavaToDex();
 			byte[] ba = j2d.convert(jarFile.getAbsolutePath());
 			if (ba.length == 0) {
 				throw new JadxException(j2d.isError() ? j2d.getDxErrors() : "Empty dx output");
 			}
 			if (j2d.isError()) {
-				//LOG.warn("dx message: {}", j2d.getDxErrors());
+				LOG.warn("dx message: {}", j2d.getDxErrors());
 			}
 			return new Dex(ba);
 		} catch (Throwable e) {

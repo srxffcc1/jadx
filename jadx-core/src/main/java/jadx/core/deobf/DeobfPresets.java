@@ -40,7 +40,7 @@ class DeobfPresets {
 		if (!deobfMapFile.exists()) {
 			return;
 		}
-		//LOG.info("Loading obfuscation map from: {}", deobfMapFile.getAbsoluteFile());
+		LOG.info("Loading obfuscation map from: {}", deobfMapFile.getAbsoluteFile());
 		try {
 			List<String> lines = FileUtils.readLines(deobfMapFile, MAP_FILE_CHARSET);
 			for (String l : lines) {
@@ -65,7 +65,7 @@ class DeobfPresets {
 				}
 			}
 		} catch (IOException e) {
-			//LOG.error("Failed to load deobfuscation map file '{}'", deobfMapFile.getAbsolutePath(), e);
+			LOG.error("Failed to load deobfuscation map file '{}'", deobfMapFile.getAbsolutePath(), e);
 		}
 	}
 
@@ -83,13 +83,13 @@ class DeobfPresets {
 				if (forceSave) {
 					dumpMapping();
 				} else {
-					//LOG.warn("Deobfuscation map file '{}' exists. Use command line option '--deobf-rewrite-cfg' to rewrite it",deobfMapFile.getAbsolutePath());
+					LOG.warn("Deobfuscation map file '{}' exists. Use command line option '--deobf-rewrite-cfg' to rewrite it",deobfMapFile.getAbsolutePath());
 				}
 			} else {
 				dumpMapping();
 			}
 		} catch (IOException e) {
-			//LOG.error("Failed to load deobfuscation map file '{}'", deobfMapFile.getAbsolutePath(), e);
+			LOG.error("Failed to load deobfuscation map file '{}'", deobfMapFile.getAbsolutePath(), e);
 		}
 	}
 
