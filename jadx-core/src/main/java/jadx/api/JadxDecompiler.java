@@ -362,7 +362,7 @@ public final class JadxDecompiler {
 		root.load(inputFiles);//载入文件 获得了最开始的文件结构和内部类父类的集合结构 把类的内容也获得了
 
 		root.initClassPath();//初始化了底层classpath
-		root.loadResources(getResources());//读取res文件 getResources()返回所有的资源包括
+		root.loadResources(getResources());//读取res文件 getResources()返回所有的资源包括 解析arsc
 		root.initAppResClass();//找到R文件
 
 		initVisitors();//初始化访问 仅仅是初始化 访问者是很重要的

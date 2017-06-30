@@ -192,7 +192,7 @@ public class MainWindow extends JFrame {
 		wrapper.openFile(file);//使用分装类对文件处理解析
 		deobfToggleBtn.setSelected(settings.isDeobfuscationOn());
 		settings.addRecentFile(file.getAbsolutePath());
-		initTree();//展示文件树
+		initTree();//展示文件树 资源解析 可能也有类解析
 		setTitle(DEFAULT_TITLE + " - " + file.getName());
 		runBackgroundJobs();//后台进行类解析 出现反编译
 	}
@@ -265,13 +265,13 @@ public class MainWindow extends JFrame {
 	}
 
 	/**
-	 * 好像有资源解析
+	 * 好像有资源解析 确实有资源解析
 	 */
 	private void initTree() {
-		treeRoot = new JRoot(wrapper);
-		treeRoot.setFlatPackages(isFlattenPackage);
-		treeModel.setRoot(treeRoot);
-		reloadTree();
+		treeRoot = new JRoot(wrapper);//此处就他么解析了 。。。update
+		treeRoot.setFlatPackages(isFlattenPackage);//折叠
+		treeModel.setRoot(treeRoot);//赋予视图
+		reloadTree();//重载 打开第一层
 	}
 
 	private void reloadTree() {

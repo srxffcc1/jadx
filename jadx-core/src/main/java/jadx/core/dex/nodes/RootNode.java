@@ -66,13 +66,13 @@ public class RootNode {
 	}
 
 	/**
-	 * 载入资源 深层
+	 * 载入资源 arsc进行解析
 	 * @param resources
 	 */
 	public void loadResources(List<ResourceFile> resources) {
 		ResourceFile arsc = null;
 		for (ResourceFile rf : resources) {
-			if (rf.getType() == ResourceType.ARSC) {
+			if (rf.getType() == ResourceType.ARSC) {//判断arsc是不是存在
 				arsc = rf;
 				break;
 			}
@@ -84,7 +84,7 @@ public class RootNode {
 		}
 		final ResTableParser parser = new ResTableParser();//res解析器
 		try {
-			ResourcesLoader.decodeStream(arsc, new ResourcesLoader.ResourceDecoder() {//解析res
+			ResourcesLoader.decodeStream(arsc, new ResourcesLoader.ResourceDecoder() {//解析arsc
 				@Override
 				public ResContainer decode(long size, InputStream is) throws IOException {
 					parser.decode(is);

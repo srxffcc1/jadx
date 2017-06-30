@@ -24,12 +24,15 @@ public class JRoot extends JNode {
 
 	public JRoot(JadxWrapper wrapper) {
 		this.wrapper = wrapper;
-		update();
+		update();//更新 并解析 他么的
 	}
 
+	/**
+	 * 更新
+	 */
 	public final void update() {
 //		System.out.println("开始更新资源");
-		removeAllChildren();
+		removeAllChildren();//干掉所有节点
 		add(new JSources(this, wrapper));
 
 		List<JResource> resList = getHierarchyResources(wrapper.getResources());

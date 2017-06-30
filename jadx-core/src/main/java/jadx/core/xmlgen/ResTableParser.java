@@ -47,10 +47,15 @@ public class ResTableParser extends CommonBinaryParser {
 	private String[] strings;
 	private final ResourceStorage resStorage = new ResourceStorage();
 
+	/**
+	 * 解析arsc
+	 * @param inputStream
+	 * @throws IOException
+	 */
 	public void decode(InputStream inputStream) throws IOException {
 		is = new ParserStream(inputStream);
 		decodeTableChunk();
-		resStorage.finish();
+		resStorage.finish();//保存一下storge
 	}
 
 	public ResContainer decodeFiles(InputStream inputStream) throws IOException {
@@ -82,9 +87,13 @@ public class ResTableParser extends CommonBinaryParser {
 		return resStorage;
 	}
 
+	/**
+	 * 解析arsc
+	 * @throws IOException
+	 */
 	void decodeTableChunk() throws IOException {
-		is.checkInt16(RES_TABLE_TYPE, "Not a table chunk");//检查
-		is.checkInt16(0x000c, "Unexpected table header size");//检查
+		is.checkInt16(RES_TABLE_TYPE, "Not a table chunk");//
+		is.checkInt16(0x000c, "Unexpected table header size");//
 		/*int size = */
 		is.readInt32();
 		int pkgCount = is.readInt32();

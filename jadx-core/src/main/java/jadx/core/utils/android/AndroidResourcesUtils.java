@@ -20,11 +20,11 @@ public class AndroidResourcesUtils {
 	public static ClassNode searchAppResClass(RootNode root) {
 		String appPackage = root.getAppPackage();//获得包名
 		String fullName = appPackage != null ? appPackage + ".R" : "R";//获得全量R路径
-		ClassNode resCls = root.searchClassByName(fullName);
+		ClassNode resCls = root.searchClassByName(fullName);//找到R.class类
 		if (resCls != null) {
 			return resCls;
 		}
-		List<ClassNode> candidates = root.searchClassByShortName("R");
+		List<ClassNode> candidates = root.searchClassByShortName("R");//还是搜索R文件
 		if (candidates.size() == 1) {
 			return candidates.get(0);
 		}
