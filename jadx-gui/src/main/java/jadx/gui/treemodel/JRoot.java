@@ -35,7 +35,7 @@ public class JRoot extends JNode {
 		removeAllChildren();//干掉所有节点
 		add(new JSources(this, wrapper));
 
-		List<JResource> resList = getHierarchyResources(wrapper.getResources());
+		List<JResource> resList = getHierarchyResources(wrapper.getResources());//获得层次
 		for (JResource jRes : resList) {
 			jRes.update();//解析res文件
 			add(jRes);

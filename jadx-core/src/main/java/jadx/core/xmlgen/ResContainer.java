@@ -2,6 +2,8 @@ package jadx.core.xmlgen;
 
 import jadx.core.codegen.CodeWriter;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -10,9 +12,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class ResContainer implements Comparable<ResContainer> {
 
@@ -29,6 +28,12 @@ public class ResContainer implements Comparable<ResContainer> {
 		this.subFiles = subFiles;
 	}
 
+	/**
+	 *
+	 * @param name
+	 * @param content
+	 * @return
+	 */
 	public static ResContainer singleFile(String name, CodeWriter content) {
 		ResContainer resContainer = new ResContainer(name, Collections.<ResContainer>emptyList());
 		resContainer.content = content;

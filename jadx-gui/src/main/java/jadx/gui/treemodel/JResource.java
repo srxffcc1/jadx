@@ -51,8 +51,11 @@ public class JResource extends JNode implements Comparable<JResource> {
 		this.type = type;
 	}
 
+	/**
+	 * 更新节点 带有解析
+	 */
 	public final void update() {
-		loadContent();
+		loadContent();//载入内容 此处有解析资源文件
 		removeAllChildren();
 		for (JResource res : files) {
 			res.update();
@@ -61,7 +64,7 @@ public class JResource extends JNode implements Comparable<JResource> {
 	}
 
 	protected void loadContent() {
-		getContent();
+		getContent();//感觉像是构造files
 		for (JResource res : files) {
 			res.loadContent();
 		}
@@ -75,11 +78,15 @@ public class JResource extends JNode implements Comparable<JResource> {
 		return files;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getContent() {
-		if (!loaded && resFile != null && type == JResType.FILE) {
+		if (!loaded && resFile != null && type == JResType.FILE) {//非载入切不为空且类型是File
 			loaded = true;
 			if (isSupportedForView(resFile.getType())) {
-				ResContainer rc = resFile.loadContent();
+				ResContainer rc = resFile.loadContent();//容器
 				if (rc != null) {
 					addSubFiles(rc, this, 0);
 				}
@@ -207,6 +214,11 @@ public class JResource extends JNode implements Comparable<JResource> {
 		return FILE_ICON;
 	}
 
+	/**
+	 * 区分
+	 * @param type
+	 * @return
+	 */
 	public static boolean isSupportedForView(ResourceType type) {
 		switch (type) {
 			case CODE:

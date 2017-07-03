@@ -44,6 +44,13 @@ public final class ResourcesLoader {
 		ResContainer decode(long size, InputStream is) throws IOException;
 	}
 
+	/**
+	 * 解码文件
+	 * @param rf 资源
+	 * @param decoder 解析器
+	 * @return
+	 * @throws JadxException
+	 */
 	public static ResContainer decodeStream(ResourceFile rf, ResourceDecoder decoder) throws JadxException {
 		ZipRef zipRef = rf.getZipRef();
 		if (zipRef == null) {
@@ -60,7 +67,7 @@ public final class ResourcesLoader {
 			}
 			inputStream = new BufferedInputStream(zipFile.getInputStream(entry));//通过zip获得读取流
 //			System.out.println(entry.getName());
-			result = decoder.decode(entry.getSize(), inputStream);
+			result = decoder.decode(entry.getSize(), inputStream);//把文件流进行解析
 		} catch (Exception e) {
 			throw new JadxException("Error decode: " + zipRef.getEntryName(), e);
 		} finally {
@@ -76,6 +83,12 @@ public final class ResourcesLoader {
 		return result;
 	}
 
+	/**
+	 * 加载内容
+	 * @param jadxRef 解析器
+	 * @param rf 资源文件
+	 * @return 资源容器
+	 */
 	static ResContainer loadContent(final JadxDecompiler jadxRef, final ResourceFile rf) {
 		try {
 			return decodeStream(rf, new ResourceDecoder() {
@@ -93,13 +106,22 @@ public final class ResourcesLoader {
 		}
 	}
 
+	/**
+	 * 载入内容
+	 * @param jadxRef  解析器
+	 * @param rf 资源路劲
+	 * @param inputStream 输入流
+	 * @param size 大小
+	 * @return
+	 * @throws IOException
+	 */
 	private static ResContainer loadContent(JadxDecompiler jadxRef, ResourceFile rf,
 			InputStream inputStream, long size) throws IOException {
-		switch (rf.getType()) {
+		switch (rf.getType()) {//分容器存放
 			case MANIFEST:
 			case XML:
 				return ResContainer.singleFile(rf.getName(),
-						jadxRef.getXmlParser().parse(inputStream));
+						jadxRef.getXmlParser().parse(inputStream));//获得解析 生成容器
 
 			case ARSC:
 				return new ResTableParser().decodeFiles(inputStream);
@@ -107,7 +129,7 @@ public final class ResourcesLoader {
 			case IMG:
 				return ResContainer.singleImageFile(rf.getName(), inputStream);
 		}
-		if (size > LOAD_SIZE_LIMIT) {
+		if (size > LOAD_SIZE_LIMIT) {//超内存了的意思
 			return ResContainer.singleFile(rf.getName(),
 					new CodeWriter().add("File too big, size: " + String.format("%.2f KB", size / 1024.)));
 		}

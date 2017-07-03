@@ -9,15 +9,14 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.StringUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.xmlgen.entry.ValuesParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /* TODO:
 	Don't die when error occurs
@@ -82,16 +81,22 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		}
 	}
 
+	/**
+	 * 好像是解析啊
+	 * @param inputStream
+	 * @return
+	 * @throws IOException
+	 */
 	public synchronized CodeWriter parse(InputStream inputStream) throws IOException {
-		is = new ParserStream(inputStream);
-		if (!isBinaryXml()) {
-			return ResourcesLoader.loadToCodeWriter(inputStream);
-		}
-		writer = new CodeWriter();
-		writer.add("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-		firstElement = true;
-		decode();
-		writer.finish();
+		is = new ParserStream(inputStream);//构造输入流
+		if (!isBinaryXml()) {//是否为2进制xml？不是就走下面
+			return ResourcesLoader.loadToCodeWriter(inputStream);//从来没进去过
+		}//以下为是2进制xml
+		writer = new CodeWriter();//代码绘制板
+		writer.add("<?xml version=\"1.0\" encoding=\"utf-8\"?>");//xml头
+		firstElement = true;//第一个元素
+		decode();//解析xml
+		writer.finish();//解析完毕大概是保存吧
 		return writer;
 	}
 
