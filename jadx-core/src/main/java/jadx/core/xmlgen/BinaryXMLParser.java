@@ -90,7 +90,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	public synchronized CodeWriter parse(InputStream inputStream) throws IOException {
 		is = new ParserStream(inputStream);//构造输入流
 		if (!isBinaryXml()) {//是否为2进制xml？不是就走下面
-			return ResourcesLoader.loadToCodeWriter(inputStream);//从来没进去过
+			return ResourcesLoader.loadToCodeWriter(inputStream);//从来没进去过  因为都是2进制xml
 		}//以下为是2进制xml
 		writer = new CodeWriter();//代码绘制板
 		writer.add("<?xml version=\"1.0\" encoding=\"utf-8\"?>");//xml头
