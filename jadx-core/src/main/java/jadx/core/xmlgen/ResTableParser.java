@@ -102,6 +102,7 @@ public class ResTableParser extends CommonBinaryParser {
 		for (int i = 0; i < pkgCount; i++) {
 			parsePackage();
 		}
+		System.out.println("");
 	}
 
 	private PackageChunk parsePackage() throws IOException {
