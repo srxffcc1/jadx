@@ -13,203 +13,196 @@ import java.net.URL;
  */
 public final class ClassInfo {
 
-    private final ArgType type; //类参数
-    private String pkg;//包名
-    private String name;//类名
-    private String fullName;//完整类名
-    // for inner class not equals null
-    private ClassInfo parentClass;//父类
-    // class info after rename (deobfuscation)
-    private ClassInfo alias;//反混淆？
+	private final ArgType type; //类参数
+	private String pkg;//包名
+	private String name;//类名
+	private String fullName;//完整类名
+	// for inner class not equals null
+	private ClassInfo parentClass;//父类
+	// class info after rename (deobfuscation)
+	private ClassInfo alias;//反混淆？
 
-    private ClassInfo(DexNode dex, ArgType type) {
-        this(dex, type, true);
-    }
+	private ClassInfo(DexNode dex, ArgType type) {
+		this(dex, type, true);
+	}
 
-    private ClassInfo(DexNode dex, ArgType type, boolean inner) {
-        if (!type.isObject() || type.isGeneric()) {
-            throw new JadxRuntimeException("Not class type: " + type);
-        }
-        this.type = type;
-        this.alias = this;
+	private ClassInfo(DexNode dex, ArgType type, boolean inner) {
+		if (!type.isObject() || type.isGeneric()) {
+			throw new JadxRuntimeException("Not class type: " + type);
+		}
+		this.type = type;
+		this.alias = this;
 
-        splitNames(dex, inner);
-    }
+		splitNames(dex, inner);
+	}
 
-    public static ClassInfo fromType(DexNode dex, ArgType type) {
-        if (type.isArray()) {
-            type = ArgType.OBJECT;
-        }
-        ClassInfo cls = dex.getInfoStorage().getCls(type);
-        if (cls != null) {
+	public static ClassInfo fromType(DexNode dex, ArgType type) {
+		if (type.isArray()) {
+			type = ArgType.OBJECT;
+		}
+		ClassInfo cls = dex.getInfoStorage().getCls(type);
+		if (cls != null) {
 //			System.out.println("ClassInfo!=null:"+cls.getFullName());
-            return cls;
-        }
-        cls = new ClassInfo(dex, type);
-        cls = dex.getInfoStorage().putCls(cls);
+			return cls;
+		}
+		cls = new ClassInfo(dex, type);
+		cls=dex.getInfoStorage().putCls(cls);
 //		System.out.println("ClassInfo=null:"+cls.getFullName());
-        return cls;
-    }
+		return cls;
+	}
 
-    public static ClassInfo fromDex(DexNode dex, int clsIndex) {
-        if (clsIndex == DexNode.NO_INDEX) {
-            return null;
-        }
-        return fromType(dex, dex.getType(clsIndex));
-    }
+	public static ClassInfo fromDex(DexNode dex, int clsIndex) {
+		if (clsIndex == DexNode.NO_INDEX) {
+			return null;
+		}
+		return fromType(dex, dex.getType(clsIndex));
+	}
 
-    public static ClassInfo fromName(DexNode dex, String clsName) {
-        return fromType(dex, ArgType.object(clsName));
-    }
+	public static ClassInfo fromName(DexNode dex, String clsName) {
+		return fromType(dex, ArgType.object(clsName));
+	}
 
-    public static ClassInfo extCls(DexNode dex, ArgType type) {
-        ClassInfo classInfo = fromName(dex, type.getObject());
-        return classInfo.alias;
-    }
+	public static ClassInfo extCls(DexNode dex, ArgType type) {
+		ClassInfo classInfo = fromName(dex, type.getObject());
+		return classInfo.alias;
+	}
 
-    public void rename(DexNode dex, String fullName) {
-        ClassInfo newAlias = new ClassInfo(dex, ArgType.object(fullName), isInner());
-        if (!alias.getFullName().equals(newAlias.getFullName())) {
-            this.alias = newAlias;
-        }
-    }
+	public void rename(DexNode dex, String fullName) {
+		ClassInfo newAlias = new ClassInfo(dex, ArgType.object(fullName), isInner());
+		if (!alias.getFullName().equals(newAlias.getFullName())) {
+			this.alias = newAlias;
+		}
+	}
 
-    public boolean isRenamed() {
-        return alias != this;
-    }
+	public boolean isRenamed() {
+		return alias != this;
+	}
 
-    public ClassInfo getAlias() {
-        return alias;
-    }
+	public ClassInfo getAlias() {
+		return alias;
+	}
 
-    private void splitNames(DexNode dex, boolean canBeInner) {
-        String fullObjectName = type.getObject();
-        String clsName;
-        int dot = fullObjectName.lastIndexOf('.');
-        if (dot == -1) {
-            pkg = "";
-            clsName = fullObjectName;
-        } else {
-            pkg = fullObjectName.substring(0, dot);
-            clsName = fullObjectName.substring(dot + 1);
-        }
-        int sep = clsName.lastIndexOf('$');
-        if (canBeInner && sep > 0 && sep != clsName.length() - 1) {
-            String parClsName = pkg + "." + clsName.substring(0, sep);
-            parentClass = fromName(dex, parClsName);
-            clsName = clsName.substring(sep + 1);
+	private void splitNames(DexNode dex, boolean canBeInner) {
+		String fullObjectName = type.getObject();
+		String clsName;
+		int dot = fullObjectName.lastIndexOf('.');
+		if (dot == -1) {
+			pkg = "";
+			clsName = fullObjectName;
+		} else {
+			pkg = fullObjectName.substring(0, dot);
+			clsName = fullObjectName.substring(dot + 1);
+		}
+		int sep = clsName.lastIndexOf('$');
+		if (canBeInner && sep > 0 && sep != clsName.length() - 1) {
+			String parClsName = pkg + "." + clsName.substring(0, sep);
+			parentClass = fromName(dex, parClsName);
+			clsName = clsName.substring(sep + 1);
 
-        } else {
-            parentClass = null;
-        }
-        //以下处理为了使得类名不重复
-        {
-            char firstChar = clsName.charAt(0);
-            if (Character.isDigit(firstChar) && firstChar != 'R') {
-                clsName = pkg.replace(".", "_") + "_" + clsName;
-            } else {
-                if (firstChar == 'R') {
+		} else {
+			parentClass = null;
+		}
+		//以下处理为了使得类名不重复
+		char firstChar = clsName.charAt(0);
+		if (Character.isDigit(firstChar)) {
+			clsName = pkg.replace(".","_") + "_"+clsName;
+		} else{
+			if(clsName.length()>2){
 
-                } else {
-                    if (clsName.length() > 2) {
+			}else{
+				clsName=pkg.replace(".","_")+ "_"+clsName;
+			}
+		}
+		this.name = clsName;
+		this.fullName = makeFullClsName(clsName, false);
 
-                    } else {
-                        clsName = pkg.replace(".", "_") + "_" + clsName;
-                    }
-                }
+	}
 
-                this.name = clsName;
-                this.fullName = makeFullClsName(clsName, false);
-            }
-        }
+	public String makeFullClsName(String shortName, boolean raw) {
+		if (parentClass != null) {
+			String innerSep = raw ? "$" : ".";
+			return parentClass.makeFullClsName(parentClass.getShortName(), raw) + innerSep + shortName;
+		}
+		return pkg.isEmpty() ? shortName : pkg + "." + shortName;
+	}
 
-    }
+	public String getFullPath() {
+		ClassInfo alias = getAlias();
+		return alias.getPackage().replace('.', File.separatorChar)
+				+ File.separatorChar
+				+ alias.getNameWithoutPackage().replace('.', '_');
+	}
 
-    public String makeFullClsName(String shortName, boolean raw) {
-        if (parentClass != null) {
-            String innerSep = raw ? "$" : ".";
-            return parentClass.makeFullClsName(parentClass.getShortName(), raw) + innerSep + shortName;
-        }
-        return pkg.isEmpty() ? shortName : pkg + "." + shortName;
-    }
+	public String getFullName() {
+		return fullName;
+	}
 
-    public String getFullPath() {
-        ClassInfo alias = getAlias();
-        return alias.getPackage().replace('.', File.separatorChar)
-                + File.separatorChar
-                + alias.getNameWithoutPackage().replace('.', '_');
-    }
+	public String getShortName() {
+		return name;
+	}
 
-    public String getFullName() {
-        return fullName;
-    }
+	public String getPackage() {
+		return pkg;
+	}
 
-    public String getShortName() {
-        return name;
-    }
+	public boolean isDefaultPackage() {
+		return pkg.isEmpty();
+	}
 
-    public String getPackage() {
-        return pkg;
-    }
+	public String getRawName() {
+		return type.getObject();
+	}
 
-    public boolean isDefaultPackage() {
-        return pkg.isEmpty();
-    }
+	public String getNameWithoutPackage() {
+		if (parentClass == null) {
+			return name;
+		}
+		return parentClass.getNameWithoutPackage() + "." + name;
+	}
 
-    public String getRawName() {
-        return type.getObject();
-    }
+	public ClassInfo getParentClass() {
+		return parentClass;
+	}
 
-    public String getNameWithoutPackage() {
-        if (parentClass == null) {
-            return name;
-        }
-        return parentClass.getNameWithoutPackage() + "." + name;
-    }
+	public ClassInfo getTopParentClass() {
+		if (parentClass != null) {
+			ClassInfo topCls = parentClass.getTopParentClass();
+			return topCls != null ? topCls : parentClass;
+		}
+		return null;
+	}
 
-    public ClassInfo getParentClass() {
-        return parentClass;
-    }
+	public boolean isInner() {
+		return parentClass != null;
+	}
 
-    public ClassInfo getTopParentClass() {
-        if (parentClass != null) {
-            ClassInfo topCls = parentClass.getTopParentClass();
-            return topCls != null ? topCls : parentClass;
-        }
-        return null;
-    }
+	public void notInner(DexNode dex) {
+		splitNames(dex, false);
+	}
 
-    public boolean isInner() {
-        return parentClass != null;
-    }
+	public ArgType getType() {
+		return type;
+	}
 
-    public void notInner(DexNode dex) {
-        splitNames(dex, false);
-    }
+	@Override
+	public String toString() {
+		return fullName;
+	}
 
-    public ArgType getType() {
-        return type;
-    }
+	@Override
+	public int hashCode() {
+		return type.hashCode();
+	}
 
-    @Override
-    public String toString() {
-        return fullName;
-    }
-
-    @Override
-    public int hashCode() {
-        return type.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof ClassInfo) {
-            ClassInfo other = (ClassInfo) obj;
-            return this.type.equals(other.type);
-        }
-        return false;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj instanceof ClassInfo) {
+			ClassInfo other = (ClassInfo) obj;
+			return this.type.equals(other.type);
+		}
+		return false;
+	}
 }
