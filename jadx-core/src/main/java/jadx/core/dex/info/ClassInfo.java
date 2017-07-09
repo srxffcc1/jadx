@@ -103,14 +103,16 @@ public final class ClassInfo {
 			parentClass = null;
 		}
 		//以下处理为了使得类名不重复
-		char firstChar = clsName.charAt(0);
-		if (Character.isDigit(firstChar)) {
-			clsName = pkg.replace(".","_") + "_"+clsName;
-		} else{
-			if(clsName.length()>2){
+		{
+			char firstChar = clsName.charAt(0);
+			if (Character.isDigit(firstChar)&&firstChar!='R') {
+				clsName = pkg.replace(".", "_") + "_" + clsName;
+			} else {
+				if (firstChar=='R'||clsName.length() >1) {
 
-			}else{
-				clsName=pkg.replace(".","_")+ "_"+clsName;
+				} else {
+					clsName = pkg.replace(".", "_") + "_" + clsName;
+				}
 			}
 		}
 		this.name = clsName;
