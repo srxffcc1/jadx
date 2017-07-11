@@ -292,6 +292,7 @@ public class ClassGen {
 			if (badCode) {
 				code.startLine("/* JADX WARNING: inconsistent code. */");
 				code.startLine("/* Code decompiled incorrectly, please refer to instructions dump. */");
+				LOG.error("inconsistent code:"+cls.getFullName()+"::"+mth.getName());
 				ErrorsCounter.methodError(mth, "Inconsistent code");
 				if (showInconsistentCode) {
 					mth.remove(AFlag.INCONSISTENT_CODE);
