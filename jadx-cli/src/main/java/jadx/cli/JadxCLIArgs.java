@@ -88,8 +88,8 @@ public class JadxCLIArgs implements IJadxArgs {
 
 	private boolean parse(String[] args) {
 		try {
-			JCommander.newBuilder().addObject(this).build().parse(args);
-//			new JCommander(this, args);
+//			JCommander.newBuilder().addObject(this).build().parse(args);
+			new JCommander(this, args);
 			return true;
 		} catch (ParameterException e) {
 			System.err.println("Arguments parse error: " + e.getMessage());
