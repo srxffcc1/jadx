@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 
 public class LOGS {
-    public static final boolean needshow=true;
+    public static final boolean needshow=false;
     private static final Logger LOGSS = LoggerFactory.getLogger(LOGS.class);
 
 
@@ -14,65 +14,6 @@ public class LOGS {
         return null;
     }
 
-    
-    public static  boolean isTraceEnabled() {
-        return false;
-    }
-
-    
-    public static  void trace(String msg) {
-
-    }
-
-    
-    public static  void trace(String format, Object arg) {
-
-    }
-
-    
-    public static  void trace(String format, Object arg1, Object arg2) {
-
-    }
-
-    
-    public static  void trace(String format, Object... arguments) {
-
-    }
-
-    
-    public static  void trace(String msg, Throwable t) {
-
-    }
-
-    
-    public static  boolean isTraceEnabled(Marker marker) {
-        return false;
-    }
-
-    
-    public static  void trace(Marker marker, String msg) {
-
-    }
-
-    
-    public static  void trace(Marker marker, String format, Object arg) {
-
-    }
-
-    
-    public static  void trace(Marker marker, String format, Object arg1, Object arg2) {
-
-    }
-
-    
-    public static  void trace(Marker marker, String format, Object... argArray) {
-
-    }
-
-    
-    public static  void trace(Marker marker, String msg, Throwable t) {
-
-    }
 
     
     public static  boolean isDebugEnabled() {

@@ -15,13 +15,12 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.JadxException;
 import jadx.core.utils.files.InputFile;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOCase;
 
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOCase;
 
 /**
  * 重命名访问者 作用
@@ -92,7 +91,8 @@ public class VC_RenameVisitor extends AbstractVisitor {
 		char firstChar = clsName.charAt(0);
 		if (Character.isDigit(firstChar)) {
 		//用来判断匿名类
-			newShortName = Consts.ANONYMOUS_CLASS_PREFIX + clsName;
+			System.out.println(cls.getParentClass().getFullName()+"_"+clsName);
+			newShortName = cls.getParentClass().getFullName()+"_"+Consts.ANONYMOUS_CLASS_PREFIX + clsName;
 		} else if (firstChar == '$') {
 			newShortName = "C" + clsName;
 		}
