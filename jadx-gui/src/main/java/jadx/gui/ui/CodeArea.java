@@ -2,6 +2,7 @@ package jadx.gui.ui;
 
 import jadx.api.CodePosition;
 import jadx.api.JavaNode;
+import jadx.core.LOGS;
 import jadx.gui.settings.JadxSettings;
 import jadx.gui.treemodel.JClass;
 import jadx.gui.treemodel.JNode;
@@ -124,7 +125,7 @@ class CodeArea extends RSyntaxTextArea {
 			int lineOffset = offset - textArea.getLineStartOffset(line);
 			return jCls.getCls().getJavaNodeAtPosition(line + 1, lineOffset + 1);
 		} catch (BadLocationException e) {
-			LOG.error("Can't get java node by offset", e);
+			LOGS.error("Can't get java node by offset", e);
 		}
 		return null;
 	}
@@ -169,7 +170,7 @@ class CodeArea extends RSyntaxTextArea {
 
 			viewport.setViewPosition(new Point(0, y));
 		} catch (BadLocationException e) {
-			LOG.debug("Can't center current line", e);
+			LOGS.debug("Can't center current line", e);
 		}
 	}
 
@@ -177,7 +178,7 @@ class CodeArea extends RSyntaxTextArea {
 		try {
 			setCaretPosition(getLineStartOffset(line));
 		} catch (BadLocationException e) {
-			LOG.debug("Can't scroll to {}", line, e);
+			LOGS.debug("Can't scroll to {}", line, e);
 		}
 	}
 
@@ -260,7 +261,7 @@ class CodeArea extends RSyntaxTextArea {
 					}
 				};
 			} catch (Exception e) {
-				LOG.error("isLinkAtOffset error", e);
+				LOGS.error("isLinkAtOffset error", e);
 				return null;
 			}
 		}

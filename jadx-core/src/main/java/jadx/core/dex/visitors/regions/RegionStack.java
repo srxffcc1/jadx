@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors.regions;
 
+import jadx.core.LOGS;
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.IRegion;
 import jadx.core.dex.nodes.MethodNode;
@@ -17,7 +18,7 @@ public final class RegionStack {
 
 	static {
 		if (DEBUG) {
-			LOG.debug("Debug enabled for {}", RegionStack.class);
+			LOGS.debug("Debug enabled for {}", RegionStack.class);
 		}
 	}
 
@@ -48,7 +49,7 @@ public final class RegionStack {
 
 	public RegionStack(MethodNode mth) {
 		if (DEBUG) {
-			LOG.debug("New RegionStack: {}", mth);
+			LOGS.debug("New RegionStack: {}", mth);
 		}
 		this.stack = new ArrayDeque<State>();
 		this.curState = new State();
@@ -62,14 +63,14 @@ public final class RegionStack {
 		curState = curState.copy();
 		curState.region = region;
 		if (DEBUG) {
-			LOG.debug("Stack push: {}: {}", size(), curState);
+			LOGS.debug("Stack push: {}: {}", size(), curState);
 		}
 	}
 
 	public void pop() {
 		curState = stack.pop();
 		if (DEBUG) {
-			LOG.debug("Stack  pop: {}: {}", size(), curState);
+			LOGS.debug("Stack  pop: {}: {}", size(), curState);
 		}
 	}
 

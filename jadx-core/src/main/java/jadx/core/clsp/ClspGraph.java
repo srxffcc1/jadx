@@ -1,5 +1,6 @@
 package jadx.core.clsp;
 
+import jadx.core.LOGS;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
@@ -131,12 +132,12 @@ public class ClspGraph {
 		if (count == 0) {
 			return;
 		}
-		LOG.warn("Found {} references to unknown classes", count);
-		if (LOG.isDebugEnabled()) {
+		LOGS.warn("Found {} references to unknown classes", count);
+		if (LOGS.isDebugEnabled()) {
 			List<String> clsNames = new ArrayList<String>(missingClasses);
 			Collections.sort(clsNames);
 			for (String cls : clsNames) {
-				LOG.debug("  {}", cls);
+				LOGS.debug("  {}", cls);
 			}
 		}
 	}

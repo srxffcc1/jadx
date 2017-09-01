@@ -1,21 +1,17 @@
 package jadx.gui.jobs;
 
 import jadx.api.JavaClass;
+import jadx.core.LOGS;
 import jadx.core.codegen.CodeWriter;
 import jadx.gui.JadxWrapper;
-import jadx.gui.utils.CacheObject;
-import jadx.gui.utils.CodeLinesInfo;
-import jadx.gui.utils.CodeUsageInfo;
-import jadx.gui.utils.JNodeCache;
-import jadx.gui.utils.Utils;
+import jadx.gui.utils.*;
 import jadx.gui.utils.search.StringRef;
 import jadx.gui.utils.search.TextSearchIndex;
-
-import java.util.List;
-
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public class IndexJob extends BackgroundJob {
 
@@ -50,7 +46,7 @@ public class IndexJob extends BackgroundJob {
 							index.classCodeIndexSkipped(cls);
 						}
 					} catch (Exception e) {
-						LOG.error("Index error in class: {}", cls.getFullName(), e);
+						LOGS.error("Index error in class: {}", cls.getFullName(), e);
 					}
 				}
 			});

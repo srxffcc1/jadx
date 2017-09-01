@@ -26,7 +26,7 @@ public class TestTryCatchFinally3 extends IntegrationTest {
 					DepthTraversal.visit(visitor, cls);
 				}
 			} catch (Exception e) {
-				LOG.error("Class process exception: {}", cls, e);
+				LOGS.error("Class process exception: {}", cls, e);
 			} finally {
 				cls.unload();
 			}
@@ -41,7 +41,7 @@ public class TestTryCatchFinally3 extends IntegrationTest {
 		assertThat(code, containsOne("for (IDexTreeVisitor visitor : passes) {"));
 
 		assertThat(code, containsOne("} catch (Exception e) {"));
-		assertThat(code, containsOne("LOG.error(\"Class process exception: {}\", cls, e);"));
+		assertThat(code, containsOne("LOGS.error(\"Class process exception: {}\", cls, e);"));
 
 		assertThat(code, containsOne("} finally {"));
 		assertThat(code, containsOne("cls.unload();"));

@@ -1,19 +1,14 @@
 package jadx.gui.settings;
 
+import com.google.gson.*;
+import jadx.core.LOGS;
 import jadx.gui.JadxGUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.prefs.Preferences;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.InstanceCreator;
 
 public class JadxSettingsAdapter {
 
@@ -53,10 +48,10 @@ public class JadxSettingsAdapter {
 			if (settings == null) {
 				return new JadxSettings();
 			}
-			LOG.debug("Loaded settings: {}", makeString(settings));
+			LOGS.debug("Loaded settings: {}", makeString(settings));
 			return settings;
 		} catch (Exception e) {
-			LOG.error("Error load settings", e);
+			LOGS.error("Error load settings", e);
 			return new JadxSettings();
 		}
 	}
@@ -64,11 +59,11 @@ public class JadxSettingsAdapter {
 	public static void store(JadxSettings settings) {
 		try {
 			String jsonSettings = makeString(settings);
-			LOG.debug("Saving settings: {}", jsonSettings);
+			LOGS.debug("Saving settings: {}", jsonSettings);
 			PREFS.put(JADX_GUI_KEY, jsonSettings);
 			PREFS.sync();
 		} catch (Exception e) {
-			LOG.error("Error store settings", e);
+			LOGS.error("Error store settings", e);
 		}
 	}
 

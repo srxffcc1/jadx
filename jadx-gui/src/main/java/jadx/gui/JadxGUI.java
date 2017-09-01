@@ -1,5 +1,6 @@
 package jadx.gui;
 
+import jadx.core.LOGS;
 import jadx.gui.settings.JadxSettings;
 import jadx.gui.settings.JadxSettingsAdapter;
 import jadx.gui.ui.MainWindow;
@@ -32,7 +33,7 @@ public class JadxGUI {
 				}
 			});
 		} catch (Throwable e) {
-			LOG.error("Error: {}", e.getMessage(), e);
+			LOGS.error("Error: {}", e.getMessage(), e);
 			System.exit(1);
 		}
 	}

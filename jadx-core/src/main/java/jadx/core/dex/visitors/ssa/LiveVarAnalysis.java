@@ -1,17 +1,17 @@
 package jadx.core.dex.visitors.ssa;
 
+import jadx.core.LOGS;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.BitSet;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class LiveVarAnalysis {
 	private static final Logger LOG = LoggerFactory.getLogger(LiveVarAnalysis.class);
@@ -43,7 +43,7 @@ public class LiveVarAnalysis {
 
 	public boolean isLive(int blockId, int regNum) {
 		if (blockId >= liveIn.length) {
-			LOG.warn("LiveVarAnalysis: out of bounds block: {}, max: {}", blockId, liveIn.length);
+			LOGS.warn("LiveVarAnalysis: out of bounds block: {}, max: {}", blockId, liveIn.length);
 			return false;
 		}
 		return liveIn[blockId].get(regNum);

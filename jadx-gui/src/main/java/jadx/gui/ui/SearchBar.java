@@ -1,28 +1,23 @@
 package jadx.gui.ui;
 
-import jadx.gui.utils.TextStandardActions;
+import jadx.core.LOGS;
 import jadx.gui.utils.NLS;
+import jadx.gui.utils.TextStandardActions;
 import jadx.gui.utils.Utils;
-
-import javax.swing.Icon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JToolBar;
-import javax.swing.text.BadLocationException;
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.SearchContext;
 import org.fife.ui.rtextarea.SearchEngine;
 import org.fife.ui.rtextarea.SearchResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 class SearchBar extends JToolBar {
 	private static final long serialVersionUID = 1836871286618633003L;
@@ -173,7 +168,7 @@ class SearchBar extends JToolBar {
 					rTextArea.setCaretPosition(rTextArea.getLineStartOffset(lineNum));
 				}
 			} catch (BadLocationException e) {
-				LOG.error("Caret move error", e);
+				LOGS.error("Caret move error", e);
 			}
 		}
 

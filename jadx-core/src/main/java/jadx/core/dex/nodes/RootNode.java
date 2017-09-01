@@ -4,6 +4,7 @@ import jadx.api.IJadxArgs;
 import jadx.api.ResourceFile;
 import jadx.api.ResourceType;
 import jadx.api.ResourcesLoader;
+import jadx.core.LOGS;
 import jadx.core.clsp.ClspGraph;
 import jadx.core.dex.info.ClassInfo;
 import jadx.core.dex.info.ConstStorage;
@@ -51,7 +52,7 @@ public class RootNode {
 		for (InputFile input : inputFiles) {//其实只有一个apk文件啊
 			for (DexFile dexFile : input.getDexFiles()) {//有几个dex就遍历几次
 				try {
-					LOG.debug("Load: {}", dexFile);
+					LOGS.debug("Load: {}", dexFile);
 					DexNode dexNode = new DexNode(this, dexFile);
 					dexNodes.add(dexNode);//加入所有dex节点 还是有几个dex就加多少
 				} catch (Exception e) {
@@ -79,7 +80,7 @@ public class RootNode {
 		}
 
 		if (arsc == null) {//检验arsc文件是否存在 存在说明有res资源
-			LOG.debug("'.arsc' file not found");
+			LOGS.debug("'.arsc' file not found");
 			return;
 		}
 		final ResTableParser parser = new ResTableParser();//res解析器
@@ -92,7 +93,7 @@ public class RootNode {
 				}
 			});
 		} catch (JadxException e) {
-			LOG.error("Failed to parse '.arsc' file", e);
+			LOGS.error("Failed to parse '.arsc' file", e);
 			return;
 		}
 

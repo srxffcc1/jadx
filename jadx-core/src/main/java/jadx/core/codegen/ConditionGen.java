@@ -1,5 +1,6 @@
 package jadx.core.codegen;
 
+import jadx.core.LOGS;
 import jadx.core.dex.instructions.ArithNode;
 import jadx.core.dex.instructions.IfOp;
 import jadx.core.dex.instructions.InsnType;
@@ -14,13 +15,12 @@ import jadx.core.dex.regions.conditions.IfCondition.Mode;
 import jadx.core.utils.ErrorsCounter;
 import jadx.core.utils.exceptions.CodegenException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ConditionGen extends InsnGen {
 	private static final Logger LOG = LoggerFactory.getLogger(ConditionGen.class);
@@ -126,7 +126,7 @@ public class ConditionGen extends InsnGen {
 				wrap(code, firstArg);
 				return;
 			}
-			LOG.warn(ErrorsCounter.formatErrorMsg(mth, "Unsupported boolean condition " + op.getSymbol()));
+			LOGS.warn(ErrorsCounter.formatErrorMsg(mth, "Unsupported boolean condition " + op.getSymbol()));
 		}
 
 		addArg(code, firstArg, isArgWrapNeeded(firstArg));

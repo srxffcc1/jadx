@@ -1,6 +1,7 @@
 package jadx.api;
 
 import jadx.api.ResourceFile.ZipRef;
+import jadx.core.LOGS;
 import jadx.core.codegen.CodeWriter;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxException;
@@ -76,7 +77,7 @@ public final class ResourcesLoader {
 					zipFile.close();
 				}
 			} catch (Exception e) {
-				LOG.error("Error close zip file: {}", zipRef, e);
+				LOGS.error("Error close zip file: {}", zipRef, e);
 			}
 			close(inputStream);
 		}
@@ -98,7 +99,7 @@ public final class ResourcesLoader {
 				}
 			});
 		} catch (JadxException e) {
-			LOG.error("Decode error", e);
+			LOGS.error("Decode error", e);
 			CodeWriter cw = new CodeWriter();
 			cw.add("Error decode ").add(rf.getType().toString().toLowerCase());
 			cw.startLine(Utils.getStackTrace(e.getCause()));
@@ -150,13 +151,13 @@ public final class ResourcesLoader {
 				addEntry(list, file, entry);
 			}
 		} catch (IOException e) {
-			LOG.debug("Not a zip file: {}", file.getAbsolutePath());
+			LOGS.debug("Not a zip file: {}", file.getAbsolutePath());
 		} finally {
 			if (zip != null) {
 				try {
 					zip.close();
 				} catch (Exception e) {
-					LOG.error("Zip file close error: {}", file.getAbsolutePath(), e);
+					LOGS.error("Zip file close error: {}", file.getAbsolutePath(), e);
 				}
 			}
 		}

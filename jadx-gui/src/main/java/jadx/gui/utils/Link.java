@@ -1,19 +1,16 @@
 package jadx.gui.utils;
 
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Desktop;
+import jadx.core.LOGS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static java.awt.Desktop.Action;
 
@@ -65,9 +62,9 @@ public class Link extends JLabel implements MouseListener {
 					desktop.browse(new java.net.URI(url));
 					return;
 				} catch (IOException e) {
-					LOG.debug("Open url error", e);
+					LOGS.debug("Open url error", e);
 				} catch (URISyntaxException e) {
-					LOG.debug("Open url error", e);
+					LOGS.debug("Open url error", e);
 				}
 			}
 		}
@@ -87,7 +84,7 @@ public class Link extends JLabel implements MouseListener {
 				return;
 			}
 		} catch (Exception e) {
-			LOG.debug("Open url error", e);
+			LOGS.debug("Open url error", e);
 		}
 		showUrlDialog();
 	}

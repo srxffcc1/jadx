@@ -1,5 +1,6 @@
 package jadx.gui.ui;
 
+import jadx.core.LOGS;
 import jadx.gui.jobs.BackgroundJob;
 import jadx.gui.jobs.BackgroundWorker;
 import jadx.gui.jobs.DecompileJob;
@@ -9,45 +10,6 @@ import jadx.gui.utils.CacheObject;
 import jadx.gui.utils.NLS;
 import jadx.gui.utils.Position;
 import jadx.gui.utils.search.TextSearchIndex;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.KeyStroke;
-import javax.swing.ListSelectionModel;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
-import javax.swing.SwingWorker;
-import javax.swing.UIDefaults;
-import javax.swing.UIManager;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.SearchContext;
@@ -55,6 +17,16 @@ import org.fife.ui.rtextarea.SearchEngine;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+import java.util.List;
 
 public abstract class CommonSearchDialog extends JDialog {
 
@@ -411,7 +383,7 @@ public abstract class CommonSearchDialog extends JDialog {
 				progressPane.changeLabel(this, indexJob.getInfoString());
 				indexJob.processAndWait();
 			} catch (Exception e) {
-				LOG.error("Waiting background tasks failed", e);
+				LOGS.error("Waiting background tasks failed", e);
 			}
 			return null;
 		}

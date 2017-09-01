@@ -1,15 +1,15 @@
 package jadx.core.dex.visitors.regions;
 
+import jadx.core.LOGS;
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.IContainer;
 import jadx.core.dex.nodes.IRegion;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.regions.Region;
-
-import java.util.Iterator;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Iterator;
 
 public class CleanRegions {
 	private static final Logger LOG = LoggerFactory.getLogger(CleanRegions.class);
@@ -36,7 +36,7 @@ public class CleanRegions {
 							try {
 								it.remove();
 							} catch (UnsupportedOperationException e) {
-								LOG.warn("Can't remove block: {} from: {}, mth: {}", block, region, mth);
+								LOGS.warn("Can't remove block: {} from: {}, mth: {}", block, region, mth);
 							}
 						}
 					}

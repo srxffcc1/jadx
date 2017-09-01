@@ -1,33 +1,24 @@
 package jadx.core.dex.visitors;
 
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.EnumMapAttr;
 import jadx.core.dex.info.AccessInfo;
 import jadx.core.dex.info.FieldInfo;
-import jadx.core.dex.instructions.FilledNewArrayNode;
-import jadx.core.dex.instructions.IndexInsnNode;
-import jadx.core.dex.instructions.InsnType;
-import jadx.core.dex.instructions.InvokeNode;
-import jadx.core.dex.instructions.NewArrayNode;
-import jadx.core.dex.instructions.SwitchNode;
+import jadx.core.dex.instructions.*;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.InsnWrapArg;
 import jadx.core.dex.instructions.args.LiteralArg;
-import jadx.core.dex.nodes.BlockNode;
-import jadx.core.dex.nodes.ClassNode;
-import jadx.core.dex.nodes.FieldNode;
-import jadx.core.dex.nodes.InsnNode;
-import jadx.core.dex.nodes.MethodNode;
+import jadx.core.dex.nodes.*;
 import jadx.core.utils.InstructionRemover;
 import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxException;
-
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 @JadxVisitor(
 		name = "VM_ReSugarCode",
@@ -95,7 +86,7 @@ public class VM_ReSugarCode extends AbstractVisitor {
 		for (int j = 0; j < len; j++) {
 			InsnNode put = instructions.get(i + 1 + j);
 			if (put.getType() != InsnType.APUT) {
-				LOG.debug("Not a APUT in expected new filled array: {}, method: {}", put, mth);
+				LOGS.debug("Not a APUT in expected new filled array: {}, method: {}", put, mth);
 				return null;
 			}
 			filledArr.addArg(put.getArg(2));
@@ -160,7 +151,7 @@ public class VM_ReSugarCode extends AbstractVisitor {
 			try {
 				clsInitMth.load();
 			} catch (DecodeException e) {
-				LOG.error("Load failed", e);
+				LOGS.error("Load failed", e);
 				return null;
 			}
 			if (clsInitMth.getBasicBlocks() == null) {

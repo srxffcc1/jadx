@@ -1,5 +1,6 @@
 package jadx.core.xmlgen;
 
+import jadx.core.LOGS;
 import jadx.core.codegen.CodeWriter;
 import jadx.core.xmlgen.entry.*;
 import org.slf4j.Logger;
@@ -284,7 +285,7 @@ public class ResTableParser extends CommonBinaryParser {
 			if ((b1 & 0x80) == 0) {
 				str = new String(new char[]{(char) b1, (char) b2});
 			} else {
-				LOG.warn("TODO: parse locale: 0x{}{}", Integer.toHexString(b1), Integer.toHexString(b2));
+				LOGS.warn("TODO: parse locale: 0x{}{}", Integer.toHexString(b1), Integer.toHexString(b2));
 			}
 		}
 		return str;

@@ -1,5 +1,6 @@
 package jadx.core.dex.instructions.args;
 
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.InsnUtils;
@@ -87,7 +88,7 @@ public abstract class InsnArg extends Typed {
 			return null;
 		}
 		if (parent == insn) {
-			LOG.debug("Can't wrap instruction info itself: {}", insn);
+			LOGS.debug("Can't wrap instruction info itself: {}", insn);
 			return null;
 		}
 		int i = getArgIndex(parent, this);

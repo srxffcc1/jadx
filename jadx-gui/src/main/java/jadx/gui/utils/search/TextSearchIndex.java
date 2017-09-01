@@ -4,6 +4,7 @@ import jadx.api.JavaClass;
 import jadx.api.JavaField;
 import jadx.api.JavaMethod;
 import jadx.api.JavaNode;
+import jadx.core.LOGS;
 import jadx.core.codegen.CodeWriter;
 import jadx.gui.treemodel.CodeNode;
 import jadx.gui.treemodel.JNode;
@@ -68,7 +69,7 @@ public class TextSearchIndex {
 				}
 			}
 		} catch (Exception e) {
-			LOG.warn("Failed to index class: {}", cls, e);
+			LOGS.warn("Failed to index class: {}", cls, e);
 		}
 	}
 

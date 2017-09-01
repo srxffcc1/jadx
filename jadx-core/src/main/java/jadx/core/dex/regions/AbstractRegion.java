@@ -1,9 +1,9 @@
 package jadx.core.dex.regions;
 
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.AttrNode;
 import jadx.core.dex.nodes.IContainer;
 import jadx.core.dex.nodes.IRegion;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +27,7 @@ public abstract class AbstractRegion extends AttrNode implements IRegion {
 
 	@Override
 	public boolean replaceSubBlock(IContainer oldBlock, IContainer newBlock) {
-		LOG.warn("Replace sub block not supported for class \"{}\"", this.getClass());
+		LOGS.warn("Replace sub block not supported for class \"{}\"", this.getClass());
 		return false;
 	}
 }

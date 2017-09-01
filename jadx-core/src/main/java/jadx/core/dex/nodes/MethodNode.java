@@ -4,6 +4,7 @@ import com.android.dex.ClassData.Method;
 import com.android.dex.Code;
 import com.android.dex.Code.CatchHandler;
 import com.android.dex.Code.Try;
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.JumpInfo;
@@ -163,7 +164,7 @@ public class MethodNode extends LineAttrNode implements ILoadable, IDexNode {
 					return false;
 				}
 				if (!mthInfo.isConstructor()) {
-					LOG.warn("Wrong signature parse result: {} -> {}, not generic version: {}", sp, argsTypes, mthArgs);
+					LOGS.warn("Wrong signature parse result: {} -> {}, not generic version: {}", sp, argsTypes, mthArgs);
 					return false;
 				} else if (getParentClass().getAccessFlags().isEnum()) {
 					// TODO:
@@ -179,7 +180,7 @@ public class MethodNode extends LineAttrNode implements ILoadable, IDexNode {
 			}
 			initArguments(argsTypes);
 		} catch (JadxRuntimeException e) {
-			LOG.error("Method signature parse error: {}", this, e);
+			LOGS.error("Method signature parse error: {}", this, e);
 			return false;
 		}
 		return true;

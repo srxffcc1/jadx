@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors;
 
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.IgnoreEdgeAttr;
@@ -18,19 +19,11 @@ import jadx.core.dex.visitors.blocksmaker.helpers.BlocksRemoveInfo;
 import jadx.core.dex.visitors.ssa.LiveVarAnalysis;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
-
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 public class VM_BlockFinallyExtract extends AbstractVisitor {
 	private static final Logger LOG = LoggerFactory.getLogger(VM_BlockFinallyExtract.class);
@@ -298,7 +291,7 @@ public class VM_BlockFinallyExtract extends AbstractVisitor {
 		if (mergeReturns(mth, outs)) {
 			return removeInfo;
 		}
-		LOG.debug("Unexpected finally block outs count: {}", outs);
+		LOGS.debug("Unexpected finally block outs count: {}", outs);
 		return null;
 	}
 
@@ -485,7 +478,7 @@ public class VM_BlockFinallyExtract extends AbstractVisitor {
 			return true;
 		}
 		if (remBlock.getPredecessors().size() != 1) {
-			LOG.warn("Finally extract failed: remBlock pred: {}, {}, method: {}", remBlock, remBlock.getPredecessors(), mth);
+			LOGS.warn("Finally extract failed: remBlock pred: {}, {}, method: {}", remBlock, remBlock.getPredecessors(), mth);
 			return false;
 		}
 
@@ -549,7 +542,7 @@ public class VM_BlockFinallyExtract extends AbstractVisitor {
 			BlockNode pred = filtPreds.get(0);
 			BlockNode repl = removeInfo.getBySecond(pred);
 			if (repl == null) {
-				LOG.error("Block not found by {}, in {}, method: {}", pred, removeInfo, mth);
+				LOGS.error("Block not found by {}, in {}, method: {}", pred, removeInfo, mth);
 				return false;
 			}
 			VM_BlockSplitter.removeConnection(pred, rOut);

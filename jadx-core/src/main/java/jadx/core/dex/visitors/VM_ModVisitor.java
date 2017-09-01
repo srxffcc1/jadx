@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors;
 
+import jadx.core.LOGS;
 import jadx.core.codegen.TypeGen;
 import jadx.core.deobf.NameMapper;
 import jadx.core.dex.attributes.AFlag;
@@ -8,43 +9,20 @@ import jadx.core.dex.attributes.nodes.FieldReplaceAttr;
 import jadx.core.dex.info.ClassInfo;
 import jadx.core.dex.info.FieldInfo;
 import jadx.core.dex.info.MethodInfo;
-import jadx.core.dex.instructions.ArithNode;
-import jadx.core.dex.instructions.ConstClassNode;
-import jadx.core.dex.instructions.ConstStringNode;
-import jadx.core.dex.instructions.FillArrayNode;
-import jadx.core.dex.instructions.FilledNewArrayNode;
-import jadx.core.dex.instructions.IndexInsnNode;
-import jadx.core.dex.instructions.InsnType;
-import jadx.core.dex.instructions.InvokeNode;
-import jadx.core.dex.instructions.NewArrayNode;
-import jadx.core.dex.instructions.SwitchNode;
-import jadx.core.dex.instructions.args.ArgType;
-import jadx.core.dex.instructions.args.InsnArg;
-import jadx.core.dex.instructions.args.LiteralArg;
-import jadx.core.dex.instructions.args.NamedArg;
-import jadx.core.dex.instructions.args.RegisterArg;
-import jadx.core.dex.instructions.args.SSAVar;
+import jadx.core.dex.instructions.*;
+import jadx.core.dex.instructions.args.*;
 import jadx.core.dex.instructions.mods.ConstructorInsn;
-import jadx.core.dex.nodes.BlockNode;
-import jadx.core.dex.nodes.ClassNode;
-import jadx.core.dex.nodes.FieldNode;
-import jadx.core.dex.nodes.InsnNode;
-import jadx.core.dex.nodes.MethodNode;
+import jadx.core.dex.nodes.*;
 import jadx.core.dex.trycatch.ExcHandlerAttr;
 import jadx.core.dex.trycatch.ExceptionHandler;
 import jadx.core.utils.ErrorsCounter;
 import jadx.core.utils.InsnUtils;
 import jadx.core.utils.InstructionRemover;
 import jadx.core.utils.exceptions.JadxRuntimeException;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 /**
  * Visitor for modify method instructions
@@ -372,7 +350,7 @@ public class VM_ModVisitor extends AbstractVisitor {
 			);
 		}
 		if (!elType.isTypeKnown()) {
-			LOG.warn("Unknown array element type: {} in mth: {}", elType, mth);
+			LOGS.warn("Unknown array element type: {} in mth: {}", elType, mth);
 			elType = insnElementType.isTypeKnown() ? insnElementType : elType.selectFirst();
 			if (elType == null) {
 				throw new JadxRuntimeException("Null array element type");

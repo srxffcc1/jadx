@@ -7,6 +7,7 @@ import com.android.dex.ClassDef;
 import com.android.dex.Dex;
 import com.android.dx.rop.code.AccessFlags;
 import jadx.core.Consts;
+import jadx.core.LOGS;
 import jadx.core.codegen.CodeWriter;
 import jadx.core.dex.attributes.annotations.Annotation;
 import jadx.core.dex.attributes.nodes.JadxErrorAttr;
@@ -145,7 +146,7 @@ public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 			try {
 				new AnnotationsParser(this).parse(offset);
 			} catch (Exception e) {
-				LOG.error("Error parsing annotations in {}", this, e);
+				LOGS.error("Error parsing annotations in {}", this, e);
 			}
 		}
 	}
@@ -191,7 +192,7 @@ public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 				}
 			}
 		} catch (JadxRuntimeException e) {
-			LOG.error("Class signature parse error: {}", this, e);
+			LOGS.error("Class signature parse error: {}", this, e);
 		}
 	}
 
@@ -205,7 +206,7 @@ public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 						field.setType(gType);
 					}
 				} catch (JadxRuntimeException e) {
-					LOG.error("Field signature parse error: {}", field, e);
+					LOGS.error("Field signature parse error: {}", field, e);
 				}
 			}
 		}
@@ -238,7 +239,7 @@ public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 			}
 		}
 		this.addAttr(new SourceFileAttr(fileName));
-		LOG.debug("Class '{}' compiled from '{}'", this, fileName);
+		LOGS.debug("Class '{}' compiled from '{}'", this, fileName);
 	}
 
 	@Override
@@ -247,7 +248,7 @@ public class ClassNode extends LineAttrNode implements ILoadable, IDexNode {
 			try {
 				mth.load();
 			} catch (Exception e) {
-				LOG.error("Method load error: {}", mth, e);
+				LOGS.error("Method load error: {}", mth, e);
 				mth.addAttr(new JadxErrorAttr(e));
 			}
 		}

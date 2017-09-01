@@ -1,5 +1,6 @@
 package jadx.core.deobf;
 
+import jadx.core.LOGS;
 import jadx.core.dex.info.ClassInfo;
 import jadx.core.dex.info.FieldInfo;
 import jadx.core.dex.info.MethodInfo;
@@ -40,7 +41,7 @@ class DeobfPresets {
 		if (!deobfMapFile.exists()) {
 			return;
 		}
-		LOG.info("Loading obfuscation map from: {}", deobfMapFile.getAbsoluteFile());
+		LOGS.info("Loading obfuscation map from: {}", deobfMapFile.getAbsoluteFile());
 		try {
 			List<String> lines = FileUtils.readLines(deobfMapFile, MAP_FILE_CHARSET);
 			for (String l : lines) {
@@ -65,7 +66,7 @@ class DeobfPresets {
 				}
 			}
 		} catch (IOException e) {
-			LOG.error("Failed to load deobfuscation map file '{}'", deobfMapFile.getAbsolutePath(), e);
+			LOGS.error("Failed to load deobfuscation map file '{}'", deobfMapFile.getAbsolutePath(), e);
 		}
 	}
 
@@ -83,13 +84,13 @@ class DeobfPresets {
 				if (forceSave) {
 					dumpMapping();
 				} else {
-					LOG.warn("Deobfuscation map file '{}' exists. Use command line option '--deobf-rewrite-cfg' to rewrite it",deobfMapFile.getAbsolutePath());
+					LOGS.warn("Deobfuscation map file '{}' exists. Use command line option '--deobf-rewrite-cfg' to rewrite it",deobfMapFile.getAbsolutePath());
 				}
 			} else {
 				dumpMapping();
 			}
 		} catch (IOException e) {
-			LOG.error("Failed to load deobfuscation map file '{}'", deobfMapFile.getAbsolutePath(), e);
+			LOGS.error("Failed to load deobfuscation map file '{}'", deobfMapFile.getAbsolutePath(), e);
 		}
 	}
 

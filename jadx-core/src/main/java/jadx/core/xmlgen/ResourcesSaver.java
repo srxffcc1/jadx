@@ -2,6 +2,7 @@ package jadx.core.xmlgen;
 
 import jadx.api.ResourceFile;
 import jadx.api.ResourceType;
+import jadx.core.LOGS;
 import jadx.core.codegen.CodeWriter;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
@@ -60,7 +61,7 @@ public class ResourcesSaver implements Runnable {
 				outFile = prepareFile(outFile);
 				ImageIO.write(image, ext, outFile);
 			} catch (IOException e) {
-				LOG.error("Failed to save image: {}", rc.getName(), e);
+				LOGS.error("Failed to save image: {}", rc.getName(), e);
 			}
 			return;
 		}
@@ -69,6 +70,6 @@ public class ResourcesSaver implements Runnable {
 			cw.save(outFile);
 			return;
 		}
-		LOG.warn("Resource '{}' not saved, unknown type", rc.getName());
+		LOGS.warn("Resource '{}' not saved, unknown type", rc.getName());
 	}
 }

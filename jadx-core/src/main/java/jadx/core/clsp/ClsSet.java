@@ -1,5 +1,6 @@
 package jadx.core.clsp;
 
+import jadx.core.LOGS;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.RootNode;
@@ -98,7 +99,7 @@ public class ClsSet {
 	private static NClass getCls(String fullName, Map<String, NClass> names) {
 		NClass id = names.get(fullName);
 		if (id == null && !names.containsKey(fullName)) {
-			LOG.debug("Class not found: {}", fullName);
+			LOGS.debug("Class not found: {}", fullName);
 		}
 		return id;
 	}
@@ -133,7 +134,7 @@ public class ClsSet {
 			out.writeBytes(JADX_CLS_SET_HEADER);
 			out.writeByte(VERSION);
 
-			LOG.info("Classes count: {}", classes.length);
+			LOGS.info("Classes count: {}", classes.length);
 			out.writeInt(classes.length);
 			for (NClass cls : classes) {
 				writeString(out, cls.getName());

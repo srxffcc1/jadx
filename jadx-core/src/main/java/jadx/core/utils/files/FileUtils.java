@@ -1,5 +1,6 @@
 package jadx.core.utils.files;
 
+import jadx.core.LOGS;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import java.io.BufferedInputStream;
@@ -80,7 +81,7 @@ public class FileUtils {
 		try {
 			c.close();
 		} catch (IOException e) {
-			LOG.error("Close exception for {}", c, e);
+			LOGS.error("Close exception for {}", c, e);
 		}
 	}
 

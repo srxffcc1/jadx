@@ -1,6 +1,7 @@
 package jadx.core.codegen;
 
 import jadx.api.CodePosition;
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.nodes.LineAttrNode;
 import jadx.core.utils.files.FileUtils;
 
@@ -172,7 +173,7 @@ public class CodeWriter {
 	public void decIndent(int c) {
 		this.indent -= c;
 		if (this.indent < 0) {
-			LOG.warn("Indent < 0");
+			LOGS.warn("Indent < 0");
 			this.indent = 0;
 		}
 		updateIndent();
@@ -294,7 +295,7 @@ public class CodeWriter {
 			out = new PrintWriter(outFile, "UTF-8");
 			out.println(code);
 		} catch (Exception e) {
-			LOG.error("Save file error", e);
+			LOGS.error("Save file error", e);
 		} finally {
 			close(out);
 		}

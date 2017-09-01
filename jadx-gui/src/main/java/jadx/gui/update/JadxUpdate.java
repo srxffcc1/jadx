@@ -1,7 +1,12 @@
 package jadx.gui.update;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import jadx.api.JadxDecompiler;
+import jadx.core.LOGS;
 import jadx.gui.update.data.Release;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,12 +18,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 public class JadxUpdate {
 	private static final Logger LOG = LoggerFactory.getLogger(JadxUpdate.class);
@@ -57,7 +56,7 @@ public class JadxUpdate {
 						callback.onUpdate(release);
 					}
 				} catch (Exception e) {
-					LOG.debug("Jadx update error", e);
+					LOGS.debug("Jadx update error", e);
 				}
 			}
 		};
@@ -70,7 +69,7 @@ public class JadxUpdate {
 	private static Release checkForNewRelease() throws IOException {
 		String version = JadxDecompiler.getVersion();
 		if (version.contains("dev")) {
-			LOG.debug("Ignore check for update: development version");
+			LOGS.debug("Ignore check for update: development version");
 			return null;
 		}
 
@@ -93,7 +92,7 @@ public class JadxUpdate {
 		if (VersionComparator.checkAndCompare(version, latest.getName()) >= 0) {
 			return null;
 		}
-		LOG.info("Found new jadx version: {}", latest);
+		LOGS.info("Found new jadx version: {}", latest);
 		return latest;
 	}
 

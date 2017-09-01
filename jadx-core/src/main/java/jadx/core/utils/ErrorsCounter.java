@@ -1,5 +1,6 @@
 package jadx.core.utils;
 
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.IAttributeNode;
 import jadx.core.dex.attributes.nodes.JadxErrorAttr;
@@ -35,14 +36,14 @@ public class ErrorsCounter {
 			if (e.getClass() == JadxOverflowException.class) {
 				// don't print full stack trace
 				e = new JadxOverflowException(e.getMessage());
-				LOG.error("{}, message: {}", msg, e.getMessage());
+				LOGS.error("{}, message: {}", msg, e.getMessage());
 			} else {
-				LOG.error(msg, e);
+				LOGS.error(msg, e);
 			}
 			node.addAttr(new JadxErrorAttr(e));
 		} else {
 			node.add(AFlag.INCONSISTENT_CODE);
-			LOG.error(msg);
+			LOGS.error(msg);
 		}
 	}
 
@@ -68,7 +69,7 @@ public class ErrorsCounter {
 
 	public void printReport() {
 		if (getErrorCount() > 0) {
-			LOG.error("{} errors occurred in following nodes:", getErrorCount());
+			LOGS.error("{} errors occurred in following nodes:", getErrorCount());
 			List<Object> nodes = new ArrayList<Object>(errorNodes);
 			Collections.sort(nodes, new Comparator<Object>() {
 				@Override
@@ -78,7 +79,7 @@ public class ErrorsCounter {
 			});
 			for (Object node : nodes) {
 				String nodeName = node.getClass().getSimpleName().replace("Node", "");
-				LOG.error("  {}: {}", nodeName, node);
+				LOGS.error("  {}: {}", nodeName, node);
 			}
 		}
 	}

@@ -1,16 +1,11 @@
 package jadx.core.dex.visitors;
 
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.EdgeInsnAttr;
 import jadx.core.dex.instructions.InsnType;
-import jadx.core.dex.nodes.BlockNode;
-import jadx.core.dex.nodes.IBlock;
-import jadx.core.dex.nodes.IContainer;
-import jadx.core.dex.nodes.IRegion;
-import jadx.core.dex.nodes.InsnContainer;
-import jadx.core.dex.nodes.InsnNode;
-import jadx.core.dex.nodes.MethodNode;
+import jadx.core.dex.nodes.*;
 import jadx.core.dex.regions.Region;
 import jadx.core.dex.regions.SwitchRegion;
 import jadx.core.dex.regions.SynchronizedRegion;
@@ -19,15 +14,10 @@ import jadx.core.dex.visitors.regions.*;
 import jadx.core.utils.InstructionRemover;
 import jadx.core.utils.RegionUtils;
 import jadx.core.utils.exceptions.JadxException;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 /**
  * Pack blocks into regions for code generation
@@ -143,7 +133,7 @@ public class VM_RegionMakerVisitor extends AbstractVisitor {
 		} else if (c instanceof Region) {
 			addBreakToContainer((Region) c);
 		} else {
-			LOG.warn("Can't insert break, container: {}, block: {}, mth: {}", blockContainer, bn, mth);
+			LOGS.warn("Can't insert break, container: {}, block: {}, mth: {}", blockContainer, bn, mth);
 		}
 	}
 
@@ -163,7 +153,7 @@ public class VM_RegionMakerVisitor extends AbstractVisitor {
 			SynchronizedRegion synchRegion = (SynchronizedRegion) subBlocks.get(0);
 			InsnNode synchInsn = synchRegion.getEnterInsn();
 			if (!synchInsn.getArg(0).isThis()) {
-				LOG.warn("In synchronized method {}, top region not synchronized by 'this' {}", mth, synchInsn);
+				LOGS.warn("In synchronized method {}, top region not synchronized by 'this' {}", mth, synchInsn);
 				return;
 			}
 			// replace synchronized block with inner region

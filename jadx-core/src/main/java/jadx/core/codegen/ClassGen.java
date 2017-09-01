@@ -2,6 +2,7 @@ package jadx.core.codegen;
 
 import com.android.dx.rop.code.AccessFlags;
 import jadx.api.IJadxArgs;
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.AttrNode;
@@ -292,7 +293,7 @@ public class ClassGen {
 			if (badCode) {
 				code.startLine("/* JADX WARNING: inconsistent code. */");
 				code.startLine("/* Code decompiled incorrectly, please refer to instructions dump. */");
-				LOG.error("inconsistent code:"+cls.getFullName()+"::"+mth.getName());
+				LOGS.error("inconsistent code:"+cls.getFullName()+"::"+mth.getName());
 				ErrorsCounter.methodError(mth, "Inconsistent code");
 				if (showInconsistentCode) {
 					mth.remove(AFlag.INCONSISTENT_CODE);

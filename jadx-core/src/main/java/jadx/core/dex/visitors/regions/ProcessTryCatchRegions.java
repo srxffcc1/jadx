@@ -1,11 +1,8 @@
 package jadx.core.dex.visitors.regions;
 
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.AType;
-import jadx.core.dex.nodes.BlockNode;
-import jadx.core.dex.nodes.IBranchRegion;
-import jadx.core.dex.nodes.IContainer;
-import jadx.core.dex.nodes.IRegion;
-import jadx.core.dex.nodes.MethodNode;
+import jadx.core.dex.nodes.*;
 import jadx.core.dex.regions.AbstractRegion;
 import jadx.core.dex.regions.Region;
 import jadx.core.dex.regions.TryCatchRegion;
@@ -18,16 +15,10 @@ import jadx.core.utils.BlockUtils;
 import jadx.core.utils.ErrorsCounter;
 import jadx.core.utils.RegionUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
-
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 /**
  * Extract blocks to separate try/catch region
@@ -67,7 +58,7 @@ public class ProcessTryCatchRegions extends AbstractRegionVisitor {
 		// for each try block search nearest dominator block
 		for (TryCatchBlock tb : tryBlocks) {
 			if (tb.getHandlersCount() == 0) {
-				LOG.warn("No exception handlers in catch block, method: {}", mth);
+				LOGS.warn("No exception handlers in catch block, method: {}", mth);
 				continue;
 			}
 			BitSet bs = new BitSet(mth.getBasicBlocks().size());

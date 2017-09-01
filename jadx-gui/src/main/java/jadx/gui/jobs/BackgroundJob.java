@@ -1,5 +1,6 @@
 package jadx.gui.jobs;
 
+import jadx.core.LOGS;
 import jadx.gui.JadxWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +63,7 @@ public abstract class BackgroundJob {
 		try {
 			process().get();
 		} catch (Exception e) {
-			LOG.error("BackgroundJob.processAndWait failed", e);
+			LOGS.error("BackgroundJob.processAndWait failed", e);
 		}
 	}
 
@@ -70,7 +71,7 @@ public abstract class BackgroundJob {
 		try {
 			return future != null && future.isDone();
 		} catch (Exception e) {
-			LOG.error("BackgroundJob.isComplete failed", e);
+			LOGS.error("BackgroundJob.isComplete failed", e);
 			return false;
 		}
 	}

@@ -17,7 +17,7 @@ public class Jadx {
 
 	static {
 		if (Consts.DEBUG) {
-			LOG.info("debug enabled");
+			LOGS.info("debug enabled");
 		}
 	}
 
@@ -94,7 +94,7 @@ public class Jadx {
 				}
 			}
 		} catch (Exception e) {
-			LOG.error("Can't get manifest file", e);
+			LOGS.error("Can't get manifest file", e);
 		}
 		return "dev";
 	}

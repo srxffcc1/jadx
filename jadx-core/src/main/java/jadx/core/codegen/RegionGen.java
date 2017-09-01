@@ -1,5 +1,6 @@
 package jadx.core.codegen;
 
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.DeclareVariablesAttr;
@@ -9,12 +10,7 @@ import jadx.core.dex.instructions.SwitchNode;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.NamedArg;
 import jadx.core.dex.instructions.args.RegisterArg;
-import jadx.core.dex.nodes.BlockNode;
-import jadx.core.dex.nodes.FieldNode;
-import jadx.core.dex.nodes.IBlock;
-import jadx.core.dex.nodes.IContainer;
-import jadx.core.dex.nodes.IRegion;
-import jadx.core.dex.nodes.InsnNode;
+import jadx.core.dex.nodes.*;
 import jadx.core.dex.nodes.parser.FieldInitAttr;
 import jadx.core.dex.regions.Region;
 import jadx.core.dex.regions.SwitchRegion;
@@ -31,12 +27,11 @@ import jadx.core.utils.ErrorsCounter;
 import jadx.core.utils.RegionUtils;
 import jadx.core.utils.exceptions.CodegenException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RegionGen extends InsnGen {
 	private static final Logger LOG = LoggerFactory.getLogger(RegionGen.class);
@@ -281,7 +276,7 @@ public class RegionGen extends InsnGen {
 			ExceptionHandler handler = entry.getKey();
 			if (handler.isCatchAll()) {
 				if (allHandler != null) {
-					LOG.warn("Several 'all' handlers in try/catch block in {}", mth);
+					LOGS.warn("Several 'all' handlers in try/catch block in {}", mth);
 				}
 				allHandler = handler;
 			} else {

@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors;
 
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.nodes.BlockNode;
@@ -11,12 +12,11 @@ import jadx.core.dex.visitors.regions.AbstractRegionVisitor;
 import jadx.core.dex.visitors.regions.DepthRegionTraversal;
 import jadx.core.utils.ErrorsCounter;
 import jadx.core.utils.exceptions.JadxException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class VM_CheckRegions extends AbstractVisitor {
 	private static final Logger LOG = LoggerFactory.getLogger(VM_CheckRegions.class);
@@ -47,7 +47,7 @@ public class VM_CheckRegions extends AbstractVisitor {
 						&& !block.getInstructions().isEmpty()) {
 					// TODO
 					// mth.add(AFlag.INCONSISTENT_CODE);
-					LOG.debug(" Duplicated block: {} in {}", block, mth);
+					LOGS.debug(" Duplicated block: {} in {}", block, mth);
 				}
 			}
 		});
@@ -57,7 +57,7 @@ public class VM_CheckRegions extends AbstractVisitor {
 						&& !block.getInstructions().isEmpty()
 						&& !block.contains(AFlag.SKIP)) {
 					mth.add(AFlag.INCONSISTENT_CODE);
-					LOG.debug(" Missing block: {} in {}", block, mth);
+					LOGS.debug(" Missing block: {} in {}", block, mth);
 				}
 			}
 		}

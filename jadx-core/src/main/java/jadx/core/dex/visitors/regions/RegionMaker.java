@@ -1,6 +1,7 @@
 package jadx.core.dex.visitors.regions;
 
 import jadx.core.Consts;
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.EdgeInsnAttr;
@@ -10,13 +11,7 @@ import jadx.core.dex.instructions.IfNode;
 import jadx.core.dex.instructions.InsnType;
 import jadx.core.dex.instructions.SwitchNode;
 import jadx.core.dex.instructions.args.InsnArg;
-import jadx.core.dex.nodes.BlockNode;
-import jadx.core.dex.nodes.Edge;
-import jadx.core.dex.nodes.IBlock;
-import jadx.core.dex.nodes.IContainer;
-import jadx.core.dex.nodes.IRegion;
-import jadx.core.dex.nodes.InsnNode;
-import jadx.core.dex.nodes.MethodNode;
+import jadx.core.dex.nodes.*;
 import jadx.core.dex.regions.Region;
 import jadx.core.dex.regions.SwitchRegion;
 import jadx.core.dex.regions.SynchronizedRegion;
@@ -33,29 +28,14 @@ import jadx.core.utils.InstructionRemover;
 import jadx.core.utils.RegionUtils;
 import jadx.core.utils.exceptions.JadxOverflowException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
-
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static jadx.core.dex.visitors.regions.IfMakerHelper.confirmMerge;
-import static jadx.core.dex.visitors.regions.IfMakerHelper.makeIfInfo;
-import static jadx.core.dex.visitors.regions.IfMakerHelper.mergeNestedIfNodes;
-import static jadx.core.dex.visitors.regions.IfMakerHelper.searchNestedIf;
-import static jadx.core.utils.BlockUtils.getBlockByOffset;
-import static jadx.core.utils.BlockUtils.getNextBlock;
-import static jadx.core.utils.BlockUtils.isPathExists;
-import static jadx.core.utils.BlockUtils.skipSyntheticSuccessor;
+import java.util.*;
+import java.util.Map.Entry;
+
+import static jadx.core.dex.visitors.regions.IfMakerHelper.*;
+import static jadx.core.utils.BlockUtils.*;
 
 public class RegionMaker {
 	private static final Logger LOG = LoggerFactory.getLogger(RegionMaker.class);
@@ -78,7 +58,7 @@ public class RegionMaker {
 		if (Consts.DEBUG) {
 			int id = startBlock.getId();
 			if (processedBlocks.get(id)) {
-				LOG.debug(" Block already processed: {}, mth: {}", startBlock, mth);
+				LOGS.debug(" Block already processed: {}, mth: {}", startBlock, mth);
 			} else {
 				processedBlocks.set(id);
 			}
@@ -727,7 +707,7 @@ public class RegionMaker {
 			// fall through case block
 			if (df.cardinality() > 1) {
 				if (df.cardinality() > 2) {
-					LOG.debug("Unexpected case pattern, block: {}, mth: {}", s, mth);
+					LOGS.debug("Unexpected case pattern, block: {}, mth: {}", s, mth);
 				} else {
 					BlockNode first = basicBlocks.get(df.nextSetBit(0));
 					BlockNode second = basicBlocks.get(df.nextSetBit(first.getId() + 1));
@@ -755,10 +735,10 @@ public class RegionMaker {
 		// check cases order if fall through case exists
 		if (!fallThroughCases.isEmpty()) {
 			if (isBadCasesOrder(blocksMap, fallThroughCases)) {
-				LOG.debug("Fixing incorrect switch cases order, method: {}", mth);
+				LOGS.debug("Fixing incorrect switch cases order, method: {}", mth);
 				blocksMap = reOrderSwitchCases(blocksMap, fallThroughCases);
 				if (isBadCasesOrder(blocksMap, fallThroughCases)) {
-					LOG.error("Can't fix incorrect switch cases order, method: {}", mth);
+					LOGS.error("Can't fix incorrect switch cases order, method: {}", mth);
 					mth.add(AFlag.INCONSISTENT_CODE);
 				}
 			}
@@ -809,7 +789,7 @@ public class RegionMaker {
 			out = basicBlocks.get(outs.nextSetBit(0));
 			stack.addExit(out);
 		} else if (loop == null && outs.cardinality() > 1) {
-			LOG.warn("Can't detect out node for switch block: {} in {}", block, mth);
+			LOGS.warn("Can't detect out node for switch block: {} in {}", block, mth);
 		}
 		if (loop != null) {
 			// check if 'continue' must be inserted
@@ -915,7 +895,7 @@ public class RegionMaker {
 					blocks.add(handlerBlock);
 					splitters.addAll(handlerBlock.getPredecessors());
 				} else {
-					LOG.debug(ErrorsCounter.formatErrorMsg(mth, "No exception handler block: " + handler));
+					LOGS.debug(ErrorsCounter.formatErrorMsg(mth, "No exception handler block: " + handler));
 				}
 			}
 			Set<BlockNode> exits = new HashSet<BlockNode>();
@@ -923,7 +903,7 @@ public class RegionMaker {
 				for (BlockNode handler : blocks) {
 					List<BlockNode> s = splitter.getSuccessors();
 					if (s.isEmpty()) {
-						LOG.debug(ErrorsCounter.formatErrorMsg(mth, "No successors for splitter: " + splitter));
+						LOGS.debug(ErrorsCounter.formatErrorMsg(mth, "No successors for splitter: " + splitter));
 						continue;
 					}
 					BlockNode ss = s.get(0);
@@ -1003,7 +983,7 @@ public class RegionMaker {
 
 		ExcHandlerAttr excHandlerAttr = start.get(AType.EXC_HANDLER);
 		if (excHandlerAttr == null) {
-			LOG.warn("Missing exception handler attribute for start block");
+			LOGS.warn("Missing exception handler attribute for start block");
 		} else {
 			handler.getHandlerRegion().addAttr(excHandlerAttr);
 		}

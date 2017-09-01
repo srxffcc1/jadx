@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors;
 
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.DeclareVariablesAttr;
@@ -7,12 +8,7 @@ import jadx.core.dex.instructions.InsnType;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.instructions.args.VarName;
-import jadx.core.dex.nodes.IBlock;
-import jadx.core.dex.nodes.IBranchRegion;
-import jadx.core.dex.nodes.IContainer;
-import jadx.core.dex.nodes.IRegion;
-import jadx.core.dex.nodes.InsnNode;
-import jadx.core.dex.nodes.MethodNode;
+import jadx.core.dex.nodes.*;
 import jadx.core.dex.regions.loops.ForLoop;
 import jadx.core.dex.regions.loops.LoopRegion;
 import jadx.core.dex.regions.loops.LoopType;
@@ -21,19 +17,11 @@ import jadx.core.dex.visitors.regions.IRegionVisitor;
 import jadx.core.dex.visitors.regions.TracedRegionVisitor;
 import jadx.core.utils.RegionUtils;
 import jadx.core.utils.exceptions.JadxException;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 public class VM_ProcessVariables extends AbstractVisitor {
 	private static final Logger LOG = LoggerFactory.getLogger(VM_ProcessVariables.class);
@@ -344,7 +332,7 @@ public class VM_ProcessVariables extends AbstractVisitor {
 	private static boolean canDeclareInRegion(Usage u, IRegion region, Map<IContainer, Integer> regionsOrder) {
 		Integer pos = regionsOrder.get(region);
 		if (pos == null) {
-			LOG.debug("TODO: Not found order for region {} for {}", region, u);
+			LOGS.debug("TODO: Not found order for region {} for {}", region, u);
 			return false;
 		}
 		// workaround for declare variables used in several loops
@@ -367,7 +355,7 @@ public class VM_ProcessVariables extends AbstractVisitor {
 			}
 			Integer rPos = regionsOrder.get(r);
 			if (rPos == null) {
-				LOG.debug("TODO: Not found order for region {} in {}", r, regionsOrder);
+				LOGS.debug("TODO: Not found order for region {} in {}", r, regionsOrder);
 				return false;
 			}
 			if (pos > rPos) {

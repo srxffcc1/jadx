@@ -1,11 +1,14 @@
 package jadx.core.export;
 
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.DexNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.utils.files.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,9 +16,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ExportGradleProject {
 
@@ -69,7 +69,7 @@ public class ExportGradleProject {
 				String shortName = cls.getClassInfo().getShortName();
 				if (IGNORE_CLS_NAMES.contains(shortName)) {
 					cls.add(AFlag.DONT_GENERATE);
-					LOG.debug("Skip class: {}", cls);
+					LOGS.debug("Skip class: {}", cls);
 				}
 			}
 		}

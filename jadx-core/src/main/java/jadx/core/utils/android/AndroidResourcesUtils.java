@@ -1,5 +1,6 @@
 package jadx.core.utils.android;
 
+import jadx.core.LOGS;
 import jadx.core.codegen.ClassGen;
 import jadx.core.codegen.CodeWriter;
 import jadx.core.dex.info.ClassInfo;
@@ -29,9 +30,9 @@ public class AndroidResourcesUtils {
 			return candidates.get(0);
 		}
 		if (!candidates.isEmpty()) {
-			LOG.info("Found several 'R' class candidates: {}", candidates);
+			LOGS.info("Found several 'R' class candidates: {}", candidates);
 		}
-		LOG.warn("Unknown 'R' class, create references to '{}'", fullName);
+		LOGS.warn("Unknown 'R' class, create references to '{}'", fullName);
 		return makeClass(root, fullName);
 	}
 

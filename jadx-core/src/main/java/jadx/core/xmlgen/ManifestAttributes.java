@@ -1,5 +1,6 @@
 package jadx.core.xmlgen;
 
+import jadx.core.LOGS;
 import jadx.core.utils.exceptions.JadxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +61,7 @@ public class ManifestAttributes {
 	public void parseAll() throws Exception {
 		parse(loadXML(ATTR_XML));
 		parse(loadXML(MANIFEST_ATTR_XML));
-		LOG.debug("Loaded android attributes count: {}", attrMap.size());
+		LOGS.debug("Loaded android attributes count: {}", attrMap.size());
 	}
 
 	private Document loadXML(String xml) throws JadxException, ParserConfigurationException, SAXException, IOException {
@@ -151,7 +152,7 @@ public class ManifestAttributes {
 							}
 							attr.getValues().put(key, nameNode.getNodeValue());
 						} catch (NumberFormatException e) {
-							LOG.debug("Failed parse manifest number", e);
+							LOGS.debug("Failed parse manifest number", e);
 						}
 					}
 				}

@@ -1,5 +1,6 @@
 package jadx.core.utils;
 
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.info.FieldInfo;
 import jadx.core.dex.instructions.ConstClassNode;
@@ -87,7 +88,7 @@ public class InsnUtils {
 						return attr.getValue();
 					}
 				} else {
-					LOG.warn("Field {} not found in dex {}", f, dex);
+					LOGS.warn("Field {} not found in dex {}", f, dex);
 				}
 				break;
 		}

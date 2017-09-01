@@ -1,6 +1,7 @@
 package jadx.api;
 
 import jadx.core.Jadx;
+import jadx.core.LOGS;
 import jadx.core.ProcessClass;
 import jadx.core.dex.visitors.VC_CodeGen;
 import jadx.core.dex.attributes.AFlag;
@@ -195,9 +196,9 @@ public final class JadxDecompiler {
 			throw new JadxRuntimeException("No loaded files");
 		}
 		int threadsCount = args.getThreadsCount();
-		LOG.debug("processing threads count: {}", threadsCount);
+		LOGS.debug("processing threads count: {}", threadsCount);
 
-		LOG.info("processing ...");
+		LOGS.info("processing ...");
 		ExecutorService executor = Executors.newFixedThreadPool(threadsCount);
 		//开始进行线程任务了 下面
 
@@ -358,7 +359,7 @@ public final class JadxDecompiler {
 		init();//初始化
 
 		root = new RootNode(args);//设置根节点
-		LOG.info("loading ...");
+		LOGS.info("loading ...");
 		root.load(inputFiles);//载入文件 获得了最开始的文件结构和内部类父类的集合结构 把类的内容也获得了
 
 		root.initClassPath();//初始化了底层classpath
@@ -376,7 +377,7 @@ public final class JadxDecompiler {
 			try {
 				pass.init(root);//迭代passes 对root进行访问 此处应该是进行改名操作 VC_RenameVisitor
 			} catch (Exception e) {
-				LOG.error("Visitor init failed: {}", pass.getClass().getSimpleName(), e);
+				LOGS.error("Visitor init failed: {}", pass.getClass().getSimpleName(), e);
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 package jadx.core.utils;
 
+import jadx.core.LOGS;
 import jadx.core.codegen.CodeWriter;
 import jadx.core.codegen.InsnGen;
 import jadx.core.codegen.MethodGen;
@@ -10,26 +11,20 @@ import jadx.core.dex.instructions.PhiInsn;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.instructions.args.SSAVar;
-import jadx.core.dex.nodes.BlockNode;
-import jadx.core.dex.nodes.IBlock;
-import jadx.core.dex.nodes.IContainer;
-import jadx.core.dex.nodes.IRegion;
-import jadx.core.dex.nodes.InsnNode;
-import jadx.core.dex.nodes.MethodNode;
+import jadx.core.dex.nodes.*;
 import jadx.core.dex.visitors.VM_DotGraphVisitor;
 import jadx.core.dex.visitors.regions.DepthRegionTraversal;
 import jadx.core.dex.visitors.regions.TracedRegionVisitor;
 import jadx.core.utils.exceptions.CodegenException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Deprecated
 public class DebugUtils {
@@ -56,7 +51,7 @@ public class DebugUtils {
 				}
 			}
 		});
-		LOG.debug(" Found block: {} in regions: {}", block, regions);
+		LOGS.debug(" Found block: {} in regions: {}", block, regions);
 	}
 
 	public static void printRegions(MethodNode mth) {
@@ -68,18 +63,18 @@ public class DebugUtils {
 	}
 
 	public static void printRegions(MethodNode mth, boolean printInsns) {
-		LOG.debug("|{}", mth);
+		LOGS.debug("|{}", mth);
 		printRegion(mth, mth.getRegion(), "|  ", printInsns);
 	}
 
 	private static void printRegion(MethodNode mth, IRegion region, String indent, boolean printInsns) {
-		LOG.debug("{}{}", indent, region);
+		LOGS.debug("{}{}", indent, region);
 		indent += "|  ";
 		for (IContainer container : region.getSubBlocks()) {
 			if (container instanceof IRegion) {
 				printRegion(mth, (IRegion) container, indent, printInsns);
 			} else {
-				LOG.debug("{}{} {}", indent, container, container.getAttributesString());
+				LOGS.debug("{}{} {}", indent, container, container.getAttributesString());
 				if (printInsns && container instanceof IBlock) {
 					IBlock block = (IBlock) container;
 					printInsns(mth, indent, block);
@@ -96,9 +91,9 @@ public class DebugUtils {
 				CodeWriter code = new CodeWriter();
 				ig.makeInsn(insn, code);
 				String insnStr = code.toString().substring(CodeWriter.NL.length());
-				LOG.debug("{} - {}", indent, insnStr);
+				LOGS.debug("{} - {}", indent, insnStr);
 			} catch (CodegenException e) {
-				LOG.debug("{} - {}", indent, insn);
+				LOGS.debug("{} - {}", indent, insn);
 			}
 		}
 	}

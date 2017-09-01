@@ -1,17 +1,17 @@
 package jadx.core.clsp;
 
 import jadx.api.JadxArgs;
+import jadx.core.LOGS;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.files.InputFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Utility class for convert dex or jar to jadx classes set (.jcst)
@@ -20,7 +20,7 @@ public class ConvertToClsSet {
 	private static final Logger LOG = LoggerFactory.getLogger(ConvertToClsSet.class);
 
 	public static void usage() {
-		LOG.info("<output .jcst or .jar file> <several input dex or jar files> ");
+		LOGS.info("<output .jcst or .jar file> <several input dex or jar files> ");
 	}
 
 	public static void main(String[] args) throws IOException, DecodeException {
@@ -40,7 +40,7 @@ public class ConvertToClsSet {
 			}
 		}
 		for (InputFile inputFile : inputFiles) {
-			LOG.info("Loaded: {}", inputFile.getFile());
+			LOGS.info("Loaded: {}", inputFile.getFile());
 		}
 
 		RootNode root = new RootNode(new JadxArgs());
@@ -49,8 +49,8 @@ public class ConvertToClsSet {
 		ClsSet set = new ClsSet();
 		set.load(root);
 		set.save(output);
-		LOG.info("Output: {}", output);
-		LOG.info("done");
+		LOGS.info("Output: {}", output);
+		LOGS.info("done");
 	}
 
 	private static void addFilesFromDirectory(File dir, List<InputFile> inputFiles) {
@@ -65,7 +65,7 @@ public class ConvertToClsSet {
 				try {
 					InputFile.addFilesFrom(file, inputFiles);
 				} catch (Exception e) {
-					LOG.warn("Skip file: {}, load error: {}", file, e.getMessage());
+					LOGS.warn("Skip file: {}, load error: {}", file, e.getMessage());
 				}
 			}
 		}

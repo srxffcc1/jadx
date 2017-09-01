@@ -1,6 +1,7 @@
 package jadx.gui.ui;
 
 import jadx.api.ResourceFile;
+import jadx.core.LOGS;
 import jadx.gui.JadxWrapper;
 import jadx.gui.jobs.BackgroundWorker;
 import jadx.gui.jobs.DecompileJob;
@@ -329,7 +330,7 @@ public class MainWindow extends JFrame {
 				}
 			}
 		} catch (Exception e) {
-			LOG.error("Content loading error", e);
+			LOGS.error("Content loading error", e);
 		}
 	}
 
@@ -343,7 +344,7 @@ public class MainWindow extends JFrame {
 			// node not register in tree
 			node = treeRoot.searchClassInTree(node);
 			if (node == null) {
-				LOG.error("Class not found in tree");
+				LOGS.error("Class not found in tree");
 				return;
 			}
 		}

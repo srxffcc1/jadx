@@ -1,17 +1,14 @@
 package jadx.gui.ui;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
-import java.io.File;
-import java.util.List;
-
+import jadx.core.LOGS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.*;
+import java.io.File;
+import java.util.List;
 
 /**
  * Enables drop support from external applications for the {@link MainWindow} (load dropped APK file)
@@ -65,7 +62,7 @@ public class MainDropTarget implements DropTargetListener {
 				mainWindow.openFile(transferData.get(0));
 			}
 		} catch (Exception e) {
-			LOG.error("File drop operation failed", e);
+			LOGS.error("File drop operation failed", e);
 		}
 	}
 

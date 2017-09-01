@@ -1,33 +1,23 @@
 package jadx.core.dex.visitors;
 
 import jadx.core.Consts;
+import jadx.core.LOGS;
 import jadx.core.dex.info.FieldInfo;
 import jadx.core.dex.info.MethodInfo;
-import jadx.core.dex.instructions.ArithNode;
-import jadx.core.dex.instructions.ArithOp;
-import jadx.core.dex.instructions.ConstStringNode;
-import jadx.core.dex.instructions.IfNode;
-import jadx.core.dex.instructions.IndexInsnNode;
-import jadx.core.dex.instructions.InsnType;
-import jadx.core.dex.instructions.InvokeNode;
-import jadx.core.dex.instructions.args.ArgType;
-import jadx.core.dex.instructions.args.FieldArg;
-import jadx.core.dex.instructions.args.InsnArg;
-import jadx.core.dex.instructions.args.InsnWrapArg;
-import jadx.core.dex.instructions.args.LiteralArg;
+import jadx.core.dex.instructions.*;
+import jadx.core.dex.instructions.args.*;
 import jadx.core.dex.instructions.mods.ConstructorInsn;
 import jadx.core.dex.instructions.mods.TernaryInsn;
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.regions.conditions.IfCondition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class VM_SimplifyVisitor extends AbstractVisitor {
 
@@ -130,7 +120,7 @@ public class VM_SimplifyVisitor extends AbstractVisitor {
 						&& ((LiteralArg) insn.getArg(1)).getLiteral() == 0) {
 					insn.changeCondition(insn.getOp(), wi.getArg(0), wi.getArg(1));
 				} else {
-					LOG.warn("TODO: cmp {}", insn);
+					LOGS.warn("TODO: cmp {}", insn);
 				}
 			}
 		}
@@ -209,7 +199,7 @@ public class VM_SimplifyVisitor extends AbstractVisitor {
 				} // end of if we found a constructor early in the chain
 
 			} catch (Throwable e) {
-				LOG.debug("Can't convert string concatenation: {} insn: {}", mth, insn, e);
+				LOGS.debug("Can't convert string concatenation: {} insn: {}", mth, insn, e);
 			}
 		}
 		return null;
@@ -292,7 +282,7 @@ public class VM_SimplifyVisitor extends AbstractVisitor {
 				return new ArithNode(ArithOp.ADD, fArg, InsnArg.wrapArg(concat));
 			}
 		} catch (Exception e) {
-			LOG.debug("Can't convert field arith insn: {}, mth: {}", insn, mth, e);
+			LOGS.debug("Can't convert field arith insn: {}, mth: {}", insn, mth, e);
 		}
 		return null;
 	}

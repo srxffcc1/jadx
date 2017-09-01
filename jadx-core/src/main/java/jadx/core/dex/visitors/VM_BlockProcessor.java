@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors;
 
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.LoopInfo;
@@ -13,14 +14,13 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.trycatch.CatchAttr;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Iterator;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static jadx.core.utils.EmptyBitSet.EMPTY;
 
@@ -393,7 +393,7 @@ public class VM_BlockProcessor extends AbstractVisitor {
 			if (block.contains(AFlag.REMOVE)) {
 				if (!block.getPredecessors().isEmpty()
 						|| !block.getSuccessors().isEmpty()) {
-					LOG.error("Block {} not deleted, method: {}", block, mth);
+					LOGS.error("Block {} not deleted, method: {}", block, mth);
 				} else {
 					CatchAttr catchAttr = block.get(AType.CATCH_BLOCK);
 					if (catchAttr != null) {

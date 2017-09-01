@@ -1,30 +1,21 @@
 package jadx.core.dex.visitors;
 
+import jadx.core.LOGS;
 import jadx.core.codegen.CodeWriter;
 import jadx.core.codegen.MethodGen;
 import jadx.core.dex.attributes.IAttributeNode;
 import jadx.core.dex.instructions.IfNode;
 import jadx.core.dex.instructions.InsnType;
-import jadx.core.dex.nodes.BlockNode;
-import jadx.core.dex.nodes.IBlock;
-import jadx.core.dex.nodes.IContainer;
-import jadx.core.dex.nodes.IRegion;
-import jadx.core.dex.nodes.InsnNode;
-import jadx.core.dex.nodes.MethodNode;
+import jadx.core.dex.nodes.*;
 import jadx.core.dex.trycatch.ExceptionHandler;
-import jadx.core.utils.BlockUtils;
-import jadx.core.utils.InsnUtils;
-import jadx.core.utils.RegionUtils;
-import jadx.core.utils.StringUtils;
-import jadx.core.utils.Utils;
+import jadx.core.utils.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class VM_DotGraphVisitor extends AbstractVisitor {
 
@@ -57,7 +48,7 @@ public class VM_DotGraphVisitor extends AbstractVisitor {
 		this.dir = outDir;
 		this.useRegions = useRegions;
 		this.rawInsn = rawInsn;
-		LOG.debug("DOT {}{}graph dump dir: {}",useRegions ? "regions " : "", rawInsn ? "raw " : "", outDir.getAbsolutePath());
+		LOGS.debug("DOT {}{}graph dump dir: {}",useRegions ? "regions " : "", rawInsn ? "raw " : "", outDir.getAbsolutePath());
 	}
 
 	@Override

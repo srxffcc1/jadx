@@ -2,6 +2,7 @@ package jadx.gui.ui;
 
 import jadx.api.ResourceFile;
 import jadx.api.ResourceType;
+import jadx.core.LOGS;
 import jadx.gui.treemodel.JNode;
 import jadx.gui.treemodel.JResource;
 import jadx.gui.utils.JumpManager;
@@ -81,7 +82,7 @@ class TabbedPane extends JTabbedPane {
 					try {
 						line = 1 + codeArea.getLineOfOffset(-line);
 					} catch (BadLocationException e) {
-						LOG.error("Can't get line for: {}", pos, e);
+						LOGS.error("Can't get line for: {}", pos, e);
 						line = pos.getNode().getLine();
 					}
 				}

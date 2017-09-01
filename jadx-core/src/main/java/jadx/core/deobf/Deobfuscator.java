@@ -1,6 +1,7 @@
 package jadx.core.deobf;
 
 import jadx.api.IJadxArgs;
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.SourceFileAttr;
 import jadx.core.dex.info.ClassInfo;
@@ -166,7 +167,7 @@ public class Deobfuscator {
 				if (clsWithMth != null) {
 					if ((result != null) && (result != cls)) {
 						if (clsWithMth != result) {
-							LOG.warn(String.format("Multiple overriding '%s' from '%s' and '%s' in '%s'",signature,result.getFullName(), clsWithMth.getFullName(),rootClass.getFullName()));
+							LOGS.warn(String.format("Multiple overriding '%s' from '%s' and '%s' in '%s'",signature,result.getFullName(), clsWithMth.getFullName(),rootClass.getFullName()));
 						}
 					} else {
 						result = clsWithMth;
@@ -182,7 +183,7 @@ public class Deobfuscator {
 				if (clsWithMth != null) {
 					if ((result != null) && (result != cls)) {
 						if (clsWithMth != result) {
-							LOG.warn(String.format("Multiple overriding '%s' from '%s' and '%s' in '%s'",signature,result.getFullName(), clsWithMth.getFullName(),rootClass.getFullName()));
+							LOGS.warn(String.format("Multiple overriding '%s' from '%s' and '%s' in '%s'",signature,result.getFullName(), clsWithMth.getFullName(),rootClass.getFullName()));
 						}
 					} else {
 						result = clsWithMth;
@@ -479,10 +480,10 @@ public class Deobfuscator {
 
 		if (pkg != null) {
 			if (!cls.getFullName().equals(getClassFullName(cls))) {
-				LOG.info("Alias name for class '{}' is '{}'", cls.getFullName(), getClassFullName(cls));
+				LOGS.info("Alias name for class '{}' is '{}'", cls.getFullName(), getClassFullName(cls));
 			}
 		} else {
-			LOG.error("Can't find package node for '{}'", cls.getPackage());
+			LOGS.error("Can't find package node for '{}'", cls.getPackage());
 		}
 	}
 

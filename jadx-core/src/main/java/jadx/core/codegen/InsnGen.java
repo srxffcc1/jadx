@@ -1,5 +1,6 @@
 package jadx.core.codegen;
 
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.FieldReplaceAttr;
@@ -8,49 +9,20 @@ import jadx.core.dex.attributes.nodes.MethodInlineAttr;
 import jadx.core.dex.info.ClassInfo;
 import jadx.core.dex.info.FieldInfo;
 import jadx.core.dex.info.MethodInfo;
-import jadx.core.dex.instructions.ArithNode;
-import jadx.core.dex.instructions.ArithOp;
-import jadx.core.dex.instructions.ConstClassNode;
-import jadx.core.dex.instructions.ConstStringNode;
-import jadx.core.dex.instructions.FillArrayNode;
-import jadx.core.dex.instructions.FilledNewArrayNode;
-import jadx.core.dex.instructions.GotoNode;
-import jadx.core.dex.instructions.IfNode;
-import jadx.core.dex.instructions.IndexInsnNode;
-import jadx.core.dex.instructions.InsnType;
-import jadx.core.dex.instructions.InvokeNode;
-import jadx.core.dex.instructions.InvokeType;
-import jadx.core.dex.instructions.NewArrayNode;
-import jadx.core.dex.instructions.SwitchNode;
-import jadx.core.dex.instructions.args.ArgType;
-import jadx.core.dex.instructions.args.FieldArg;
-import jadx.core.dex.instructions.args.InsnArg;
-import jadx.core.dex.instructions.args.InsnWrapArg;
-import jadx.core.dex.instructions.args.LiteralArg;
-import jadx.core.dex.instructions.args.Named;
-import jadx.core.dex.instructions.args.RegisterArg;
+import jadx.core.dex.instructions.*;
+import jadx.core.dex.instructions.args.*;
 import jadx.core.dex.instructions.mods.ConstructorInsn;
 import jadx.core.dex.instructions.mods.TernaryInsn;
-import jadx.core.dex.nodes.ClassNode;
-import jadx.core.dex.nodes.FieldNode;
-import jadx.core.dex.nodes.InsnNode;
-import jadx.core.dex.nodes.MethodNode;
-import jadx.core.dex.nodes.RootNode;
+import jadx.core.dex.nodes.*;
 import jadx.core.utils.ErrorsCounter;
 import jadx.core.utils.RegionUtils;
 import jadx.core.utils.exceptions.CodegenException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 import static jadx.core.utils.android.AndroidResourcesUtils.handleAppResField;
 
@@ -757,11 +729,11 @@ public class InsnGen {
 			for (RegisterArg r : inlArgs) {
 				int regNum = r.getRegNum();
 				if (regNum >= regs.length) {
-					LOG.warn("Unknown register number {} in method call: {} from {}", r, callMthNode, mth);
+					LOGS.warn("Unknown register number {} in method call: {} from {}", r, callMthNode, mth);
 				} else {
 					InsnArg repl = regs[regNum];
 					if (repl == null) {
-						LOG.warn("Not passed register {} in method call: {} from {}", r, callMthNode, mth);
+						LOGS.warn("Not passed register {} in method call: {} from {}", r, callMthNode, mth);
 					} else {
 						inlCopy.replaceArg(r, repl);
 					}

@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors;
 
+import jadx.core.LOGS;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.PhiListAttr;
 import jadx.core.dex.instructions.InsnType;
@@ -52,7 +53,7 @@ public class VM_EliminatePhiNodes extends AbstractVisitor {
 				return;
 			}
 		}
-		LOG.warn("Phi node not removed: {}, mth: {}", phiInsn, mth);
+		LOGS.warn("Phi node not removed: {}, mth: {}", phiInsn, mth);
 	}
 
 	private void replaceMergeInstructions(MethodNode mth) {
